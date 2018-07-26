@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class FaceUpdate : MonoBehaviour {
+public class FaceManager : MonoBehaviour {
 
 	public AnimationClip[] animations;
 
@@ -22,10 +22,10 @@ public class FaceUpdate : MonoBehaviour {
 			RandomChangeFace();
 		}
 	}
-	
+
 
 	// 动画事件帧回调
-	public void OnCallChangeFace (string str){   
+	public void OnCallChangeFace (string str){
 		int ichecked = 0;
 		foreach (var animation in animations) {
 			if (str == animation.name) {
@@ -36,7 +36,7 @@ public class FaceUpdate : MonoBehaviour {
 			} else {
 				animator.CrossFade("face_default@sd_hmd",0);
 			}
-		} 
+		}
 	}
 
 }

@@ -2031,13 +2031,12 @@ GameObject:
   - component: {fileID: 400264}
   - component: {fileID: 9500000}
   - component: {fileID: 11400000}
-  - component: {fileID: 11400004}
   - component: {fileID: 11400084}
   - component: {fileID: 11400088}
   - component: {fileID: 11419662}
   - component: {fileID: 114055185187686794}
   - component: {fileID: 54884752669863000}
-  - component: {fileID: 136129837190208512}
+  - component: {fileID: 136365161906616112}
   m_Layer: 0
   m_Name: SD_unitychan_humanoid
   m_TagString: Untagged
@@ -4023,7 +4022,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100264}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.092, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400262}
@@ -4122,7 +4121,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: c26e299c9913e1742be11b6ce638f325, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -4151,28 +4150,6 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 052052524e8fd4e47b75db0131b4b118, type: 2}
   - {fileID: 7400000, guid: a9388e606933645cdbb57d61ab9cc186, type: 2}
   - {fileID: 7400000, guid: 0c7ae9e4974854c81a425f98211bc25f, type: 2}
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b450e0eeaa67f4e4f83448b61a571d3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 1
-  ref_face: {fileID: 13700010}
-  ratio_Close: 85
-  ratio_HalfClose: 20
-  index_EYE_blk: 0
-  index_EYE_sml: 1
-  index_EYE_dmg: 15
-  ratio_Open: 0
-  timeBlink: 0.4
-  threshold: 0.3
-  interval: 3
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5052,7 +5029,7 @@ MonoBehaviour:
   interval: 5
   windPower: 1
   gravity: 0.98
-  isGUI: 1
+  isGUI: 0
 --- !u!114 &11419662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5071,7 +5048,7 @@ MonoBehaviour:
   headWeight: 0.8
   eyesWeight: 1
   clampWeight: 0.5
-  isGUI: 1
+  isGUI: 0
 --- !u!137 &13700000
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -5522,7 +5499,7 @@ MonoBehaviour:
   _fail: 0
   _falling: 0
   i: 0
---- !u!136 &136129837190208512
+--- !u!136 &136365161906616112
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

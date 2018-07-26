@@ -11,6 +11,9 @@ public class ChanController : MonoBehaviour {
 	// 从静止到加速的过程
 	public float accelerationTime = 1f;
 
+	public float moveSpeed = 2f;
+
+
 	public float startSpeedMultiple = 1.5f;
 
 
@@ -18,17 +21,17 @@ public class ChanController : MonoBehaviour {
 	// 动画状态机参数封装
 	[SerializeField]
 	private float _moveSpeedMultiple;
-	public float moveSpeedMultiple{
+	public float a_moveSpeedMultiple{
 		get{return _moveSpeedMultiple;}
 		set{
 			_moveSpeedMultiple = value;
-			animator.SetFloat("moveSpeedMultiple",_moveSpeedMultiple); 
+			animator.SetFloat("moveSpeedMultiple",_moveSpeedMultiple);
 		}
 	}
 
 	[SerializeField]
 	private float _blendMovement;
-	public float blendMovement{
+	public float a_blendMovement{
 		get{return _blendMovement;}
 		set{
 			_blendMovement = value;
@@ -38,7 +41,7 @@ public class ChanController : MonoBehaviour {
 
 	[SerializeField]
 	private bool _running;
-	public bool running{
+	public bool a_running{
 		get{return _running;}
 		set{
 			_running = value;
@@ -48,7 +51,7 @@ public class ChanController : MonoBehaviour {
 
 	[SerializeField]
 	private bool _salute;
-	public bool salute{
+	public bool a_salute{
 		get{return _salute;}
 		set{
 			_salute = value;
@@ -58,7 +61,7 @@ public class ChanController : MonoBehaviour {
 
 	[SerializeField]
 	private bool _fail;
-	public bool fail{
+	public bool a_fail{
 		get{return _fail;}
 		set{
 			_fail = value;
@@ -68,11 +71,11 @@ public class ChanController : MonoBehaviour {
 
 	[SerializeField]
 	private bool _falling;
-	public bool falling{
+	public bool a_falling{
 		get{return _falling;}
 		set{
 			_fail = value;
-			animator.SetBool("falling",falling);
+			animator.SetBool("falling",a_falling);
 		}
 	}
 
@@ -80,8 +83,7 @@ public class ChanController : MonoBehaviour {
 	public int i;
 	// componets
 	private Animator animator;
-	private FaceUpdate face;
-	private AutoBlinkforSD blink;
+	private FaceManager face;
 	private SpringManager spring;
 	private RandomWind wind;
 	private IKLookAt lookat;
@@ -96,9 +98,6 @@ public class ChanController : MonoBehaviour {
 	public void TriggerJump(){
 		animator.SetTrigger("trigJump");
 	}
-	
-
-
 
 
 	// animationstat
@@ -106,7 +105,7 @@ public class ChanController : MonoBehaviour {
 	private AnimatorStateInfo bodyStat{
 		get{return animator.GetCurrentAnimatorStateInfo(0);}
 	}
-	
+
 	private AnimatorStateInfo hurtStat{
 		get{
 			return animator.GetCurrentAnimatorStateInfo(1);
@@ -119,15 +118,17 @@ public class ChanController : MonoBehaviour {
 
 	private void Awake() {
 		animator = GetComponent<Animator>();
-		moveSpeedMultiple = startSpeedMultiple;
+		a_moveSpeedMultiple = startSpeedMultiple;
 	}
 
 	private void Update() {
+		if(a_running)
+			transform.Translate(Vector3.forward*Time.deltaTime*moveSpeed);
 		if (Input.GetKeyDown(KeyCode.W)) {
 			StartRun();
 		}
 		if(Input.GetKeyDown(KeyCode.S)){
-			running = false;
+			a_running = false;
 		}
 		if (Input.GetKeyDown(KeyCode.J)) {
 			SpeedUp();
@@ -135,36 +136,37 @@ public class ChanController : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Space)){
 			Jump();
 		}
-
 	}
 
-	public void StartRun(){		
-		running = true;
+	public void StartRun(){
+		a_running = true;
 		StartCoroutine(AccelerateFoward());
-		// animator.SetBool("bRunning",true);
 	}
 
 	// 向前加速过程
-	public IEnumerator AccelerateFoward(){		
+	public IEnumerator AccelerateFoward(){
 		WaitForSeconds delay = new WaitForSeconds(accelerationTime/5f);
+		a_blendMovement = 0f;
+		a_moveSpeedMultiple = startSpeedMultiple;
+		moveSpeed = 0f;
 		for (int i = 0; i < 5; i++) {
 			yield return delay;
-			blendMovement +=0.1f;
+			a_blendMovement +=0.1f;
+			moveSpeed +=0.3f;
 		}
 	}
 
-	// 重力加速过程
-
-	
-
 
 	public void SpeedUp(){
+		a_moveSpeedMultiple += 0.1f;
+		moveSpeed +=0.5f;
+	}
 
-		moveSpeedMultiple += 0.1f;
-		// animator.SetFloat("fMovementSpeed",moveSpeed) ;
+	public void SpeedDown(){
 	}
 
 	public void Jump(){
+		// 只有移动的时候才能跳
 		if(bodyStat.IsName("Blend_Movement")){
 			TriggerJump();
 			// animator.SetBool("bJumping",true);
