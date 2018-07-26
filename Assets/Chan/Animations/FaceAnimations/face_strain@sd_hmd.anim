@@ -5,7 +5,7 @@ AnimationClip:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: angry@sd_hmd
+  m_Name: face_strain@sd_hmd
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -21,26 +21,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 100
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: blendShape.face.EYE_ang
-    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
-    classID: 137
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 100
+        value: 50
         inSlope: 0
         outSlope: 0
         tangentMode: 34
@@ -69,7 +50,26 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.MTH_ang
+    attribute: blendShape.face.EYE_sup
+    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
+    classID: 137
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 100
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: blendShape.face.MTH_str
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
     script: {fileID: 0}
@@ -145,6 +145,25 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    attribute: blendShape.face.EYE_ang
+    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
+    classID: 137
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     attribute: blendShape.face.MTH_sml
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
@@ -164,7 +183,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.EYE_sad
+    attribute: blendShape.face.MTH_ang
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
     script: {fileID: 0}
@@ -184,6 +203,25 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: blendShape.face.BLW_sad
+    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
+    classID: 137
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: blendShape.face.EYE_sad
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
     script: {fileID: 0}
@@ -259,25 +297,6 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.EYE_sup
-    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
-    classID: 137
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
     attribute: blendShape.face.BLW_sup
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
@@ -335,25 +354,6 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.MTH_str
-    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
-    classID: 137
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
     attribute: blendShape.face.MTH_sml2
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
@@ -392,7 +392,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.MTH_i
+    attribute: blendShape.face.MTH_a
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
     script: {fileID: 0}
@@ -411,7 +411,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.MTH_a
+    attribute: blendShape.face.MTH_i
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
     script: {fileID: 0}
@@ -520,13 +520,6 @@ AnimationClip:
     genericBindings:
     - serializedVersion: 2
       path: 1128456281
-      attribute: 2991232362
-      script: {fileID: 0}
-      typeID: 137
-      customType: 20
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 1128456281
       attribute: 1054276654
       script: {fileID: 0}
       typeID: 137
@@ -534,7 +527,14 @@ AnimationClip:
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 1128456281
-      attribute: 3316321378
+      attribute: 2265820201
+      script: {fileID: 0}
+      typeID: 137
+      customType: 20
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 1128456281
+      attribute: 133784908
       script: {fileID: 0}
       typeID: 137
       customType: 20
@@ -562,6 +562,13 @@ AnimationClip:
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 1128456281
+      attribute: 2991232362
+      script: {fileID: 0}
+      typeID: 137
+      customType: 20
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 1128456281
       attribute: 1727459639
       script: {fileID: 0}
       typeID: 137
@@ -569,7 +576,7 @@ AnimationClip:
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 1128456281
-      attribute: 3011096321
+      attribute: 3316321378
       script: {fileID: 0}
       typeID: 137
       customType: 20
@@ -577,6 +584,13 @@ AnimationClip:
     - serializedVersion: 2
       path: 1128456281
       attribute: 1072023109
+      script: {fileID: 0}
+      typeID: 137
+      customType: 20
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 1128456281
+      attribute: 3011096321
       script: {fileID: 0}
       typeID: 137
       customType: 20
@@ -604,13 +618,6 @@ AnimationClip:
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 1128456281
-      attribute: 2265820201
-      script: {fileID: 0}
-      typeID: 137
-      customType: 20
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 1128456281
       attribute: 194102637
       script: {fileID: 0}
       typeID: 137
@@ -632,13 +639,6 @@ AnimationClip:
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 1128456281
-      attribute: 133784908
-      script: {fileID: 0}
-      typeID: 137
-      customType: 20
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 1128456281
       attribute: 2718887411
       script: {fileID: 0}
       typeID: 137
@@ -653,14 +653,14 @@ AnimationClip:
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 1128456281
-      attribute: 1575971304
+      attribute: 1395974618
       script: {fileID: 0}
       typeID: 137
       customType: 20
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 1128456281
-      attribute: 1395974618
+      attribute: 1575971304
       script: {fileID: 0}
       typeID: 137
       customType: 20
@@ -727,26 +727,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 100
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: blendShape.face.EYE_ang
-    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
-    classID: 137
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 100
+        value: 50
         inSlope: 0
         outSlope: 0
         tangentMode: 34
@@ -775,7 +756,26 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.MTH_ang
+    attribute: blendShape.face.EYE_sup
+    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
+    classID: 137
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 100
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: blendShape.face.MTH_str
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
     script: {fileID: 0}
@@ -851,6 +851,25 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    attribute: blendShape.face.EYE_ang
+    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
+    classID: 137
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     attribute: blendShape.face.MTH_sml
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
@@ -870,7 +889,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.EYE_sad
+    attribute: blendShape.face.MTH_ang
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
     script: {fileID: 0}
@@ -890,6 +909,25 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: blendShape.face.BLW_sad
+    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
+    classID: 137
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: blendShape.face.EYE_sad
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
     script: {fileID: 0}
@@ -965,25 +1003,6 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.EYE_sup
-    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
-    classID: 137
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
     attribute: blendShape.face.BLW_sup
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
@@ -1041,25 +1060,6 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.MTH_str
-    path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
-    classID: 137
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
     attribute: blendShape.face.MTH_sml2
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
@@ -1098,7 +1098,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.MTH_i
+    attribute: blendShape.face.MTH_a
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
     script: {fileID: 0}
@@ -1117,7 +1117,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: blendShape.face.MTH_a
+    attribute: blendShape.face.MTH_i
     path: Character1_Reference/Character1_Hips/Character1_Spine/Character1_Spine1/Character1_Spine2/Character1_Neck/Character1_Head/_face
     classID: 137
     script: {fileID: 0}

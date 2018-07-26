@@ -18,8 +18,8 @@ namespace UnityChan
 
 		private void OnDrawGizmosSelected ()
 		{
-			Gizmos.color = Color.green;
-			Gizmos.DrawWireSphere (transform.position, radius);
+			// Gizmos.color = Color.green;
+			// Gizmos.DrawWireSphere (transform.position, radius);
 		}
 	}
 }

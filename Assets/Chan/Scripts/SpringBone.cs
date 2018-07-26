@@ -126,7 +126,7 @@ namespace UnityChan
 
 		private void OnDrawGizmos ()
 		{
-			if (debug) {
+			if (!debug) {
 				Gizmos.color = Color.yellow;
 				Gizmos.DrawWireSphere (currTipPos, radius);
 			}
