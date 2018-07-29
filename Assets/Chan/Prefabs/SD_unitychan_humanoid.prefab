@@ -2039,7 +2039,8 @@ GameObject:
   - component: {fileID: 136365161906616112}
   - component: {fileID: 114023691475736962}
   - component: {fileID: 114632942191099398}
-  m_Layer: 0
+  - component: {fileID: 135139956309673660}
+  m_Layer: 11
   m_Name: SD_unitychan_humanoid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5537,6 +5538,18 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 24f6fd9f7d6e14b429858f4d017e7195, type: 2}
   - {fileID: 7400000, guid: 508261753cbbd4493b10da3a43602a39, type: 2}
   - {fileID: 7400000, guid: 73be46601457e417584986e26fcaf567, type: 2}
+--- !u!135 &135139956309673660
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100264}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!136 &136365161906616112
 CapsuleCollider:
   m_ObjectHideFlags: 1
