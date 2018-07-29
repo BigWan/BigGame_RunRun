@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RunRun {
-	public class CamearController : MonoBehaviour {
+	public class CamearFollow : MonoBehaviour {
 
 		// 高度
 		public float height = 1.5f;
@@ -22,20 +22,25 @@ namespace RunRun {
 		// 摄像机移动的加速度
 		public float disAcc = 5f;
 
-		public Transform lookat;
+		/// <summary>
+		/// 跟随的东西
+		/// </summary>
+		public Transform follow;
 		// Use this for initialization
 		void Start () {
-
+			if(follow == null){
+				return;
+			}
 		}
 
 		// Update is called once per frame
 		void Update () {
-			roleSpeed = lookat.GetComponent<ChanSpeedController> ().currentVelocity;
+			roleSpeed = follow.GetComponent<ChanSpeedController> ().currentVelocity;
 			CalcCameraDistance ();
 			transform.localPosition = new Vector3 (
-				lookat.localPosition.x,
+				follow.localPosition.x,
 				height,
-				lookat.transform.localPosition.z - currentDis
+				follow.transform.localPosition.z - currentDis
 			);
 		}
 

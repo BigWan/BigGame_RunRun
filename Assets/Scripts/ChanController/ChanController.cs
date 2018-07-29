@@ -5,17 +5,10 @@ using UnityEngine;
 
 namespace RunRun {
 
-	[RequireComponent (typeof (Animator))]
-
+	[RequireComponent(typeof (Animator))]
+	[RequireComponent(typeof(ChanSpeedController))]
+	[RequireComponent(typeof(SphereCollider))]
 	public class ChanController : MonoBehaviour {
-
-		// 从静止到加速的时间
-		public float accelerationTime = 1f;
-
-		// public float moveSpeed = 2f;
-		public float currentSpeed;
-		// 加速度值
-		public float accelateSpeed = 10f;
 
 		public float startSpeedMultiple = 1.5f;
 
@@ -81,8 +74,6 @@ namespace RunRun {
 			}
 		}
 
-		[Space (15)]
-		public int i;
 		// componets
 		private Animator animator;
 		private FaceManager face;
@@ -122,7 +113,16 @@ namespace RunRun {
 		private void Awake () {
 			animator = GetComponent<Animator> ();
 			spdCon = GetComponent<ChanSpeedController> ();
+
 			a_moveSpeedMultiple = startSpeedMultiple;
+		}
+
+		private void Start(){
+			RegEventReg();
+		}
+
+		private void RegEventReg(){
+			spdCon.VelocityChange += OnVelocityChange;
 		}
 
 		private void Update () {
@@ -149,15 +149,14 @@ namespace RunRun {
 		public void StartRun () {
 			if (bodyStat.IsName ("Standing@loop") || bodyStat.IsName ("DownToUp")) {
 				a_running = true;
+				spdCon.SpeedTo (2f);
 				// StartCoroutine(AccelerateFoward());
 			}
 		}
 
 		private void FixedUpdate () {
 			if (a_running) {
-				currentSpeed += accelateSpeed * Time.fixedDeltaTime;
-				currentSpeed = Mathf.Clamp (currentSpeed, 0f, spdCon.currentVelocity);
-				transform.Translate (Vector3.forward * Time.fixedDeltaTime * currentSpeed);
+				transform.Translate (Vector3.forward * Time.fixedDeltaTime * spdCon.currentVelocity);
 			}
 		}
 
@@ -178,6 +177,31 @@ namespace RunRun {
 			}
 		}
 
-	}
+		/// <summary>
+		/// 响应速度值的改变
+		/// </summary>
+		/// <param name="spd"></param>
+		private void OnVelocityChange(float spd){
+			Debug.Log("SPeedChange");
+			if(spd>2) {
+				a_blendMovement = 1.0f;
+			}else{
+				a_blendMovement = Mathf.Lerp(0,1f,spd/2f);
+			}
+		}
 
+
+		// private void OnTriggerEnter(Collider col){
+		// 	Debug.Log(col.name);
+		// }
+
+		// private void OnTriggerStay(Collider col){
+
+		// 	Debug.Log("staying" + col.name);
+		// }
+		// private void OnTriggerExit(Collider col){
+		// 	Debug.Log("Exit" + col.name);
+		// }
+	}
 }
+
