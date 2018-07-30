@@ -5,10 +5,18 @@ using UnityEngine;
 
 namespace RunRun {
 
+	public enum TrackSide{
+		Center = 0,
+		Left = 1,
+		RIght = 2
+	}
+
 	[RequireComponent(typeof (Animator))]
-	[RequireComponent(typeof(ChanSpeedController))]
+	// [RequireComponent(typeof(ChanSpeedController))]
 	[RequireComponent(typeof(SphereCollider))]
 	public class ChanController : MonoBehaviour {
+
+		public TrackSide side;
 
 		public float startSpeedMultiple = 1.5f;
 
@@ -80,7 +88,7 @@ namespace RunRun {
 		private SpringManager spring;
 		private RandomWind wind;
 		private IKLookAt lookat;
-		private ChanSpeedController spdCon;
+		// private ChanSpeedController spdCon;
 
 		public void TriggerDamage () {
 			animator.SetTrigger ("trigDamaged");
@@ -88,7 +96,7 @@ namespace RunRun {
 		public void TriggerGetDown () {
 			animator.SetTrigger ("trigGetDown");
 			a_running = false;
-			spdCon.Stop ();
+			SpeedController.Instance.Stop ();
 		}
 		public void TriggerJump () {
 			animator.SetTrigger ("trigJump");
@@ -96,6 +104,8 @@ namespace RunRun {
 
 		// animationstat
 
+
+		#region  动画状态机Layer的get
 		private AnimatorStateInfo bodyStat {
 			get { return animator.GetCurrentAnimatorStateInfo (0); }
 		}
@@ -109,31 +119,30 @@ namespace RunRun {
 		private AnimatorStateInfo faceStat {
 			get { return animator.GetCurrentAnimatorStateInfo (2); }
 		}
-
+		#endregion
 		private void Awake () {
 			animator = GetComponent<Animator> ();
-			spdCon = GetComponent<ChanSpeedController> ();
-
+			side = TrackSide.Center;
 			a_moveSpeedMultiple = startSpeedMultiple;
 		}
 
 		private void Start(){
 			RegEventReg();
 		}
-
+ 
 		private void RegEventReg(){
-			spdCon.VelocityChange += OnVelocityChange;
+			SpeedController.Instance.VelocityChange += OnVelocityChange;
 		}
 
 		private void Update () {
-			if (a_running)
-				transform.Translate (Vector3.forward * Time.deltaTime * spdCon.currentVelocity);
+			// if (a_running)				
+				// transform.Translate (Vector3.forward * Time.deltaTime * SpeedController.Instance.currentVelocity);
 			if (Input.GetKeyDown (KeyCode.W)) {
 				StartRun ();
 			}
 			if (Input.GetKeyDown (KeyCode.S)) {
 				a_running = false;
-				spdCon.Stop ();
+				SpeedController.Instance.Stop ();
 			}
 			if (Input.GetKeyDown (KeyCode.J)) {
 				SpeedUp ();
@@ -144,45 +153,58 @@ namespace RunRun {
 			if (Input.GetKeyDown (KeyCode.U)) {
 				TriggerGetDown ();
 			}
+			if(Input.GetKeyDown(KeyCode.A)){
+				transform.localPosition = transform.localPosition + Vector3.left*1.4f;
+			}
 		}
 
 		public void StartRun () {
 			if (bodyStat.IsName ("Standing@loop") || bodyStat.IsName ("DownToUp")) {
 				a_running = true;
-				spdCon.SpeedTo (2f);
+				SpeedController.Instance.SpeedTo (2f);
 				// StartCoroutine(AccelerateFoward());
 			}
 		}
 
 		private void FixedUpdate () {
-			if (a_running) {
-				transform.Translate (Vector3.forward * Time.fixedDeltaTime * spdCon.currentVelocity);
-			}
+			// if (a_running) {
+			// 	transform.Translate (Vector3.forward * Time.fixedDeltaTime * SpeedController.Instance.currentVelocity);
+			// }
+
+			// float th = animator.GetFloat("CV_Jump");
+			// transform.localPosition = new Vector3(th,transform.localPosition.y,transform.localPosition.z);
 		}
 
 		public void SpeedUp () {
 			if (a_running) {
 				a_moveSpeedMultiple += 0.1f;
-				spdCon.SpeedUp (0.5f);
+				SpeedController.Instance.SpeedUp (0.5f);
 			}
 		}
 
-		public void SpeedDown () { }
+
 
 		public void Jump () {
 			// 只有移动的时候才能跳
-			if (bodyStat.IsName ("Blend_Movement")) {
+			if (bodyStat.IsName ("Blend_Movement") || bodyStat.IsName("Jumping@loop")) {
 				TriggerJump ();
 				// animator.SetBool("bJumping",true);
 			}
 		}
 
 		/// <summary>
+		/// 变换跑道
+		/// </summary>
+		public void Turn(){
+
+		}
+
+		/// <summary>
 		/// 响应速度值的改变
 		/// </summary>
-		/// <param name="spd"></param>
+		/// <param name="spd">速度值</param>
 		private void OnVelocityChange(float spd){
-			Debug.Log("SPeedChange");
+			Debug.Log("SpeedChange");
 			if(spd>2) {
 				a_blendMovement = 1.0f;
 			}else{

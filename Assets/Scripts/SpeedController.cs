@@ -7,7 +7,7 @@ namespace RunRun {
 	/// <summary>
 	/// 控制速度值的起步，加速，减速
 	/// </summary>
-	public class ChanSpeedController : MonoBehaviour {
+	public class SpeedController : UnitySingleton<SpeedController> {
 
 
 		public delegate void VelocityChangeHandler (float spd);
