@@ -6,9 +6,10 @@ namespace RunRun {
 	public class CamearFollow : MonoBehaviour {
 		public Transform follow;
 		public Vector3 followV;
-		public Vector3 spd;
+		public float smooth;
 		private void Update() {
-			transform.localPosition = Vector3.SmoothDamp(transform.localPosition, follow.localPosition + followV,ref spd,2f,1f);
+
+			transform.localPosition = Vector3.Lerp(transform.localPosition,follow.localPosition + followV,Time.deltaTime*smooth);
 		}
 	}
 }

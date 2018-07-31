@@ -6,17 +6,42 @@ using UnityEngine;
 namespace RunRun {
 
 	public enum TrackSide{
+		Left = -1,
 		Center = 0,
-		Left = 1,
-		RIght = 2
+		Right = 1
 	}
+
+	/// <summary>
+	/// 改血事件
+	/// </summary>
+	/// <param name="current">当前血量</param>
+	/// <param name="delta">血量变化</param>
+	public delegate void HpChange(int current,int delta);
 
 	[RequireComponent(typeof (Animator))]
 	// [RequireComponent(typeof(ChanSpeedController))]
 	[RequireComponent(typeof(SphereCollider))]
 	public class ChanController : MonoBehaviour {
 
-		public TrackSide side;
+		public HpChange hpChange;
+		private int _hp;
+		private int hp{
+			get{return _hp;}
+			set{
+				int delta = value - _hp;
+				_hp = value;
+				if(hpChange!=null)
+					hpChange(_hp,delta);
+			}
+		}
+		private TrackSide _side;
+		private TrackSide side{
+			get{return _side;}
+			set{
+				_side = value;
+				transform.localPosition = new Vector3((int)side*2f,transform.localPosition.y,transform.localPosition.z);
+			}
+		}
 
 		public float startSpeedMultiple = 1.5f;
 
@@ -124,6 +149,7 @@ namespace RunRun {
 			animator = GetComponent<Animator> ();
 			side = TrackSide.Center;
 			a_moveSpeedMultiple = startSpeedMultiple;
+			hp = 0;
 		}
 
 		private void Start(){
@@ -154,7 +180,10 @@ namespace RunRun {
 				TriggerGetDown ();
 			}
 			if(Input.GetKeyDown(KeyCode.A)){
-				transform.localPosition = transform.localPosition + Vector3.left*1.4f;
+				TurnLeft();
+			}
+			if(Input.GetKeyDown(KeyCode.D)){
+				TurnRight();
 			}
 		}
 
@@ -177,7 +206,7 @@ namespace RunRun {
 
 		public void SpeedUp () {
 			if (a_running) {
-				a_moveSpeedMultiple += 0.1f;
+				// a_moveSpeedMultiple+=0.1f;
 				SpeedController.Instance.SpeedUp (0.5f);
 			}
 		}
@@ -207,23 +236,71 @@ namespace RunRun {
 			Debug.Log("SpeedChange");
 			if(spd>2) {
 				a_blendMovement = 1.0f;
+				a_moveSpeedMultiple = spd/8f+1f;
 			}else{
 				a_blendMovement = Mathf.Lerp(0,1f,spd/2f);
+				a_moveSpeedMultiple = 1.5f;
 			}
 		}
 
 
-		// private void OnTriggerEnter(Collider col){
-		// 	Debug.Log(col.name);
-		// }
+		private void TurnLeft(){
+			switch (side) {
+				case (TrackSide.Left):
+					return;
 
-		// private void OnTriggerStay(Collider col){
+				case (TrackSide.Right):
+					side = TrackSide.Center;
+					break;
+				
+				case (TrackSide.Center):
+					side = TrackSide.Left;
+					break;
+			}
+		}
 
-		// 	Debug.Log("staying" + col.name);
-		// }
-		// private void OnTriggerExit(Collider col){
-		// 	Debug.Log("Exit" + col.name);
-		// }
+
+		private void TurnRight(){
+			switch (side) {
+				case (TrackSide.Left):
+					side = TrackSide.Center;
+					break;
+
+				case (TrackSide.Right):
+					return;
+				
+				case (TrackSide.Center):
+					side = TrackSide.Right;
+					break;
+			}
+		}
+
+		private void OnTriggerEnter(Collider other) {
+			Debug.Log(other.name);
+			if(other.tag.CompareTo("_Item")==0){
+				TriggerItem(other.GetComponent<Item>());
+			}
+			if(other.tag.CompareTo("_Obstacle")==0){
+				TriggerObstacle(other.GetComponent<Obstacle>());
+			}
+
+		}
+
+		void TriggerItem(Item i){
+			i.StartDisappear();
+		}
+		void TriggerObstacle(Obstacle o){
+			Debug.Log("碰到障碍了" + o.name);
+			TriggerDamage();
+			hp -= o.damage;
+		}
+
+		private void OnCollisionEnter(Collision other) {
+			Debug.Log(other.transform.name);
+		}
+
+
+
 	}
 }
 

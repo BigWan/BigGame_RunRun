@@ -2035,14 +2035,13 @@ GameObject:
   - component: {fileID: 11400088}
   - component: {fileID: 11419662}
   - component: {fileID: 114055185187686794}
-  - component: {fileID: 54884752669863000}
   - component: {fileID: 136365161906616112}
   - component: {fileID: 114023691475736962}
-  - component: {fileID: 114632942191099398}
   - component: {fileID: 135139956309673660}
+  - component: {fileID: 54705722447689714}
   m_Layer: 11
   m_Name: SD_unitychan_humanoid
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5444,7 +5443,7 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100264}
   m_IsPrefabAsset: 1
---- !u!54 &54884752669863000
+--- !u!54 &54705722447689714
 Rigidbody:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5489,24 +5488,6 @@ MonoBehaviour:
   _salute: 0
   _fail: 0
   _falling: 0
---- !u!114 &114632942191099398
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 094af032ac6ad6849ac7c56d0193d885, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targetVelocity: 0
-  _currentVelocity: 0
-  _currentAcceleration: 0
-  _minAcceleration: 1
-  _maxAcceleration: 100
-  _standardAccelerateTime: 0.5
-  _lockVelocity: 0
 --- !u!114 &114634374919448884
 MonoBehaviour:
   m_ObjectHideFlags: 1
