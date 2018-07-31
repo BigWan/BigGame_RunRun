@@ -748,7 +748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6236bc4b9d0fe1b4cb436946d22a9a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dieDelay: 1
+  dieDelay: 0.2
   damage: 1
 --- !u!1001 &1361882726
 Prefab:
@@ -792,7 +792,7 @@ Prefab:
     - target: {fileID: 135139956309673660, guid: 13a16f60da4245c45a865b2136ba272c,
         type: 2}
       propertyPath: m_Radius
-      value: 3
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13a16f60da4245c45a865b2136ba272c, type: 2}
@@ -843,7 +843,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4029909431657466, guid: a1c67ff289704d044a48808acecab176, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 40
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4029909431657466, guid: a1c67ff289704d044a48808acecab176, type: 2}
       propertyPath: m_LocalRotation.x
@@ -868,6 +868,11 @@ Prefab:
     - target: {fileID: 1523650118993588, guid: a1c67ff289704d044a48808acecab176, type: 2}
       propertyPath: m_TagString
       value: _Obstacle
+      objectReference: {fileID: 0}
+    - target: {fileID: 65126292728235942, guid: a1c67ff289704d044a48808acecab176,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1c67ff289704d044a48808acecab176, type: 2}

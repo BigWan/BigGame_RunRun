@@ -125,6 +125,7 @@ namespace RunRun {
 		}
 		public void TriggerJump () {
 			animator.SetTrigger ("trigJump");
+			GetComponent<Rigidbody>().AddForce(Vector3.up*150f,ForceMode.Force);
 		}
 
 		// animationstat
@@ -155,13 +156,13 @@ namespace RunRun {
 		private void Start(){
 			RegEventReg();
 		}
- 
+
 		private void RegEventReg(){
 			SpeedController.Instance.VelocityChange += OnVelocityChange;
 		}
 
 		private void Update () {
-			// if (a_running)				
+			// if (a_running)
 				// transform.Translate (Vector3.forward * Time.deltaTime * SpeedController.Instance.currentVelocity);
 			if (Input.GetKeyDown (KeyCode.W)) {
 				StartRun ();
@@ -185,6 +186,8 @@ namespace RunRun {
 			if(Input.GetKeyDown(KeyCode.D)){
 				TurnRight();
 			}
+			// transform.localPosition = animator.GetFloat("CV_Jump")*2f;
+			// GetComponent<CapsuleCollider>().height = animator.GetFloat("CV_Jump")+0.5f;
 		}
 
 		public void StartRun () {
@@ -252,7 +255,7 @@ namespace RunRun {
 				case (TrackSide.Right):
 					side = TrackSide.Center;
 					break;
-				
+
 				case (TrackSide.Center):
 					side = TrackSide.Left;
 					break;
@@ -268,21 +271,28 @@ namespace RunRun {
 
 				case (TrackSide.Right):
 					return;
-				
+
 				case (TrackSide.Center):
 					side = TrackSide.Right;
 					break;
 			}
 		}
 
+		/// <summary>
+		/// 道具触发
+		/// </summary>
+		/// <param name="other"></param>
 		private void OnTriggerEnter(Collider other) {
 			Debug.Log(other.name);
 			if(other.tag.CompareTo("_Item")==0){
 				TriggerItem(other.GetComponent<Item>());
 			}
-			if(other.tag.CompareTo("_Obstacle")==0){
-				TriggerObstacle(other.GetComponent<Obstacle>());
+			if(other.transform.tag.CompareTo("_Obstacle")==0){
+				TriggerObstacle(other.transform.GetComponent<Obstacle>());
 			}
+		}
+
+		void OnCollisionEnter(Collision other){
 
 		}
 
@@ -293,12 +303,8 @@ namespace RunRun {
 			Debug.Log("碰到障碍了" + o.name);
 			TriggerDamage();
 			hp -= o.damage;
+			o.StartDisappear();
 		}
-
-		private void OnCollisionEnter(Collision other) {
-			Debug.Log(other.transform.name);
-		}
-
 
 
 	}
