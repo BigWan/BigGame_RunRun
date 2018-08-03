@@ -30,10 +30,29 @@ namespace RunRun {
 			set{
 				int delta = value - _hp;
 				_hp = value;
-				if(hpChange!=null)
-					hpChange(_hp,delta);
-			}
+                hpChange?.Invoke(_hp, delta);
+            }
 		}
+
+        /// <summary>
+        /// 此贴标记
+        /// </summary>
+        [SerializeField]
+        private bool _hasMagnet;
+
+        public bool hasMagnet {
+            get { return _hasMagnet; }
+            set {
+                _hasMagnet = value;
+                if (_hasMagnet)
+                    sphereCollider.radius = 3f;
+                else
+                    sphereCollider.radius = 0.5f;
+            }
+        }
+        
+        
+
 		private TrackSide _side;
 		private TrackSide side{
 			get{return _side;}
@@ -113,6 +132,7 @@ namespace RunRun {
 		private SpringManager spring;
 		private RandomWind wind;
 		private IKLookAt lookat;
+        private SphereCollider sphereCollider;
 		// private ChanSpeedController spdCon;
 
 		public void TriggerDamage () {
@@ -125,7 +145,6 @@ namespace RunRun {
 		}
 		public void TriggerJump () {
 			animator.SetTrigger ("trigJump");
-			GetComponent<Rigidbody>().AddForce(Vector3.up*150f,ForceMode.Force);
 		}
 
 		// animationstat
@@ -148,7 +167,8 @@ namespace RunRun {
 		#endregion
 		private void Awake () {
 			animator = GetComponent<Animator> ();
-			side = TrackSide.Center;
+            sphereCollider = GetComponent<SphereCollider>();
+            side = TrackSide.Center;
 			a_moveSpeedMultiple = startSpeedMultiple;
 			hp = 0;
 		}
@@ -156,13 +176,13 @@ namespace RunRun {
 		private void Start(){
 			RegEventReg();
 		}
-
+ 
 		private void RegEventReg(){
 			SpeedController.Instance.VelocityChange += OnVelocityChange;
 		}
 
 		private void Update () {
-			// if (a_running)
+			// if (a_running)				
 				// transform.Translate (Vector3.forward * Time.deltaTime * SpeedController.Instance.currentVelocity);
 			if (Input.GetKeyDown (KeyCode.W)) {
 				StartRun ();
@@ -186,8 +206,10 @@ namespace RunRun {
 			if(Input.GetKeyDown(KeyCode.D)){
 				TurnRight();
 			}
-			// transform.localPosition = animator.GetFloat("CV_Jump")*2f;
-			// GetComponent<CapsuleCollider>().height = animator.GetFloat("CV_Jump")+0.5f;
+
+            if (Input.GetKeyDown(KeyCode.I)) {
+                hasMagnet = !hasMagnet;
+            }
 		}
 
 		public void StartRun () {
@@ -203,7 +225,8 @@ namespace RunRun {
 			// 	transform.Translate (Vector3.forward * Time.fixedDeltaTime * SpeedController.Instance.currentVelocity);
 			// }
 
-			// float th = animator.GetFloat("CV_Jump");
+			float th = animator.GetFloat("CV_Jump");
+			sphereCollider.radius = th;
 			// transform.localPosition = new Vector3(th,transform.localPosition.y,transform.localPosition.z);
 		}
 
@@ -255,7 +278,7 @@ namespace RunRun {
 				case (TrackSide.Right):
 					side = TrackSide.Center;
 					break;
-
+				
 				case (TrackSide.Center):
 					side = TrackSide.Left;
 					break;
@@ -271,42 +294,48 @@ namespace RunRun {
 
 				case (TrackSide.Right):
 					return;
-
+				
 				case (TrackSide.Center):
 					side = TrackSide.Right;
 					break;
 			}
 		}
 
-		/// <summary>
-		/// 道具触发
-		/// </summary>
-		/// <param name="other"></param>
 		private void OnTriggerEnter(Collider other) {
-			Debug.Log(other.name);
 			if(other.tag.CompareTo("_Item")==0){
 				TriggerItem(other.GetComponent<Item>());
 			}
-			if(other.transform.tag.CompareTo("_Obstacle")==0){
-				TriggerObstacle(other.transform.GetComponent<Obstacle>());
+			if(other.tag.CompareTo("_Obstacle")==0){
+				TriggerObstacle(other.GetComponent<Obstacle>());
 			}
-		}
-
-		void OnCollisionEnter(Collision other){
 
 		}
 
 		void TriggerItem(Item i){
+            Debug.Log("吃到金币了");
 			i.StartDisappear();
 		}
 		void TriggerObstacle(Obstacle o){
-			Debug.Log("碰到障碍了" + o.name);
+			Debug.Log("碰到障碍了");
 			TriggerDamage();
 			hp -= o.damage;
-			o.StartDisappear();
 		}
 
+		private void OnCollisionEnter(Collision other) {
+            if (other.gameObject.tag == "_Track") {
+                animator.SetBool("onGround", true);
+            }
+		}
 
-	}
+        private void OnCollisionExit(Collision collision) {
+            if(collision.gameObject.tag == "_Track") {
+                animator.SetBool("onGround", false);
+            }
+        }
+
+
+
+
+    }
 }
 

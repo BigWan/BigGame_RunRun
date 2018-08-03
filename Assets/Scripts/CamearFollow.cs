@@ -11,5 +11,7 @@ namespace RunRun {
 
 			transform.localPosition = Vector3.Lerp(transform.localPosition,follow.localPosition + followV,Time.deltaTime*smooth);
 		}
+
+
 	}
 }

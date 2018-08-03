@@ -17,15 +17,14 @@ namespace RunRun {
 		/// <summary>
 		/// 碰撞后消失
 		/// </summary>
-		protected IEnumerator DisappearCoroutine(){
+		protected IEnumerator DisappearCoroutine(){			
 			for (int i = 0; i < 10; i++) {
 				transform.localScale = Vector3.one * (10-i)*0.1f;
 				yield return  new WaitForSeconds(dieDelay/10f);
-			}
-			transform.localScale = Vector3.one;
-			transform.localPosition += Vector3.forward * 20f;
+			}			
+			Destroy(gameObject);
 		}
-
-
+		
+		
 	}
 }

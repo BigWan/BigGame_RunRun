@@ -9,6 +9,7 @@ namespace RunRun {
 	///  一个跑道段落
 	/// </summary>
 	public class Blocks : MonoBehaviour {
+		
 		// Theme theme;
 		// Rule  rule;
 

@@ -4,13 +4,22 @@ using UnityEngine;
 
 namespace RunRun {
 
-	/// <summary>
-	/// 控制速度值的起步，加速，减速
-	/// </summary>
-	public class SpeedController : UnitySingleton<SpeedController> {
+    public enum MotionStat {
+        Stop = 0,
+        Speeding = 1,
+        Slowing = 2,
+        Moveing = 3,
+    }
+
+    public delegate void VelocityChangeHandler (float spd);
+
+    /// <summary>
+    /// 控制速度值的起步，加速，减速
+    /// </summary>
+    public class SpeedController : UnitySingleton<SpeedController> {
 
 
-		public delegate void VelocityChangeHandler (float spd);
+
 
 		/// <summary>
 		/// 速度改变的委托
@@ -18,11 +27,6 @@ namespace RunRun {
 		/// <param name="spd">速度值</param>
 		public VelocityChangeHandler VelocityChange;
 
-		private enum SpeedStat{
-			stop = 0,
-			accelate = 1,
-			moveing = 2,
-		}
 
 
 		/// <summary>
@@ -82,26 +86,38 @@ namespace RunRun {
 		[SerializeField]
 		private bool _lockVelocity = false;
 
+        public MotionStat motionStat;
+
 		private void FixedUpdate () {
 
-			if (!_lockVelocity) {
-				float deltaSpeed = _targetVelocity - currentVelocity;
+			if (_lockVelocity) {
+                if (currentVelocity == 0) { 
+                    motionStat = MotionStat.Stop;
+                } else {
+                    motionStat = MotionStat.Moveing;
+                }
+            } else {
+            
+                float deltaSpeed = _targetVelocity - currentVelocity;
 
-				if (Mathf.Abs (deltaSpeed) <= velocityError) {
-					SetCurrentVelocity(_targetVelocity,true);
-					_currentAcceleration = 0;
-				} else {
-					float acc = deltaSpeed / _standardAccelerateTime;
+                if (Mathf.Abs(deltaSpeed) <= velocityError) {
+                    SetCurrentVelocity(_targetVelocity, true);
+                    _currentAcceleration = 0;
+                    motionStat = MotionStat.Moveing;
+                } else {
+                    float acc = deltaSpeed / _standardAccelerateTime;
 
-					if (acc == 0) return;
-					if (acc > 0) {
-						_currentAcceleration = Mathf.Clamp (acc, _minAcceleration, _maxAcceleration);
-					} else {
-						_currentAcceleration = Mathf.Clamp (acc, -_maxAcceleration, -_minAcceleration);
-					}
-					currentVelocity += _currentAcceleration * Time.fixedDeltaTime;
-				}
-			}
+                    if (acc == 0) return;
+                    if (acc > 0) {
+                        _currentAcceleration = Mathf.Clamp(acc, _minAcceleration, _maxAcceleration);
+                        motionStat = MotionStat.Speeding;
+                    } else {
+                        _currentAcceleration = Mathf.Clamp(acc, -_maxAcceleration, -_minAcceleration);
+                        motionStat = MotionStat.Slowing;
+                    }
+                    currentVelocity += _currentAcceleration * Time.fixedDeltaTime;
+                }
+            }
 		}
 
 
@@ -114,7 +130,6 @@ namespace RunRun {
 		public void SetCurrentVelocity (float spd, bool isLock = false) {
 			currentVelocity = spd;
 			_lockVelocity = isLock;
-
 		}
 
 		/// <summary>
