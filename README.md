@@ -54,4 +54,14 @@
 
 
 
+## 跑道规格
+
+Brige_Length 3*7.5
+Ground_End   4.5*3.75
+Ground_Start 4.5*3.75
+Ground_Middle_Short_B 4.5*3.75
+
+
+
+
 
