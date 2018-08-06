@@ -10,6 +10,7 @@ GameObject:
   - component: {fileID: 452934}
   - component: {fileID: 3352934}
   - component: {fileID: 2352934}
+  - component: {fileID: 114059410928512630}
   m_Layer: 0
   m_Name: GroundBlock
   m_TagString: Untagged
@@ -83,3 +84,16 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 152934}
   m_IsPrefabAsset: 1
+--- !u!114 &114059410928512630
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c326497c5a678c4c97dc71578743864, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  length: 0
+  nextJoinPoints: []
