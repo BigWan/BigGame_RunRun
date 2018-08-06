@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.23872304, g: 0.58509016, b: 0.9878004, a: 1}
+  m_IndirectSpecularColor: {r: 0.24013019, g: 0.58323026, b: 0.9913294, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -122,7 +122,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4659956207779642, guid: 676484760ad6ddf468ce126b951a84f3, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 14.87
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4659956207779642, guid: 676484760ad6ddf468ce126b951a84f3, type: 2}
       propertyPath: m_LocalPosition.y
@@ -164,7 +164,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4751805480078066, guid: e895839d2d09f2549b9c3d67f7f376a9, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4751805480078066, guid: e895839d2d09f2549b9c3d67f7f376a9, type: 2}
       propertyPath: m_LocalPosition.y
@@ -172,7 +172,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4751805480078066, guid: e895839d2d09f2549b9c3d67f7f376a9, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 7.5
+      value: 8.82
       objectReference: {fileID: 0}
     - target: {fileID: 4751805480078066, guid: e895839d2d09f2549b9c3d67f7f376a9, type: 2}
       propertyPath: m_LocalRotation.x
@@ -579,7 +579,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 48.868004, y: 0, z: 0}
---- !u!1001 &1483203509
+--- !u!1001 &1573765160
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -621,6 +621,28 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5be5e485ea8367c4bb45bff2f75335e5, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1573765161 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1353879755191652, guid: 5be5e485ea8367c4bb45bff2f75335e5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1573765160}
+--- !u!114 &1573765162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1573765161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfe8472605bcda468d82f94f19976e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joinDirection: 0
+  joinableBlocks:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  toward: 0
 --- !u!1001 &1656561748
 Prefab:
   m_ObjectHideFlags: 0
