@@ -10,14 +10,7 @@ namespace RunRun {
 	[System.Serializable]
 	public class JoinPoint :MonoBehaviour {
 
-		/// <summary>
-		/// 接壤方向
-		/// </summary>
-		public enum JoinDirection {
-			Straight  = 0,  // 直线
-			Left = 1,       // 左拐
-			Right = 2       // 右拐
-		}
+		// public PlugType plugType;
 
 		/// <summary>
 		/// 拼接的方向
@@ -38,7 +31,7 @@ namespace RunRun {
             b.transform.position = transform.position;
         }
 
-#if UNITY_EDITOR 
+#if UNITY_EDITOR
         private void OnDrawGizmos() {
             Gizmos.color = Color.green;
             //Gizmos.DrawIcon(transform.localPosition, "build_zone.png",true);
