@@ -50,7 +50,7 @@ namespace RunRun {
                     sphereCollider.radius = 0.5f;
             }
         }
-        
+
 
 		private TrackSide _side;
 		private TrackSide side{
@@ -175,13 +175,13 @@ namespace RunRun {
 		private void Start(){
 			RegEventReg();
 		}
- 
+
 		private void RegEventReg(){
 			SpeedController.Instance.VelocityChange += OnVelocityChange;
 		}
 
 		private void Update () {
-			// if (a_running)				
+			// if (a_running)
 				// transform.Translate (Vector3.forward * Time.deltaTime * SpeedController.Instance.currentVelocity);
 			if (Input.GetKeyDown (KeyCode.W)) {
 				StartRun ();
@@ -193,7 +193,7 @@ namespace RunRun {
 			if (Input.GetKeyDown (KeyCode.J)) {
 				SpeedUp ();
 			}
-			if (Input.GetKeyDown (KeyCode.Space)) {
+			if (Input.GetKey (KeyCode.Space)) {
 				Jump ();
 			}
 			if (Input.GetKeyDown (KeyCode.U)) {
@@ -237,14 +237,25 @@ namespace RunRun {
 		}
 
 
-
+		private bool canJump = true;
 		public void Jump () {
 			// 只有移动的时候才能跳
-			if (bodyStat.IsName ("Blend_Movement") || bodyStat.IsName("Jumping@loop")) {
-				TriggerJump ();
+			if (bodyStat.IsName ("Blend_Movement") ) {
+				if(canJump){
+					TriggerJump ();
+					canJump = false;
+				}
 				// animator.SetBool("bJumping",true);
+			}else if(bodyStat.IsName("Jumping@loop") && bodyStat.normalizedTime >=0.55f){
+				animator.CrossFade("Blend_Movement",0.0f,0,0);
+				if(canJump){
+					TriggerJump ();
+					canJump = false;
+				}
 			}
 		}
+
+
 
 		/// <summary>
 		/// 变换跑道
@@ -277,7 +288,7 @@ namespace RunRun {
 				case (TrackSide.Right):
 					side = TrackSide.Center;
 					break;
-				
+
 				case (TrackSide.Center):
 					side = TrackSide.Left;
 					break;
@@ -293,7 +304,7 @@ namespace RunRun {
 
 				case (TrackSide.Right):
 					return;
-				
+
 				case (TrackSide.Center):
 					side = TrackSide.Right;
 					break;
@@ -332,8 +343,12 @@ namespace RunRun {
             }
         }
 
-
-
+		/// <summary>
+		/// Jumping@loop  Animation Event
+		/// </summary>
+		public void ChangeJumpFlag(){
+			canJump = true;
+		}
 
     }
 }

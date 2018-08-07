@@ -48,34 +48,33 @@ namespace RunRun {
 
             Block current;
             List<Block> spawned = new List<Block>();
-            
+
             while (spawingBlocks.Count > 0) {
-               
+
                 yield return new WaitForSeconds(0.2f);
                 // 获取队列中一个拉出来生产
                 current = spawingBlocks[spawingBlocks.Count-1];
                 spawingBlocks.RemoveAt(spawingBlocks.Count - 1);
 
-                Debug.Log("队列数量" + spawingBlocks.Count);
+
                 if (current == null) {
                     Debug.Log("停止了", transform);
                     yield break;
                 }
                 // 生产出来的东西
                 spawned = current.SpawnNextPlug(transform);
-                //Debug.Log(current.GetInstanceID(),transform);
-                Debug.Log("产出" + spawned.Count);
-                //foreach (var item in spawned) {
-                //    item.transform.SetParent(transform);
-                //}
+                Debug.Log("数量:" + spawned.Count);
 
                 // 生产出来的东西同时放回队列和列表
-                currentBlocks.Union(spawned);
+
                 for (int i = 0; i < spawned.Count; i++) {
+                    currentBlocks.Add(spawned[i]);
                     spawingBlocks.Add(spawned[i]);
                 }
+                // if(currentBlocks.Count>10) yield break;
 
-            }           
+
+            }
 
         }
 
