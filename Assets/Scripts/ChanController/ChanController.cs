@@ -51,14 +51,13 @@ namespace RunRun {
             }
         }
         
-        
 
 		private TrackSide _side;
 		private TrackSide side{
 			get{return _side;}
 			set{
 				_side = value;
-				transform.localPosition = new Vector3((int)side*2f,transform.localPosition.y,transform.localPosition.z);
+				transform.localPosition = new Vector3((int)side*1f,transform.localPosition.y,transform.localPosition.z);
 			}
 		}
 
@@ -215,7 +214,7 @@ namespace RunRun {
 		public void StartRun () {
 			if (bodyStat.IsName ("Standing@loop") || bodyStat.IsName ("DownToUp")) {
 				a_running = true;
-				SpeedController.Instance.SpeedTo (2f);
+				SpeedController.Instance.SpeedTo (6.5f);
 				// StartCoroutine(AccelerateFoward());
 			}
 		}
