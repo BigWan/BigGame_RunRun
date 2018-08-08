@@ -19,10 +19,10 @@ namespace RunRun {
 
         List<SpawnBlockCommand> commands {
             get {
-                return data.commands;
+                return data?.commands;
             }
         }
-        
+
 
         /// <summary>
         /// 当前生产点
@@ -31,6 +31,9 @@ namespace RunRun {
 
         private Quaternion currentRotation;
 
+        /// <summary>
+        /// 执行命令列表
+        /// </summary>
         public void Execute() {
 
             if (commands == null || commands.Count <= 0) {
@@ -43,7 +46,16 @@ namespace RunRun {
             }
         }
 
-         
+        public int executeIndex;
+        public void ExecuteStep(){
+            if (commands == null || commands.Count <= 0) {
+                Debug.LogError("命令队列为空，无法执行",transform);
+                return;
+            }
+            if(executeIndex<commands.Count)
+                ExecuteCommand(commands[executeIndex++]);
+        }
+
         public void ExecuteCommand(SpawnBlockCommand cmd) {
 
             int count = Random.Range(cmd.start,cmd.end);
@@ -70,9 +82,13 @@ namespace RunRun {
 
 
         private void OnGUI() {
-            
+
             if(GUI.Button(new Rect(530, 30, 100, 50),new GUIContent("执行"))) {
                 Execute();
+            }
+
+            if(GUI.Button(new Rect(130, 30, 100, 50),new GUIContent("执行"))) {
+                ExecuteStep();
             }
         }
 

@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Name: SectionData01
   m_EditorClassIdentifier: 
   commands:
-  - blocks: []
+  - blocks:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     start: 0
     end: 0
   - blocks: []
