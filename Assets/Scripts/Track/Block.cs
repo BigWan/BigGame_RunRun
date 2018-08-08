@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace RunRun {
 
-	/// <summary>
-	///  跑道的基本构成单位
-	/// </summary>
-	public class Block : MonoBehaviour {
 
-      
+    /// <summary>
+    ///  跑道的基本构成单位
+    /// </summary>
+    public class Block : MonoBehaviour {
+
 		/// <summary>
 		/// 段落长度（3.75的倍数）
 		/// </summary>
@@ -58,21 +58,21 @@ namespace RunRun {
 
 
 
-        /// <summary>
-        /// 在连接点生成块
-        /// </summary>
-        public List<Block> SpawnNextPlug(Transform parent) {
-            if (spawnedList.Count > 0) {
-                Debug.Log("spawnedList 已经有数据了额", transform);
-                return null;
-            }
-            foreach (var plug in exitPlugs) {
-                Block newb = plug.SpawnNextBlock(transform.localRotation);
-                newb.transform.SetParent(parent);
-                spawnedList.Add(newb);
-            }
-            return spawnedList;
-        }
+        ///// <summary>
+        ///// 在连接点生成块
+        ///// </summary>
+        //public List<Block> SpawnNextPlug(Transform parent) {
+        //    if (spawnedList.Count > 0) {
+        //        Debug.Log("spawnedList 已经有数据了额", transform);
+        //        return null;
+        //    }
+        //    foreach (var plug in exitPlugs) {
+        //        Block newb = plug.SpawnNextBlock(transform.localRotation);
+        //        newb.transform.SetParent(parent);
+        //        spawnedList.Add(newb);
+        //    }
+        //    return spawnedList;
+        //}
 
 
 

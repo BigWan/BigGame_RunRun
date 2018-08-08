@@ -50,7 +50,6 @@ namespace RunRun {
         /// </summary>
         public PlugShape shape;
 
-
         /// <summary>
         /// 生成的下一块
         /// </summary>
@@ -118,37 +117,41 @@ namespace RunRun {
         }
 
 
+        public Quaternion getRotation() {
+            if (plugDirection == PlugDirection.Left) {
+                return Quaternion.Euler(0, -90, 0);
+            }else if(plugDirection == PlugDirection.Right) {
+                return Quaternion.Euler(0, 90, 0);
+            } else {
+                return Quaternion.identity;
+            }
+        }
+
 
     
-        /// <summary>
-        /// 生成跑道块
-        /// </summary>
-        public Block SpawnNextBlock(Quaternion rotation,bool forceRefresh = false) {
+        ///// <summary>
+        ///// 生成跑道块
+        ///// </summary>
+        //public Block SpawnNextBlock(Quaternion rotation,bool forceRefresh = false) {
 
-            if(spawned != null) {
-                if (forceRefresh) {
-                    Destroy(spawned.gameObject);
-                } else {
-                    return spawned;
-                }
-            }
-            Block next = PlugUtil.Instance.GetRandomAdaptorBlock(plugType);
+        //    if(spawned != null) {
+        //        if (forceRefresh) {
+        //            Destroy(spawned.gameObject);
+        //        } else {
+        //            return spawned;
+        //        }
+        //    }
+        //    Block next = PlugUtil.Instance.GetRandomAdaptorBlock(plugType);
 
-            spawned = GameObject.Instantiate<Block>(next) as Block;
+        //    spawned = GameObject.Instantiate<Block>(next) as Block;
 
-            spawned.transform.localPosition = transform.position;
-            if (plugDirection == PlugDirection.Left) {
-                spawned.transform.localRotation = (Quaternion.Euler(0, -90, 0) * rotation);
-            }
-            if (plugDirection == PlugDirection.Right) {
-                spawned.transform.localRotation = (Quaternion.Euler(0, +90, 0) * rotation);
-            }
-            if (plugDirection == PlugDirection.Straight) {
-                spawned.transform.localRotation = rotation;
-            }
-            hasSpawned = true;
-            //spawned.transform.SetParent(transform.parent);
-            return spawned;
-        }
+        //    spawned.transform.localPosition = transform.position;
+
+        //    spawned.transform.localRotation = getRotation() * rotation;
+            
+        //    hasSpawned = true;
+        //    //spawned.transform.SetParent(transform.parent);
+        //    return spawned;
+        //}
     }
 }
