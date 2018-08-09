@@ -37,9 +37,10 @@ GameObject:
   - component: {fileID: 4429796213747866}
   - component: {fileID: 33030626954480794}
   - component: {fileID: 23447007869188342}
+  - component: {fileID: 65770796671605688}
   m_Layer: 0
   m_Name: Bridge
-  m_TagString: Untagged
+  m_TagString: _Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,9 +87,11 @@ GameObject:
   - component: {fileID: 4568687563588288}
   - component: {fileID: 33323827206861496}
   - component: {fileID: 23968644863613346}
+  - component: {fileID: 65722215021256208}
+  - component: {fileID: 65756132308171738}
   m_Layer: 0
   m_Name: Fence
-  m_TagString: Untagged
+  m_TagString: _Fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -152,7 +155,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1256061768597662}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 8.82}
+  m_LocalPosition: {x: -100, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4429796213747866}
@@ -246,6 +249,42 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1907720708666108}
   m_Mesh: {fileID: 4300002, guid: 3a0e6d70e96768a43a00963d64e729cb, type: 3}
+--- !u!65 &65722215021256208
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1907720708666108}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.25, y: 5, z: 7.5}
+  m_Center: {x: -1.7, y: 0, z: 3.75}
+--- !u!65 &65756132308171738
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1907720708666108}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.25, y: 5, z: 7.5}
+  m_Center: {x: 1.7, y: 0, z: 3.75}
+--- !u!65 &65770796671605688
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1458276330381590}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.6975589, y: 0.3127045, z: 7.5}
+  m_Center: {x: 0, y: -0.15635058, z: 3.75}
 --- !u!114 &114250130826774236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -259,6 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plugType: 2
   shape: 7
+  hasSpawned: 0
   plugDirection: 0
 --- !u!114 &114686890400646496
 MonoBehaviour:
@@ -285,6 +325,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   length: 7.5
+  coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
+    type: 2}
   enterPlug: {fileID: 114686890400646496}
   exitPlugs:
   - {fileID: 114250130826774236}
+  hasUsed: 0

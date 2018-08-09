@@ -6,6 +6,9 @@ TagManager:
   tags:
   - _Item
   - _Obstacle
+  - _Fence
+  - _Ground
+  - _Section
   layers:
   - Default
   - TransparentFX

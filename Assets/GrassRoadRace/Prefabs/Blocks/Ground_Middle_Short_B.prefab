@@ -21,9 +21,11 @@ GameObject:
   - component: {fileID: 4688544128972682}
   - component: {fileID: 33017848597780770}
   - component: {fileID: 23713909162389090}
+  - component: {fileID: 65498382696461896}
+  - component: {fileID: 65577113071017306}
   m_Layer: 0
   m_Name: FenceL
-  m_TagString: Untagged
+  m_TagString: _Fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,9 +56,10 @@ GameObject:
   - component: {fileID: 4831284326825860}
   - component: {fileID: 33799592614399562}
   - component: {fileID: 23890860534650090}
+  - component: {fileID: 65613275017641342}
   m_Layer: 0
   m_Name: FenceR
-  m_TagString: Untagged
+  m_TagString: _Fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,9 +74,11 @@ GameObject:
   - component: {fileID: 4714691260216292}
   - component: {fileID: 33055328276674384}
   - component: {fileID: 23735133200045136}
+  - component: {fileID: 65358158623470664}
+  - component: {fileID: 65521462588506124}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: _Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +148,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1774842073845274}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.97, y: 0, z: 5.05}
+  m_LocalPosition: {x: -20, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4831284326825860}
@@ -319,6 +324,66 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1268791574680638}
   m_Mesh: {fileID: 4300002, guid: 788478d93ec5f0042baf5da13e58054d, type: 3}
+--- !u!65 &65358158623470664
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657788068419740}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.5806756, y: 3.7515926, z: 3.75}
+  m_Center: {x: 0, y: -1.8757961, z: 1.875}
+--- !u!65 &65498382696461896
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1068869585326012}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.25, y: 5, z: 3.7132695}
+  m_Center: {x: 0, y: 0, z: 0.0018001795}
+--- !u!65 &65521462588506124
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657788068419740}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.5806756, y: 3.7515926, z: 3.75}
+  m_Center: {x: 0, y: -1.8757961, z: 1.875}
+--- !u!65 &65577113071017306
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1068869585326012}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.22698183, y: 0.8635211, z: 3.7132695}
+  m_Center: {x: 0.000001385808, y: 0.3348394, z: 0.0018001795}
+--- !u!65 &65613275017641342
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1268791574680638}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.25, y: 5, z: 3.7169948}
+  m_Center: {x: 0, y: 0, z: -0.00006252527}
 --- !u!114 &114092739998455504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -332,6 +397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plugType: 0
   shape: 7
+  hasSpawned: 0
   plugDirection: 0
 --- !u!114 &114326897721607986
 MonoBehaviour:
@@ -358,6 +424,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   length: 3.75
+  coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
+    type: 2}
   enterPlug: {fileID: 114326897721607986}
   exitPlugs:
   - {fileID: 114092739998455504}
+  hasUsed: 0

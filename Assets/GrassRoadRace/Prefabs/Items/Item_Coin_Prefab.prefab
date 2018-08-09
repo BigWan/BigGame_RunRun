@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114496126196680650}
   m_Layer: 0
   m_Name: Item_Coin_Prefab
-  m_TagString: Untagged
+  m_TagString: _Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1929930086700390}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dieDelay: 1
-  golds: 0
+  golds: 1
 --- !u!135 &135044848589480216
 SphereCollider:
   m_ObjectHideFlags: 1

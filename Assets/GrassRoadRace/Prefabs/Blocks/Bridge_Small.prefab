@@ -37,9 +37,11 @@ GameObject:
   - component: {fileID: 4525680834097064}
   - component: {fileID: 33372153572183654}
   - component: {fileID: 23161111429909502}
+  - component: {fileID: 65706105111105312}
+  - component: {fileID: 65741926001150986}
   m_Layer: 0
   m_Name: Fence
-  m_TagString: Untagged
+  m_TagString: _Fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,9 +56,10 @@ GameObject:
   - component: {fileID: 4979813211695724}
   - component: {fileID: 33106301048039036}
   - component: {fileID: 23660880722537320}
+  - component: {fileID: 65307722292582528}
   m_Layer: 0
   m_Name: Bridge
-  m_TagString: Untagged
+  m_TagString: _Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,7 +116,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1993863961837134}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.37, y: 0, z: -0.11}
+  m_LocalPosition: {x: -90, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4979813211695724}
@@ -246,6 +249,42 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1559040859028536}
   m_Mesh: {fileID: 4300002, guid: 75d2f8822a94c3b43a2f2bab111c6ec0, type: 3}
+--- !u!65 &65307722292582528
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1657972400717304}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.1548567, y: 0.3127036, z: 7.5}
+  m_Center: {x: 0, y: -0.1563502, z: 3.75}
+--- !u!65 &65706105111105312
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1559040859028536}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.25, y: 5, z: 7.5}
+  m_Center: {x: -0.9, y: 0, z: 3.75}
+--- !u!65 &65741926001150986
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1559040859028536}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.25, y: 5, z: 7.55}
+  m_Center: {x: 0.9, y: 0, z: 3.75}
 --- !u!114 &114189277168403978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -259,6 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plugType: 3
   shape: 2
+  hasSpawned: 0
   plugDirection: 0
 --- !u!114 &114365530688649202
 MonoBehaviour:
@@ -284,7 +324,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c326497c5a678c4c97dc71578743864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 3
+  length: 7.5
+  coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
+    type: 2}
   enterPlug: {fileID: 114365530688649202}
   exitPlugs:
   - {fileID: 114189277168403978}
+  hasUsed: 0

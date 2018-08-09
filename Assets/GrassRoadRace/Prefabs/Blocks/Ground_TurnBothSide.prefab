@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4805680537643120}
   - component: {fileID: 33600993508629722}
   - component: {fileID: 23909104302735848}
+  - component: {fileID: 65775900923027980}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: _Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,9 +71,10 @@ GameObject:
   - component: {fileID: 4567871296268852}
   - component: {fileID: 33528504586872580}
   - component: {fileID: 23843105292647966}
+  - component: {fileID: 65489333061134744}
   m_Layer: 0
   m_Name: Fence
-  m_TagString: Untagged
+  m_TagString: _Fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -276,6 +278,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1150723965052974}
   m_Mesh: {fileID: 4300000, guid: 0b8405000675bcc4fb5e9670fc0bf25d, type: 3}
+--- !u!65 &65489333061134744
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1364733979897434}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.75, y: 5, z: 0.25}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65775900923027980
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1150723965052974}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.8625007, y: 3.86414, z: 4.290298}
+  m_Center: {x: 0.0000004172325, y: -1.9320695, z: 2.145148}
 --- !u!114 &114373179186924146
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -316,12 +342,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   length: 3.75
-  isTurn: 1
+  coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
+    type: 2}
   enterPlug: {fileID: 114558598808259560}
   exitPlugs:
   - {fileID: 114701791426232948}
   - {fileID: 114373179186924146}
-  isUsed: 0
+  hasUsed: 0
 --- !u!114 &114701791426232948
 MonoBehaviour:
   m_ObjectHideFlags: 1

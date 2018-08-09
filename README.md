@@ -1,9 +1,15 @@
 # RunRun
 
+## 概述
 
-## 动作
+**个人项目,学习Unity练手**
+
+## 动作状态机
+
 
 >@后缀表示loop
+
+角色用UnityChan 现成的资源,包括模型和动作.
 
     受伤@
     卧倒起立
@@ -20,8 +26,7 @@
     站立
 
 
-## 功能TODO
-
+## 功能点TODO
 
 0. 角色控制
     * 动画状态机
@@ -53,15 +58,53 @@
     * 场景内容
 
 
+## 系统设计
 
-## 跑道规格
-
-Brige_Length 3*7.5
-Ground_End   4.5*3.75
-Ground_Start 4.5*3.75
-Ground_Middle_Short_B 4.5*3.75
+### 跑道设计思路
 
 
+- 每个跑酷关卡含有一个`Track`
+- 每个`Track`由若干个段落组成`RoadSection`
+- `RoadSection`又由若干个`Block`组成
+
+> Block是跑道的最小单位,一个Block的标准长度是 `3.75` 或者是 `7.5` ,宽度可能是1-3个道.存在空的Block,其长度也为`3.75`
+
+
+* Track
+    * RoadSection1
+        * Block1
+        * Block2
+        * ...
+    * RoadSection2
+    * RoadSection3
+    * RoadSection4
+    * ...
+
+`RoadSection`通过`RoadSectionData`来生成具体的段落.
+
+`RoadSectionData`由`命令(SpawnBlockCommand)`列表构成.一个生产命令会产生若干个Block.一个RoadSection只会有一个RoadSectionData.
+RoadSection在生成的时候会有一些细小的随机过程.每个Block实例在细节上也不尽相同.
+
+
+整个Track的结构就是这样.在生产管卡Track的时候,关卡根据自身的Track配置,从一组RoadSectionData中随机选择Data来生成Section.
+
+
+Track又分为无尽Track和有限Track
+
+- 有限Track需要额外配置 `StartSection` 和`EndSection`.
+- 无尽Track不需要`EndSection`
+
+
+关卡内容的制作主要是配置`RoadSectionData`
+
+
+### 道具系统
+
+
+### 障碍系统
+
+
+### 计分系统
 
 
 

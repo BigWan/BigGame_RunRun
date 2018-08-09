@@ -20,7 +20,7 @@ namespace RunRun {
 
 	[RequireComponent(typeof (Animator))]
 	// [RequireComponent(typeof(ChanSpeedController))]
-	[RequireComponent(typeof(SphereCollider))]
+	[RequireComponent(typeof(CapsuleCollider))]
 	public class ChanController : MonoBehaviour {
 
 		public HpChange hpChange;
@@ -33,23 +33,6 @@ namespace RunRun {
                 hpChange?.Invoke(_hp, delta);
             }
 		}
-
-        /// <summary>
-        /// 此贴标记
-        /// </summary>
-        [SerializeField]
-        private bool _hasMagnet;
-
-        public bool hasMagnet {
-            get { return _hasMagnet; }
-            set {
-                _hasMagnet = value;
-                if (_hasMagnet)
-                    sphereCollider.radius = 3f;
-                else
-                    sphereCollider.radius = 0.5f;
-            }
-        }
 
 
 		private TrackSide _side;
@@ -131,7 +114,9 @@ namespace RunRun {
 		private SpringManager spring;
 		private RandomWind wind;
 		private IKLookAt lookat;
-        private SphereCollider sphereCollider;
+        private CapsuleCollider capsuleCollider;
+
+        public ItemCollector collector;
 		// private ChanSpeedController spdCon;
 
 		public void TriggerDamage () {
@@ -164,9 +149,15 @@ namespace RunRun {
 			get { return animator.GetCurrentAnimatorStateInfo (2); }
 		}
 		#endregion
+
+
 		private void Awake () {
 			animator = GetComponent<Animator> ();
-            sphereCollider = GetComponent<SphereCollider>();
+            capsuleCollider = GetComponent<CapsuleCollider>();
+
+                
+
+
             side = TrackSide.Center;
 			a_moveSpeedMultiple = startSpeedMultiple;
 			hp = 0;
@@ -178,7 +169,11 @@ namespace RunRun {
 
 		private void RegEventReg(){
 			SpeedController.Instance.VelocityChange += OnVelocityChange;
-		}
+
+            collector.EatCoin += OnEatCoin;
+        }
+
+
 
 		private void Update () {
 			// if (a_running)
@@ -206,15 +201,13 @@ namespace RunRun {
 				TurnRight();
 			}
 
-            if (Input.GetKeyDown(KeyCode.I)) {
-                hasMagnet = !hasMagnet;
-            }
+
 		}
 
 		public void StartRun () {
 			if (bodyStat.IsName ("Standing@loop") || bodyStat.IsName ("DownToUp")) {
 				a_running = true;
-				SpeedController.Instance.SpeedTo (6.5f);
+				SpeedController.Instance.SpeedTo (3f);
 				// StartCoroutine(AccelerateFoward());
 			}
 		}
@@ -224,8 +217,8 @@ namespace RunRun {
 			// 	transform.Translate (Vector3.forward * Time.fixedDeltaTime * SpeedController.Instance.currentVelocity);
 			// }
 
-			float th = animator.GetFloat("CV_Jump");
-			sphereCollider.radius = th;
+			//float th = animator.GetFloat("CV_Jump");
+			//sphereCollider.radius = th;
 			// transform.localPosition = new Vector3(th,transform.localPosition.y,transform.localPosition.z);
 		}
 
@@ -311,37 +304,21 @@ namespace RunRun {
 			}
 		}
 
-		private void OnTriggerEnter(Collider other) {
-			if(other.tag.CompareTo("_Item")==0){
-				TriggerItem(other.GetComponent<Item>());
-			}
-			if(other.tag.CompareTo("_Obstacle")==0){
-				TriggerObstacle(other.GetComponent<Obstacle>());
-			}
 
-		}
 
-		void TriggerItem(Item i){
-            Debug.Log("吃到金币了");
-			i.StartDisappear();
-		}
 		void TriggerObstacle(Obstacle o){
 			Debug.Log("碰到障碍了");
 			TriggerDamage();
 			hp -= o.damage;
 		}
 
-		private void OnCollisionEnter(Collision other) {
-            if (other.gameObject.tag == "_Track") {
-                animator.SetBool("onGround", true);
-            }
-		}
 
-        private void OnCollisionExit(Collision collision) {
-            if(collision.gameObject.tag == "_Track") {
-                animator.SetBool("onGround", false);
-            }
+        public int coinCount = 0;
+        void OnEatCoin() {
+            coinCount++;
+            Debug.Log("EatCoin");
         }
+
 
 		/// <summary>
 		/// Jumping@loop  Animation Event

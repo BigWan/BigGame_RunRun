@@ -15,13 +15,7 @@ namespace RunRun {
 		public int golds;
 
 				
-		protected new IEnumerator DisappearCoroutine(){
-			WaitForSeconds delay = new WaitForSeconds(dieDelay/30);
-			for (int i = 0; i < 30; i++) {
-				yield return delay;
-				transform.localScale = Vector3.one * (30-i)*0.03f;
-			}
-		}
+
 
 	}
 }
