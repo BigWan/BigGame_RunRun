@@ -148,8 +148,17 @@ namespace RunRun {
 		private AnimatorStateInfo faceStat {
 			get { return animator.GetCurrentAnimatorStateInfo (2); }
 		}
-		#endregion
+        #endregion
 
+
+
+        public AnimationClip[] idClips;
+        public void RandomIdle() {
+            if (Random.value > 0.5f) {
+                int index = UnityEngine.Random.Range(0, idClips.Length);
+                animator.CrossFade(idClips[index].name, 0.15f);
+            }
+        }
 
 		private void Awake () {
 			animator = GetComponent<Animator> ();
@@ -201,6 +210,10 @@ namespace RunRun {
 				TurnRight();
 			}
 
+
+            if (Input.GetMouseButtonDown(0)) {
+                RandomIdle();
+            }
 
 		}
 

@@ -17,7 +17,6 @@ namespace RunRun {
         [SerializeField]
         private RoadSectionData data;
 
-        [SerializeField]
         private float length;
 
         public void SetData(RoadSectionData data) {
@@ -175,7 +174,7 @@ namespace RunRun {
             col.size = new Vector3(col.size.x, col.size.y, length);
         }
 
-
+#if UNITY_EDITOR
         private void OnGUI() {           
 
             if(GUI.Button(new Rect(530, 30, 100, 50),new GUIContent("执行"))) {
@@ -186,6 +185,7 @@ namespace RunRun {
                 ExecuteStep(0);
             }
         }
+#endif
 
 
         public void SelfDestroy() {

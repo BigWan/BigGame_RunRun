@@ -8,17 +8,24 @@ public class FaceManager : MonoBehaviour {
 
 	Animator animator;
 
-	void Start (){
-		animator = GetComponent<Animator> ();
-	}
+    private int count;
 
-	// 随机改变标签
-	void RandomChangeFace(){
-		animator.CrossFade(animations[Random.Range(0,animations.Length)].name,0);
+    private void Awake() {
+		animator = GetComponent<Animator> ();
+        count = animations.Length;
+    }
+
+    // 随机改变标签
+    void RandomChangeFace(){
+        int index = Random.Range(0, count);
+        AnimationClip animation = animations[index];
+
+        animator.CrossFade(animation.name,0);
 	}
 
 	void Update(){
-		if (Input.GetKeyDown(KeyCode.Z)) {
+
+		if (Input.GetMouseButtonDown(0)) {
 			RandomChangeFace();
 		}
 	}
