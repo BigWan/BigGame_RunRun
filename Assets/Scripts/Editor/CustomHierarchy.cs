@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using UnityEditor;
+using UnityEngine.UI;
 using System.Linq;
 using System;
 
@@ -19,6 +20,7 @@ public static class CustomHierarchy {
     /// 构造器
     /// </summary>
     static CustomHierarchy() {
+        
         EditorApplication.hierarchyWindowItemOnGUI += HierarchWindowOnGui;
     }
 
@@ -65,6 +67,7 @@ public static class CustomHierarchy {
             DrawIcon<T>(rect);
         }
     }
+
     // 绘制Hiercrch 
     static void HierarchWindowOnGui(int instanceId, Rect selectionRect) {
         if (!EnableCustomHierarchy) return;
@@ -139,6 +142,11 @@ public static class CustomHierarchy {
             // Audio 
             DrawRectIcon<AudioSource>(selectionRect, go, colorAudio, ref index, ref style);
             // 绘制Label来覆盖原有的名字 
+
+            DrawRectIcon<GridLayoutGroup>(selectionRect, go, Color.red,ref index, ref style);
+            DrawRectIcon<HorizontalLayoutGroup>(selectionRect, go, Color.red,ref index, ref style);
+            DrawRectIcon<VerticalLayoutGroup>(selectionRect, go, Color.red,ref index, ref style);
+
             if (style != null && go.activeInHierarchy) {
                 GUI.Label(selectionRect, go.name, style);
             }
