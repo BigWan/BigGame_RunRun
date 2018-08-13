@@ -9,7 +9,7 @@ namespace RunRun {
 		public float smooth;
 		private void Update() {
 
-			transform.localPosition = Vector3.Lerp(transform.localPosition,follow.localPosition + followV,Time.deltaTime*smooth);
+            transform.localPosition = follow.localPosition + followV;// Vector3.Lerp(transform.localPosition,follow.localPosition + followV,Time.deltaTime*smooth);
 		}
 
 

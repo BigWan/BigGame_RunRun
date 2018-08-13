@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityChan;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 namespace RunRun {
 
@@ -152,29 +154,19 @@ namespace RunRun {
 
 
 
-        public AnimationClip[] idClips;
-        public void RandomIdle() {
-            if (Random.value > 0.5f) {
-                int index = UnityEngine.Random.Range(0, idClips.Length);
-                animator.CrossFade(idClips[index].name, 0.15f);
-            }
-        }
+       
 
 		private void Awake () {
 			animator = GetComponent<Animator> ();
             capsuleCollider = GetComponent<CapsuleCollider>();
 
-                
-
-
             side = TrackSide.Center;
 			a_moveSpeedMultiple = startSpeedMultiple;
 			hp = 0;
-		}
 
-		private void Start(){
-			RegEventReg();
-		}
+            RegEventReg();
+        }
+
 
 		private void RegEventReg(){
 			SpeedController.Instance.VelocityChange += OnVelocityChange;
@@ -211,29 +203,43 @@ namespace RunRun {
 			}
 
 
-            if (Input.GetMouseButtonDown(0)) {
-                RandomIdle();
-            }
+ 
+
+
+           
 
 		}
 
+
+        public Vector3 currentDirection;
+        
+
+        // 移动
+        void MoveControl() {
+            transform.Translate(currentDirection.normalized * SpeedController.Instance.currentVelocity * Time.fixedDeltaTime);
+        }
+
+
+
+        public float startSpeed;
 		public void StartRun () {
 			if (bodyStat.IsName ("Standing@loop") || bodyStat.IsName ("DownToUp")) {
 				a_running = true;
-				SpeedController.Instance.SpeedTo (3f);
+				SpeedController.Instance.SpeedTo (startSpeed);
 				// StartCoroutine(AccelerateFoward());
 			}
 		}
 
 		private void FixedUpdate () {
-			// if (a_running) {
-			// 	transform.Translate (Vector3.forward * Time.fixedDeltaTime * SpeedController.Instance.currentVelocity);
-			// }
-
-			//float th = animator.GetFloat("CV_Jump");
-			//sphereCollider.radius = th;
-			// transform.localPosition = new Vector3(th,transform.localPosition.y,transform.localPosition.z);
-		}
+            // if (a_running) {
+            // 	transform.Translate (Vector3.forward * Time.fixedDeltaTime * SpeedController.Instance.currentVelocity);
+            // }
+            if(a_running)
+                MoveControl();
+            //float th = animator.GetFloat("CV_Jump");
+            //sphereCollider.radius = th;
+            // transform.localPosition = new Vector3(th,transform.localPosition.y,transform.localPosition.z);
+        }
 
 		public void SpeedUp () {
 			if (a_running) {
@@ -262,7 +268,6 @@ namespace RunRun {
 		}
 
 
-
 		/// <summary>
 		/// 变换跑道
 		/// </summary>
@@ -276,7 +281,7 @@ namespace RunRun {
 		/// <param name="spd">速度值</param>
 		private void OnVelocityChange(float spd){
 			Debug.Log("SpeedChange");
-			if(spd>2) {
+			if(spd > 2) {
 				a_blendMovement = 1.0f;
 				a_moveSpeedMultiple = spd/8f+1f;
 			}else{

@@ -19,7 +19,7 @@ public class HierarchySeparator : MonoBehaviour {
     public void SetName() {
         int fillLength = length - sepName.Length-15;
         string fillString = new string(fillChar, fillLength );
-        gameObject.name = new string(fillChar, 15) + sepName + fillString;
+        gameObject.name = new string(fillChar, 8) + sepName + fillString;
     }
 
     public void SetAllName() {

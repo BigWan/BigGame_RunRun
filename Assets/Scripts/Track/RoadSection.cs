@@ -17,7 +17,10 @@ namespace RunRun {
         [SerializeField]
         private RoadSectionData data;
 
+        [SerializeField]
         private float length;
+
+        private EndTriggerSpawner endSpawner;
 
         public void SetData(RoadSectionData data) {
             this.data = data;
@@ -54,7 +57,14 @@ namespace RunRun {
 
         private void Awake() {
             col = GetComponent<BoxCollider>();
+            endSpawner = GetComponent<EndTriggerSpawner>();
         }
+
+        public void SpawnEnd(float z) {
+            endSpawner.SetEndPositionAndRoation(currentPosition,currentRotation);
+            endSpawner.SpawnEnd();
+        }
+
 
         /// <summary>
         /// 手动初始化

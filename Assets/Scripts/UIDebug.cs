@@ -5,6 +5,7 @@ using UnityEngine;
 public class UIDebug : MonoBehaviour {
 
     public bool isDebug;
+    public bool onlayRayCastTarget;
 
     Vector3[] fourCorners = new Vector3[4];
     RectTransform[] rts;
@@ -14,7 +15,8 @@ public class UIDebug : MonoBehaviour {
         
         rts = GetComponentsInChildren<RectTransform>();
 
-        foreach (var rt in rts) {            
+        foreach (var rt in rts) {
+
             rt.GetWorldCorners(fourCorners);
             Gizmos.color = Color.blue;
             for (int i = 0; i < 4; i++) {                

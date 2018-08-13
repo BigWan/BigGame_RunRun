@@ -2033,7 +2033,6 @@ GameObject:
   - component: {fileID: 114634374919448884}
   - component: {fileID: 11400084}
   - component: {fileID: 11400088}
-  - component: {fileID: 11419662}
   - component: {fileID: 114055185187686794}
   - component: {fileID: 54431854989438138}
   - component: {fileID: 136934074117563906}
@@ -4021,8 +4020,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100264}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400262}
@@ -4891,7 +4890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6514ba86f976d724ab63844a6015b2aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dynamicRatio: 1
+  dynamicRatio: 0.5
   stiffnessForce: 0.01
   stiffnessCurve:
     serializedVersion: 2
@@ -5007,25 +5006,6 @@ MonoBehaviour:
   interval: 5
   windPower: 1
   gravity: 0.98
-  isGUI: 0
---- !u!114 &11419662
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75453f0413251fd42811d1b1eb4728c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ikActive: 0
-  lookAtObj: {fileID: 0}
-  lookAtWeight: 1
-  bodyWeight: 0.3
-  headWeight: 0.8
-  eyesWeight: 1
-  clampWeight: 0.5
   isGUI: 0
 --- !u!137 &13700000
 SkinnedMeshRenderer:
@@ -5548,10 +5528,8 @@ MonoBehaviour:
   _fail: 0
   _falling: 0
   collector: {fileID: 114040069983822798}
-  idClips:
-  - {fileID: 7400018, guid: f320efa63ce12874a9ad50add869c0b5, type: 3}
-  - {fileID: 7400014, guid: f320efa63ce12874a9ad50add869c0b5, type: 3}
-  - {fileID: 7400006, guid: f320efa63ce12874a9ad50add869c0b5, type: 3}
+  currentDirection: {x: 0, y: 0, z: 1}
+  startSpeed: 5
   coinCount: 0
 --- !u!114 &114634374919448884
 MonoBehaviour:

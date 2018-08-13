@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4488333650811676}
   - component: {fileID: 114984229750344306}
   - component: {fileID: 65138276531218548}
+  - component: {fileID: 114540415067164474}
   m_Layer: 0
   m_Name: RoadSection
   m_TagString: _Section
@@ -53,6 +54,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114540415067164474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1492510545156326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712c55a0239324946a99d8e6212f1128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnd: 0
+  endTriggerPerfab: {fileID: 114953572391285222, guid: 582a55a3876bea64495d97f9314bd707,
+    type: 2}
 --- !u!114 &114984229750344306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -65,4 +80,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 0}
-  length: 0

@@ -158,6 +158,7 @@ namespace RunRun {
 			SetCurrentVelocity (0, true);
 		}
 
+
 		/// <summary>
 		/// 使当前速度值可以被改变
 		/// </summary>
