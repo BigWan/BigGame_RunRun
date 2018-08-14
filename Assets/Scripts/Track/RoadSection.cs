@@ -38,11 +38,11 @@ namespace RunRun {
         private List<Block> blocks;
 
         /// <summary>
-        /// 当前生产点的位置和旋转
+        /// Block结尾的Plug位置和朝向
         /// </summary>
-        private Vector3 currentPosition;
+        private Vector3 endPlugLocalPosition;
 
-        private Quaternion currentRotation;
+        private Quaternion endPlugLocalRotation = Quaternion.identity;
 
         /// <summary>
         /// 跑道已经生产完毕
@@ -61,7 +61,7 @@ namespace RunRun {
         }
 
         public void SpawnEnd(float z) {
-            endSpawner.SetEndPositionAndRoation(currentPosition,currentRotation);
+            endSpawner.SetEndPositionAndRoation(endPlugLocalPosition,endPlugLocalRotation);
             endSpawner.SpawnEnd();
         }
 
@@ -78,8 +78,8 @@ namespace RunRun {
 
 
             blocks = new List<Block>();
-            currentPosition = Vector3.zero;
-            currentRotation = Quaternion.identity;
+            endPlugLocalPosition = Vector3.zero;
+            endPlugLocalRotation = Quaternion.identity;
             isFinished = false;
             executeStepIndex = 0;
             col.center = Vector3.Scale(col.center, new Vector3(1, 1, 0));
@@ -95,11 +95,11 @@ namespace RunRun {
         }
 
         public Vector3 getEndPosition() {
-            return currentPosition;
+            return endPlugLocalPosition;
         }
 
         public Quaternion getEndRoation() {
-            return currentRotation;
+            return endPlugLocalRotation;
         }
 
         /// <summary>
@@ -150,11 +150,11 @@ namespace RunRun {
                     Block blockInstant = Instantiate(rndBlock) as Block;
 
                     // 设置Block参数
-                    blockInstant.transform.SetParent(transform);                   
-                    blockInstant.transform.localRotation = currentRotation * blockInstant.exitPlugs[0].getRotation(); //TODO:没有考虑多出口的情况
-                    currentRotation = blockInstant.transform.localRotation;
-                    blockInstant.transform.localPosition = currentPosition;
-                    currentPosition += currentRotation * blockInstant.exitPlugs[0].transform.localPosition;
+                    blockInstant.transform.SetParent(transform);
+                    blockInstant.transform.localRotation = endPlugLocalRotation;// * blockInstant.exitPlugs[0].getRotation(); //TODO:没有考虑多出口的情况
+                    endPlugLocalRotation =  blockInstant.exitPlugs[0].getRotation() * endPlugLocalRotation;
+                    blockInstant.transform.localPosition = endPlugLocalPosition;
+                    endPlugLocalPosition += blockInstant.transform.localRotation * blockInstant.exitPlugs[0].transform.localPosition;
 
                     if (Random.value < coinRate)
                         blockInstant.SpawnCoin();

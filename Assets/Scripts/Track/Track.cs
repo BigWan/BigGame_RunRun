@@ -58,7 +58,9 @@ namespace RunRun {
         /// </summary>
         private List<RoadSection> sections;
 
+        [SerializeField]
         private Vector3 currentPosition;
+        [SerializeField]
         private Quaternion currentRotation;
 
         private void Awake() {
@@ -107,9 +109,8 @@ namespace RunRun {
                 section.SpawnEnd(endpos.z);
             }
 
-
-            currentPosition = section.transform.localPosition + section.getEndPosition();
             currentRotation = section.transform.localRotation * section.getEndRoation();
+            currentPosition = section.transform.localPosition + section.getEndRoation() * section.getEndPosition();
 
             currentLength += section.getLength();
         }
