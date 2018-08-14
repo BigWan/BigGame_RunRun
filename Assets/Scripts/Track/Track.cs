@@ -13,7 +13,6 @@ namespace RunRun {
     public class Track : UnitySingleton<Track> {
 
         [Header("Section Data")]
-
         /// <summary>
         /// 当前track的section配置表集合
         /// </summary>
@@ -27,11 +26,8 @@ namespace RunRun {
             endData;
 
 
-
-
         [Header("Prefab Ref")]
         public RoadSection sectionPrefab;
-
 
         [Header("Config")]
         /// <summary>
@@ -51,17 +47,22 @@ namespace RunRun {
         public float currentLength;
 
 
-
-
         /// <summary>
         /// 段落
         /// </summary>
         private List<RoadSection> sections;
 
+        /// <summary>
+        /// 当前结束点的位置
+        /// </summary>
+        [SerializeField]        
+        private Vector3 currentEndLocalPosition;
+
+        /// <summary>
+        /// 当前结束点的旋转
+        /// </summary>
         [SerializeField]
-        private Vector3 currentPosition;
-        [SerializeField]
-        private Quaternion currentRotation;
+        private Quaternion currentEndLocalRotation;
 
         private void Awake() {
             Init();
@@ -91,16 +92,17 @@ namespace RunRun {
                 sections.Clear();
             }
             currentLength = 0;
+            currentEndLocalPosition = Vector3.zero;
+            currentEndLocalRotation = Quaternion.identity;
         }
-
+        
 
 
         void SpawnOneSection(RoadSectionData data,float coinRate = 0,bool isEnd = false) {
             RoadSection section = Instantiate<RoadSection>(sectionPrefab) as RoadSection;
-            section.SetData(data);
             section.transform.SetParent(transform);
-            section.transform.localPosition = currentPosition;
-            section.transform.localRotation = currentRotation;
+            section.SetData(data,currentEndLocalPosition,currentEndLocalRotation);
+
             section.Execute(coinRate);
 
             Vector3 endpos = (maxLength - currentLength) * new Vector3(0, 0, 1);
@@ -109,10 +111,10 @@ namespace RunRun {
                 section.SpawnEnd(endpos.z);
             }
 
-            currentRotation = section.transform.localRotation * section.getEndRoation();
-            currentPosition = section.transform.localPosition + section.getEndRoation() * section.getEndPosition();
+            currentEndLocalRotation = section.selfRotation * section.localYaw;
+            currentEndLocalPosition = section.startPosition + section.offset;
 
-            currentLength += section.getLength();
+            currentLength += section.GetLength();
         }
 
 

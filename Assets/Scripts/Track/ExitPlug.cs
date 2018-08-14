@@ -117,13 +117,19 @@ namespace RunRun {
         }
 
 
-        public Quaternion getRotation() {
-            if (plugDirection == PlugDirection.Left) {
-                return Quaternion.Euler(0, -90, 0);
-            }else if(plugDirection == PlugDirection.Right) {
-                return Quaternion.Euler(0, 90, 0);
-            } else {
-                return Quaternion.identity;
+        /// <summary>
+        /// 返回改变的旋转值,左转,右转分别改变90°
+        /// </summary>
+        /// <returns></returns>
+        public Quaternion localYaw {
+            get {
+                if (plugDirection == PlugDirection.Left) {
+                    return Quaternion.Euler(0, -90, 0);
+                } else if (plugDirection == PlugDirection.Right) {
+                    return Quaternion.Euler(0, 90, 0);
+                } else {
+                    return Quaternion.identity;
+                }
             }
         }
 

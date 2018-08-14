@@ -22,9 +22,7 @@ namespace RunRun {
 
         private EndTriggerSpawner endSpawner;
 
-        public void SetData(RoadSectionData data) {
-            this.data = data;
-        }
+
 
 
         List<SpawnBlockCommand> commands {
@@ -37,13 +35,37 @@ namespace RunRun {
 
         private List<Block> blocks;
 
+
+
+
         /// <summary>
-        /// Block结尾的Plug位置和朝向
+        /// 起点的世界坐标
         /// </summary>
-        private Vector3 endPlugLocalPosition;
+        public Vector3 startPosition;
 
-        private Quaternion endPlugLocalRotation = Quaternion.identity;
+        /// <summary>
+        /// 终点的本地坐标
+        /// </summary>
+        public Vector3 offset;
 
+        
+
+        /// <summary>
+        /// Section 本身的旋转
+        /// </summary>
+        public Quaternion selfRotation;
+
+        /// <summary>
+        /// 终点的相对Section本身的偏转
+        /// </summary>
+        public Quaternion localYaw;
+
+        public Vector3 startEuler, endEuler;
+
+        private void Update() {
+            startEuler = selfRotation.eulerAngles;
+            endEuler = localYaw.eulerAngles;
+        }
         /// <summary>
         /// 跑道已经生产完毕
         /// </summary>
@@ -58,13 +80,25 @@ namespace RunRun {
         private void Awake() {
             col = GetComponent<BoxCollider>();
             endSpawner = GetComponent<EndTriggerSpawner>();
+            Init();
+        }
+
+
+
+        public void SetData(RoadSectionData data,Vector3 startPosition, Quaternion startRotation) {
+            this.data = data;
+            this.startPosition = startPosition;
+            this.selfRotation = startRotation;
+            transform.localPosition = this.startPosition;
+            transform.localRotation = this.selfRotation;
         }
 
         public void SpawnEnd(float z) {
-            endSpawner.SetEndPositionAndRoation(endPlugLocalPosition,endPlugLocalRotation);
+            endSpawner.SetEndPositionAndRoation(offset,localYaw);
             endSpawner.SpawnEnd();
         }
 
+        
 
         /// <summary>
         /// 手动初始化
@@ -75,17 +109,16 @@ namespace RunRun {
                     DestroyImmediate (b.gameObject);
                 }
             }
-
+            offset = Vector3.zero;
+            localYaw = Quaternion.identity;
 
             blocks = new List<Block>();
-            endPlugLocalPosition = Vector3.zero;
-            endPlugLocalRotation = Quaternion.identity;
             isFinished = false;
             executeStepIndex = 0;
             col.center = Vector3.Scale(col.center, new Vector3(1, 1, 0));
         }
 
-        public float getLength() {
+        public float GetLength() {
             float length = 0;
             foreach (var block in blocks) {
                 length += block.length;
@@ -94,29 +127,34 @@ namespace RunRun {
             return length;
         }
 
-        public Vector3 getEndPosition() {
-            return endPlugLocalPosition;
-        }
+        //public Vector3 GetEndPosition() {
+        //    return endLocalPosition;
+        //}
 
-        public Quaternion getEndRoation() {
-            return endPlugLocalRotation;
-        }
+        //public Quaternion GetEndRoation() {
+        //    return endRotationChange;
+        //}
 
         /// <summary>
         /// 执行命令列表
         /// </summary>
-        public void Execute(float coinRate = 0f) {
+        public (Vector3,Quaternion) Execute(float coinRate = 0f) {
+
             if (isFinished) Init();
+
             if (commands == null || commands.Count <= 0) {
                 Debug.LogError("命令队列为空，无法执行",transform);
-                return;
+                return(Vector3.zero, Quaternion.identity);
             }
 
             for (int i = 0; i < commands.Count; i++) {
                 ExecuteCommand(commands[i],coinRate);
             }
+
             isFinished = true;
             SetBoxTrigger();
+
+            return (offset, localYaw);
         }
 
         
@@ -131,7 +169,8 @@ namespace RunRun {
                 Debug.LogError("命令队列为空，无法执行",transform);
                 return;
             }
-            if(executeStepIndex<commands.Count)
+
+            if(executeStepIndex < commands.Count)
                 ExecuteCommand(commands[executeStepIndex++],coinRate);
             else {
                 isFinished = true;
@@ -151,10 +190,13 @@ namespace RunRun {
 
                     // 设置Block参数
                     blockInstant.transform.SetParent(transform);
-                    blockInstant.transform.localRotation = endPlugLocalRotation;// * blockInstant.exitPlugs[0].getRotation(); //TODO:没有考虑多出口的情况
-                    endPlugLocalRotation =  blockInstant.exitPlugs[0].getRotation() * endPlugLocalRotation;
-                    blockInstant.transform.localPosition = endPlugLocalPosition;
-                    endPlugLocalPosition += blockInstant.transform.localRotation * blockInstant.exitPlugs[0].transform.localPosition;
+
+                    blockInstant.transform.localPosition = offset;
+
+                    blockInstant.transform.localRotation = localYaw; // * blockInstant.exitPlugs[0].getRotation(); //TODO:没有考虑多出口的情况
+
+                    localYaw =  blockInstant.localYaw * localYaw;
+                    offset = offset + blockInstant.transform.localRotation * blockInstant.exitPlugs[0].transform.localPosition;
 
                     if (Random.value < coinRate)
                         blockInstant.SpawnCoin();
@@ -179,10 +221,12 @@ namespace RunRun {
         /// 设置section的触发器
         /// </summary>
         void SetBoxTrigger() {
-            getLength();
+            GetLength();
             col.center = new Vector3(col.center.x, col.center.y, length*0.5f);
             col.size = new Vector3(col.size.x, col.size.y, length);
         }
+
+       
 
 //#if UNITY_EDITOR
 //        private void OnGUI() {           

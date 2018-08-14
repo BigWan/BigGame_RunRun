@@ -15,16 +15,9 @@ namespace RunRun {
 		/// </summary>
 		public float length;
 
-        ///// <summary>
-        ///// 该Block是否变道
-        ///// </summary>
-        //public bool isTurn;
-
         public CoinSpawner coinSpawnerPrefab;
 
-
-        [Space(30)]
-        
+        [Space(30)]        
         /// <summary>
         /// 入口接口
         /// </summary>
@@ -36,49 +29,36 @@ namespace RunRun {
         public ExitPlug[] exitPlugs;
 
 
+
+        /// 本地点和本地旋转
+
+        public Vector3 localPosition;
+        public Quaternion localRotation;
+
+
+        /// 位置偏移
+        public Vector3 offset {
+            get {
+                return exitPlugs[0].transform.localPosition;
+            }
+        }
+        
         /// <summary>
-        /// 生成出来的块
+        /// 偏转角
         /// </summary>
-        //private List<Block> spawnedList = new List<Block>();
+        public Quaternion localYaw {
+            get {
+                return exitPlugs[0].localYaw;
+            }
+        }
+
+
 
         /// <summary>
         /// 是否被用过
         /// </summary>
         public bool hasUsed;
 
-
-        
-
-        ///// <summary>
-        ///// 是否完全生成
-        ///// </summary>
-        //public bool hasFullySpawned {
-        //    get {
-        //        foreach (var plug in exitPlugs) {
-        //            if (!plug.hasSpawned)
-        //                return false;
-        //        }
-        //        return true;
-        //    }
-        //}
-
-
-
-        ///// <summary>
-        ///// 在连接点生成块
-        ///// </summary>
-        //public List<Block> SpawnNextPlug(Transform parent) {
-        //    if (spawnedList.Count > 0) {
-        //        Debug.Log("spawnedList 已经有数据了额", transform);
-        //        return null;
-        //    }
-        //    foreach (var plug in exitPlugs) {
-        //        Block newb = plug.SpawnNextBlock(transform.localRotation);
-        //        newb.transform.SetParent(parent);
-        //        spawnedList.Add(newb);
-        //    }
-        //    return spawnedList;
-        //}
 
         public void SpawnCoin() {
             CoinSpawner spawner = Instantiate(coinSpawnerPrefab) as CoinSpawner;
