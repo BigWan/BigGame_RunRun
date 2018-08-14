@@ -39,7 +39,7 @@ namespace RunRun {
         /// <summary>
         /// 生成出来的块
         /// </summary>
-        private List<Block> spawnedList = new List<Block>();
+        //private List<Block> spawnedList = new List<Block>();
 
         /// <summary>
         /// 是否被用过

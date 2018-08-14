@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RunRun {
 
@@ -13,13 +14,21 @@ namespace RunRun {
 
     public delegate void VelocityChangeHandler (float spd);
 
+
+
     /// <summary>
     /// 控制速度值的起步，加速，减速
     /// </summary>
     public class SpeedController : UnitySingleton<SpeedController> {
 
+        /// <summary>
+        /// 起步速度
+        /// </summary>
+        public int startSpeed;
 
+        public float lastSpeed;
 
+        public UnityEvent OnStop;
 
 		/// <summary>
 		/// 速度改变的委托
@@ -50,9 +59,10 @@ namespace RunRun {
 		public float currentVelocity {
 			get { return _currentVelocity; }
 			set {
-				_currentVelocity = value;
-				if (VelocityChange != null)
-					VelocityChange.Invoke (value);
+                if (_currentVelocity != value) {
+                    _currentVelocity = value;
+                    VelocityChange?.Invoke(value);
+                }
 			}
 		}
 
@@ -78,7 +88,7 @@ namespace RunRun {
 		/// 标准加速时间
 		/// </summary>
 		[SerializeField]
-		private float _standardAccelerateTime = 0.5f;
+		private float _standardAccelerateTime = 0.25f;
 
 		/// <summary>
 		/// 是否锁住速度改变
@@ -93,6 +103,7 @@ namespace RunRun {
 			if (_lockVelocity) {
                 if (currentVelocity == 0) { 
                     motionStat = MotionStat.Stop;
+                    OnStop?.Invoke();
                 } else {
                     motionStat = MotionStat.Moveing;
                 }
@@ -142,6 +153,11 @@ namespace RunRun {
 			_lockVelocity = false;
 		}
 
+
+        public void StartMotion() {
+            SpeedTo(startSpeed);
+        }
+
 		/// <summary>
 		/// 设置目标速度
 		/// </summary>
@@ -151,10 +167,15 @@ namespace RunRun {
 			_targetVelocity = target;
 		}
 
+        public void SpeedBack() {
+            SpeedTo(lastSpeed);
+        }
+
 		/// <summary>
 		/// 保留目标速度，把当前速度设置为0，并锁定。
 		/// </summary>
 		public void Stop () {
+            lastSpeed = currentVelocity;
 			SetCurrentVelocity (0, true);
 		}
 

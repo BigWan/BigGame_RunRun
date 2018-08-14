@@ -21,34 +21,57 @@ namespace RunRun {
 	public delegate void HpChange(int current,int delta);
 
 	[RequireComponent(typeof (Animator))]
-	// [RequireComponent(typeof(ChanSpeedController))]
 	[RequireComponent(typeof(CapsuleCollider))]
 	public class ChanController : MonoBehaviour {
 
-		public HpChange hpChange;
-		private int _hp;
-		private int hp{
-			get{return _hp;}
-			set{
-				int delta = value - _hp;
-				_hp = value;
+        [Header("HP")]
+        [SerializeField]
+        private int _hp;        
+        public int hp {
+            get{ return _hp; }
+            set{
+                int delta = value - _hp;
+                _hp = value;
                 hpChange?.Invoke(_hp, delta);
             }
-		}
+        }
 
 
-		private TrackSide _side;
-		private TrackSide side{
-			get{return _side;}
-			set{
-				_side = value;
-				transform.localPosition = new Vector3((int)side*1f,transform.localPosition.y,transform.localPosition.z);
-			}
-		}
+        [Header("移动的距离")]
+        [SerializeField]
+        private float _moveDistance;
+        public float moveDistance {
+            get { return _moveDistance; }
+            set {
+                _moveDistance = value;
+            }
+        }
 
-		public float startSpeedMultiple = 1.5f;
+        [Header("当前前进方向")]
+        public Vector3 currentDirection;
 
-		[Header ("动画状态机相关参数")]
+        [Header("金币数量")]
+        public int coinCount = 0;
+
+        private TrackSide _side;
+        public TrackSide side {
+            get { return _side; }
+            set {
+                _side = value;
+                transform.localPosition = new Vector3((int)side * 1f, transform.localPosition.y, transform.localPosition.z);
+            }
+        }
+
+        [Header("Refs")]
+        public ItemCollector collector;
+
+
+        [Header("Animator 参数")]
+        public float startSpeedMultiple = 1.5f;
+
+
+        #region 动画状态机参数
+        [Header ("动画状态机相关参数")]
 		// 动画状态机参数封装
 		[SerializeField]
 		private float _moveSpeedMultiple;
@@ -109,35 +132,54 @@ namespace RunRun {
 				animator.SetBool ("falling", a_falling);
 			}
 		}
+        #endregion
+        
 
-		// componets
-		private Animator animator;
+
+        // componets
+        private Animator animator;
 		private FaceManager face;
 		private SpringManager spring;
 		private RandomWind wind;
 		private IKLookAt lookat;
         private CapsuleCollider capsuleCollider;
 
-        public ItemCollector collector;
-		// private ChanSpeedController spdCon;
-
-		public void TriggerDamage () {
-			animator.SetTrigger ("trigDamaged");
-		}
-		public void TriggerGetDown () {
-			animator.SetTrigger ("trigGetDown");
-			a_running = false;
-			SpeedController.Instance.Stop ();
-		}
-		public void TriggerJump () {
-			animator.SetTrigger ("trigJump");
-		}
-
-		// animationstat
 
 
-		#region  动画状态机Layer的get
-		private AnimatorStateInfo bodyStat {
+        // Flags
+        private bool canJump = true;
+        private bool canChangeSide = true;
+
+        // event
+        public HpChange hpChange;
+
+
+        void Awake() {
+            animator = GetComponent<Animator>();
+            capsuleCollider = GetComponent<CapsuleCollider>();
+
+            side = TrackSide.Center;
+            a_moveSpeedMultiple = startSpeedMultiple;
+            hp = 0;
+
+            LevelManager.Instance.OnWinGame.AddListener(WinGame);
+
+            RegEventReg();
+        }
+
+        void RegEventReg() {
+            SpeedController.Instance.VelocityChange += OnVelocityChange;
+
+            SpeedController.Instance.OnStop.AddListener(OnStop);
+
+
+            collector.EatCoin += OnEatCoin;
+        }
+
+
+
+        #region  动画状态机Layer的get
+        private AnimatorStateInfo bodyStat {
 			get { return animator.GetCurrentAnimatorStateInfo (0); }
 		}
 
@@ -153,25 +195,50 @@ namespace RunRun {
         #endregion
 
 
-
-       
-
-		private void Awake () {
-			animator = GetComponent<Animator> ();
-            capsuleCollider = GetComponent<CapsuleCollider>();
-
-            side = TrackSide.Center;
-			a_moveSpeedMultiple = startSpeedMultiple;
-			hp = 0;
-
-            RegEventReg();
+        // API
+        private void TriggerDamage() {
+            animator.SetTrigger("trigDamaged");
+        }
+        private void TriggerGetDown(PlugShape ps) {
+            animator.SetTrigger("trigGetDown");
+            a_running = false;
+            canChangeSide = false;
+            SpeedController.Instance.Stop();
+            StartCoroutine( Recover2Game(ps));
         }
 
 
-		private void RegEventReg(){
-			SpeedController.Instance.VelocityChange += OnVelocityChange;
+        /// <summary>
+        /// 倒地后回到正确位置继续跑
+        /// </summary>
+        private IEnumerator Recover2Game(PlugShape ps) {
 
-            collector.EatCoin += OnEatCoin;
+            yield return new WaitForSeconds(2f);
+
+            if (ps == PlugShape.L)
+                side = TrackSide.Left;
+            if (ps == PlugShape.R)
+                side = TrackSide.Right;
+            if (ps == PlugShape.C)
+                side = TrackSide.Center;
+
+            yield return new WaitForSeconds(2f);
+            a_running = true;
+            canChangeSide = true;
+            SpeedController.Instance.SpeedBack();
+            
+        }
+
+
+        private void TriggerJump() {
+            animator.SetTrigger("trigJump");
+        }
+
+
+
+        void WinGame() {
+            canChangeSide = false;
+            animator.SetBool("salute", true);
         }
 
 
@@ -187,14 +254,12 @@ namespace RunRun {
 				SpeedController.Instance.Stop ();
 			}
 			if (Input.GetKeyDown (KeyCode.J)) {
-				SpeedUp ();
+				TestSPeedup ();
 			}
 			if (Input.GetKey (KeyCode.Space)) {
 				Jump ();
 			}
-			if (Input.GetKeyDown (KeyCode.U)) {
-				TriggerGetDown ();
-			}
+
 			if(Input.GetKeyDown(KeyCode.A)){
 				TurnLeft();
 			}
@@ -202,96 +267,31 @@ namespace RunRun {
 				TurnRight();
 			}
 
-
- 
-
-
-           
-
 		}
-
-
-        public Vector3 currentDirection;
-        
-
-        // 移动
-        void MoveControl() {
-            transform.Translate(currentDirection.normalized * SpeedController.Instance.currentVelocity * Time.fixedDeltaTime);
-        }
-
-
-
-        public float startSpeed;
-		public void StartRun () {
-			if (bodyStat.IsName ("Standing@loop") || bodyStat.IsName ("DownToUp")) {
-				a_running = true;
-				SpeedController.Instance.SpeedTo (startSpeed);
-				// StartCoroutine(AccelerateFoward());
-			}
-		}
-
-		private void FixedUpdate () {
+        private void FixedUpdate() {
             // if (a_running) {
             // 	transform.Translate (Vector3.forward * Time.fixedDeltaTime * SpeedController.Instance.currentVelocity);
             // }
-            if(a_running)
+            if (a_running)
                 MoveControl();
             //float th = animator.GetFloat("CV_Jump");
             //sphereCollider.radius = th;
             // transform.localPosition = new Vector3(th,transform.localPosition.y,transform.localPosition.z);
         }
 
-		public void SpeedUp () {
-			if (a_running) {
-				// a_moveSpeedMultiple+=0.1f;
-				SpeedController.Instance.SpeedUp (0.5f);
-			}
-		}
 
 
-		private bool canJump = true;
-		public void Jump () {
-			// 只有移动的时候才能跳
-			if (bodyStat.IsName ("Blend_Movement") ) {
-				if(canJump){
-					TriggerJump ();
-					canJump = false;
-				}
-				// animator.SetBool("bJumping",true);
-			}else if(bodyStat.IsName("Jumping@loop") && bodyStat.normalizedTime >=0.55f){
-				animator.CrossFade("Blend_Movement",0.0f,0,0);
-				if(canJump){
-					TriggerJump ();
-					canJump = false;
-				}
-			}
-		}
 
+        // 移动
+        void MoveControl() {
+            float moveDelta = SpeedController.Instance.currentVelocity * Time.fixedDeltaTime;
+            transform.localPosition = transform.localPosition +  (currentDirection * moveDelta);
+        }
 
-		/// <summary>
-		/// 变换跑道
-		/// </summary>
-		public void Turn(){
-
-		}
-
-		/// <summary>
-		/// 响应速度值的改变
-		/// </summary>
-		/// <param name="spd">速度值</param>
-		private void OnVelocityChange(float spd){
-			Debug.Log("SpeedChange");
-			if(spd > 2) {
-				a_blendMovement = 1.0f;
-				a_moveSpeedMultiple = spd/8f+1f;
-			}else{
-				a_blendMovement = Mathf.Lerp(0,1f,spd/2f);
-				a_moveSpeedMultiple = 1.5f;
-			}
-		}
 
 
 		private void TurnLeft(){
+            if (!canChangeSide) return;
 			switch (side) {
 				case (TrackSide.Left):
 					return;
@@ -308,7 +308,9 @@ namespace RunRun {
 
 
 		private void TurnRight(){
-			switch (side) {
+            if (!canChangeSide) return;
+
+            switch (side) {
 				case (TrackSide.Left):
 					side = TrackSide.Center;
 					break;
@@ -331,19 +333,124 @@ namespace RunRun {
 		}
 
 
-        public int coinCount = 0;
+        // ==============Event Handler============================
+
+
+
+        void OnStop() {
+            canChangeSide = false;
+            animator.SetBool("running", false);
+            //animator.CrossFade("Standing@loop", 0.1f);
+        }
+
+        /// <summary>
+        /// 响应速度值的改变
+        /// </summary>
+        /// <param name="spd">速度值</param>
+        private void OnVelocityChange(float spd) {
+            Debug.Log("SpeedChange");
+            if (spd > 2) {
+                a_blendMovement = 1.0f;
+                a_moveSpeedMultiple = spd / 8f + 1f;
+            } else {
+                a_blendMovement = Mathf.Lerp(0, 1f, spd / 2f);
+                a_moveSpeedMultiple = 1.5f;
+            }
+        }
+
         void OnEatCoin() {
             coinCount++;
+            LevelManager.Instance.uiSystem.SetCoin(coinCount);
             Debug.Log("EatCoin");
         }
 
+        private void OnTriggerEnter(Collider other) {
+            if (other.CompareTag("_Fence")) {
+                PlugShape ps =  other.GetComponentInParent<Block>().enterPlug.shape;
+                TriggerGetDown(ps);
+            }
+        }
 
-		/// <summary>
-		/// Jumping@loop  Animation Event
-		/// </summary>
-		public void ChangeJumpFlag(){
+
+        /// <summary>
+        /// Jumping@loop  Animation Event
+        /// </summary>
+        public void ChangeJumpFlag(){
 			canJump = true;
 		}
+
+        public IEnumerator EnterGround(Vector3 target) {
+            //chan.transform.localPosition
+
+            animator.Play("TopOfJump", 0);
+
+            animator.SetBool("onGround", false);
+
+            while (!Mathf.Approximately(transform.localPosition.magnitude, 0)) {
+                yield return null;
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, target, 0.25f);
+            }
+            yield return null;
+            animator.SetBool("onGround", true);
+
+            yield return new WaitForSeconds(0.9f);
+
+        }
+
+        // API
+
+        /// <summary>
+        /// 开始跑
+        /// </summary>
+        public void StartRun() {
+            //if (bodyStat.IsName ("Standing@loop") || bodyStat.IsName ("DownToUp") || bodyStat.IsName("Blend_Movement")) {
+            a_running = true;
+            SpeedController.Instance.StartMotion();
+            // StartCoroutine(AccelerateFoward());
+            //}
+        }
+
+
+        /// <summary>
+        /// 测试加速
+        /// </summary>
+        public void TestSPeedup() {
+            if (a_running) {
+                SpeedController.Instance.SpeedUp(5f);
+            }
+        }
+
+
+        /// <summary>
+        /// 跳
+        /// </summary>
+        public void Jump() {
+            // 只有移动的时候才能跳
+            if (bodyStat.IsName("Blend_Movement")) {
+                if (canJump) {
+                    TriggerJump();
+                    canJump = false;
+                }
+                // animator.SetBool("bJumping",true);
+            } else if (bodyStat.IsName("Jumping@loop") && bodyStat.normalizedTime >= 0.55f) {
+                animator.CrossFade("Blend_Movement", 0.0f, 0, 0);
+                if (canJump) {
+                    TriggerJump();
+                    canJump = false;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 变换跑道
+        /// </summary>
+        public void Turn(Vector3 dir) {
+
+        }
+
+
+
 
     }
 }

@@ -101,7 +101,7 @@ public static class CustomHierarchy {
             var colorAnimation = new Color(175 / 255f, 175 / 255f, 218 / 255f);
             var colorCamera = new Color(111 / 255f, 121 / 255f, 212 / 255f);
             var colorParticle = new Color(130 / 255f, 124 / 255f, 251 / 255f);
-            var colorNav = new Color(217 / 255f, 80 / 255f, 62 / 255f);
+            //var colorNav = new Color(217 / 255f, 80 / 255f, 62 / 255f);
             var colorNetwork = new Color(42 / 255f, 129 / 255f, 235 / 255f);
             var colorAudio = new Color(255 / 255f, 126 / 255f, 0f);
             // Draw 

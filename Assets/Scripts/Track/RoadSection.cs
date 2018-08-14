@@ -184,18 +184,18 @@ namespace RunRun {
             col.size = new Vector3(col.size.x, col.size.y, length);
         }
 
-#if UNITY_EDITOR
-        private void OnGUI() {           
+//#if UNITY_EDITOR
+//        private void OnGUI() {           
 
-            if(GUI.Button(new Rect(530, 30, 100, 50),new GUIContent("执行"))) {
-                Execute();
-            }
+//            if(GUI.Button(new Rect(530, 30, 100, 50),new GUIContent("执行"))) {
+//                Execute();
+//            }
 
-            if(GUI.Button(new Rect(130, 30, 100, 50),new GUIContent("执行单步"))) {
-                ExecuteStep(0);
-            }
-        }
-#endif
+//            if(GUI.Button(new Rect(130, 30, 100, 50),new GUIContent("执行单步"))) {
+//                ExecuteStep(0);
+//            }
+//        }
+//#endif
 
 
         public void SelfDestroy() {

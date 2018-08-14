@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33017848597780770}
   - component: {fileID: 23713909162389090}
   - component: {fileID: 65498382696461896}
-  - component: {fileID: 65577113071017306}
   m_Layer: 0
   m_Name: FenceL
   m_TagString: _Fence
@@ -343,7 +342,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1068869585326012}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.25, y: 5, z: 3.7132695}
@@ -360,18 +359,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.5806756, y: 3.7515926, z: 3.75}
   m_Center: {x: 0, y: -1.8757961, z: 1.875}
---- !u!65 &65577113071017306
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1068869585326012}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.22698183, y: 0.8635211, z: 3.7132695}
-  m_Center: {x: 0.000001385808, y: 0.3348394, z: 0.0018001795}
 --- !u!65 &65613275017641342
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -379,7 +366,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1268791574680638}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.25, y: 5, z: 3.7169948}
