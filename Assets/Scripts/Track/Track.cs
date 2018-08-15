@@ -111,8 +111,8 @@ namespace RunRun {
                 section.SpawnEnd(endpos.z);
             }
 
-            currentEndLocalRotation = section.selfRotation * section.localYaw;
-            currentEndLocalPosition = section.startPosition + section.offset;
+            currentEndLocalRotation = section.localRotation * section.localYaw;
+            currentEndLocalPosition = section.localPosition + section.offset;
 
             currentLength += section.GetLength();
         }

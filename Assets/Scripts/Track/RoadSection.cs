@@ -17,13 +17,48 @@ namespace RunRun {
         [SerializeField]
         private RoadSectionData data;
 
-        [SerializeField]
-        private float length;
 
+        /// <summary>
+        /// 起点的世界坐标
+        /// </summary>
+        public Vector3 localPosition;
+
+        /// <summary>
+        /// Section 本身的旋转
+        /// </summary>
+        public Quaternion localRotation;
+
+
+        /// <summary>
+        /// 终点的本地坐标
+        /// </summary>
+        public Vector3 offset;
+        /// <summary>
+        /// 终点的相对Section本身的偏转
+        /// </summary>
+        public Quaternion localYaw;
+
+        // 调试用
+        public Vector3 startEuler, endEuler;
+
+        private void Update() {
+            startEuler = localRotation.eulerAngles;
+            endEuler = localYaw.eulerAngles;
+        }
+
+
+        /// <summary>
+        /// 跑道已经生产完毕
+        /// </summary>
+        private bool isFinished;
+
+        private int executeStepIndex;
+
+
+        // components
+        private BoxCollider col;
         private EndTriggerSpawner endSpawner;
-
-
-
+        private List<Block> blocks;
 
         List<SpawnBlockCommand> commands {
             get {
@@ -31,68 +66,25 @@ namespace RunRun {
             }
         }
 
-
-
-        private List<Block> blocks;
-
-
-
-
-        /// <summary>
-        /// 起点的世界坐标
-        /// </summary>
-        public Vector3 startPosition;
-
-        /// <summary>
-        /// 终点的本地坐标
-        /// </summary>
-        public Vector3 offset;
-
-        
-
-        /// <summary>
-        /// Section 本身的旋转
-        /// </summary>
-        public Quaternion selfRotation;
-
-        /// <summary>
-        /// 终点的相对Section本身的偏转
-        /// </summary>
-        public Quaternion localYaw;
-
-        public Vector3 startEuler, endEuler;
-
-        private void Update() {
-            startEuler = selfRotation.eulerAngles;
-            endEuler = localYaw.eulerAngles;
-        }
-        /// <summary>
-        /// 跑道已经生产完毕
-        /// </summary>
-        private bool isFinished;
-
-
-        private int executeStepIndex;
-
-
-        private BoxCollider col;
-
         private void Awake() {
             col = GetComponent<BoxCollider>();
             endSpawner = GetComponent<EndTriggerSpawner>();
             Init();
         }
-
-
-
-        public void SetData(RoadSectionData data,Vector3 startPosition, Quaternion startRotation) {
+        
+        public void SetData(RoadSectionData data,Vector3 position, Quaternion rotation) {
             this.data = data;
-            this.startPosition = startPosition;
-            this.selfRotation = startRotation;
-            transform.localPosition = this.startPosition;
-            transform.localRotation = this.selfRotation;
+            localPosition = position;
+            localRotation = rotation;
+            transform.localPosition = localPosition;
+            transform.localRotation = localRotation;
         }
 
+
+        /// <summary>
+        /// 生成结束的触发器
+        /// </summary>
+        /// <param name="z"></param>
         public void SpawnEnd(float z) {
             endSpawner.SetEndPositionAndRoation(offset,localYaw);
             endSpawner.SpawnEnd();
@@ -109,6 +101,7 @@ namespace RunRun {
                     DestroyImmediate (b.gameObject);
                 }
             }
+
             offset = Vector3.zero;
             localYaw = Quaternion.identity;
 
@@ -123,7 +116,6 @@ namespace RunRun {
             foreach (var block in blocks) {
                 length += block.length;
             }
-            this.length = length;
             return length;
         }
 
@@ -221,9 +213,10 @@ namespace RunRun {
         /// 设置section的触发器
         /// </summary>
         void SetBoxTrigger() {
-            GetLength();
-            col.center = new Vector3(col.center.x, col.center.y, length*0.5f);
-            col.size = new Vector3(col.size.x, col.size.y, length);
+            float l = GetLength();
+            col.center = new Vector3(col.center.x, col.center.y, l*0.5f);
+
+            col.size = new Vector3(col.size.x, col.size.y, l);
         }
 
        
