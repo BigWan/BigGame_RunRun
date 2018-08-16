@@ -13,13 +13,6 @@ namespace RunRun {
 		Right = 1
 	}
 
-	/// <summary>
-	/// 改血事件
-	/// </summary>
-	/// <param name="current">当前血量</param>
-	/// <param name="delta">血量变化</param>
-	public delegate void HpChange(int current,int delta);
-
 	[RequireComponent(typeof (Animator))]
 	[RequireComponent(typeof(CapsuleCollider))]
 	public class ChanController : MonoBehaviour {
@@ -33,32 +26,33 @@ namespace RunRun {
 
         private bool canChangeSide = true;
 
+        // 角色脚底下的block
+        private Block standBlock;
+
         /// <summary>
-        /// 人物当前的基准坐标(根据moveDirection 会锁定角色xyz的某个分量)
+        /// 人物当前行动射线(根据moveDirection 会锁定角色xyz的某个分量)
         /// straight      :锁x  左x-1    中x    右x+1
-        /// right         :锁z  左z+1    中z    右z-1 
+        /// right         :锁z  左z+1    中z    右z-1
         /// back          :锁x  左x+1    中x    右x-1
         /// left          :锁z  左z-1    中z    右z+1
         /// </summary>
-        public Vector3 standardPosition;
-
+        public Ray moveRay;
 
         private int hp;
-
 
         [Header("移动的距离")]
         [SerializeField]
 
         private float moveDistance;
 
-
-
         [Header("金币数量")]
         public int coinCount = 0;
 
         private TrackSide _side;
         public TrackSide side {
-            get { return _side; }
+            get {
+                return _side;
+            }
             set {
                 _side = value;
                 transform.localPosition = new Vector3((int)side * 1f, transform.localPosition.y, transform.localPosition.z);
@@ -74,8 +68,6 @@ namespace RunRun {
         
 
         private ItemCollector collector;
-
-
 
 
         #region 动画状态机参数
@@ -143,7 +135,6 @@ namespace RunRun {
         #endregion
         
 
-
         // componets
         private Animator animator;
         private CapsuleCollider capsuleCollider;
@@ -152,14 +143,6 @@ namespace RunRun {
 		//private RandomWind wind;
 		//private IKLookAt lookat;
 
-
-
-
-
-        // event
-        public HpChange hpChange;
-
-
         void Awake() {
             // getComponent
             animator = GetComponent<Animator>();
@@ -167,16 +150,20 @@ namespace RunRun {
             collector = GetComponentInChildren<ItemCollector>();
 
             side = TrackSide.Center;
-
+            moveRay = new Ray() {
+                origin = Vector3.zero,
+                direction = Vector3.forward
+            };
+            
             hp = 0;
 
             canTurn = false;
             moveDirection = TurnDirection.Straight;
 
-            RegEventReg();
+            RegEvent();
         }
 
-        void RegEventReg() {
+        void RegEvent() {
             SpeedController.Instance.VelocityChange += OnVelocityChange;
             SpeedController.Instance.OnStop.AddListener(OnStop);
             LevelManager.Instance.OnWinGame.AddListener(WinGame);
@@ -380,14 +367,19 @@ namespace RunRun {
 
 
         /// <summary>
-        /// 变换跑道,设定基准坐标(Section的localposition)和行走方向(section的direction)
+        /// 拐弯跑道,设定基准坐标(Section的localposition)和行走方向(section的direction)
         /// </summary>
         public void Turn(TurnDirection dir) {
             moveDirection = TurnDirectionUtil.Turn(moveDirection, dir);
             transform.localRotation = TurnDirectionUtil.ToQuaternion(moveDirection);
+
+            ChangeSide(TrackSide.Center);
+            moveRay.origin = standBlock.jointOutsidePosition;
+            moveRay.direction = TurnDirectionUtil.ToVector3(moveDirection);
+
             // SetNew StandardPosition
             // ChangeRoleDirection
-            
+
         }
 
 
@@ -431,6 +423,7 @@ namespace RunRun {
             // 碰到转弯触发器
             if (other.CompareTag("_Turn")) {
                 canTurn = true;
+                standBlock = other.GetComponentInParent<Block>();// .GetComponent<Block>();
             }
         }
 
@@ -480,7 +473,9 @@ namespace RunRun {
             // transform.localPosition = new Vector3(th,transform.localPosition.y,transform.localPosition.z);
         }
 
-
+        void OnDrawGizmos() {
+            Debug.DrawRay(moveRay.origin+Vector3.up, moveRay.direction, Color.red,1000f);
+        }
     }
 }
 
