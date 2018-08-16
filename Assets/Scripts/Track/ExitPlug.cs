@@ -16,14 +16,6 @@ namespace RunRun {
         LCR = 7
     }
 
-    /// <summary>
-    /// 出口Plug的相对方向()
-    /// </summary>
-    public enum PlugDirection {
-        Straight = 0,   // 前进
-        Left = 1,       // 左拐
-        Right = 2       // 右拐
-    }
 
 
     public enum PlugType {
@@ -51,11 +43,6 @@ namespace RunRun {
         public PlugShape shape;
 
         /// <summary>
-        /// 生成的下一块
-        /// </summary>
-        private Block spawned;
-
-        /// <summary>
         /// 判断Plug是否已经产出，避免重复产出
         /// </summary>
         public bool hasSpawned = false;
@@ -63,7 +50,7 @@ namespace RunRun {
         /// <summary>
         /// 朝向，直线，左，右
         /// </summary>
-        public PlugDirection plugDirection;
+        public TurnDirection direction;
 
 
         /// <summary>
@@ -76,24 +63,26 @@ namespace RunRun {
         /// 计算插口点的坐标（Local）
         /// </summary>
         private void CalcPositions() {            
-            if (plugDirection == PlugDirection.Straight) {
+            if (direction == TurnDirection.Straight) {
                 positions = new Vector3[3] {
                     new Vector3(-1,0,0),  // L
                     new Vector3(0,0,0),   // C
                     new Vector3(1,0,0)    // R
                 };
-            }else if(plugDirection == PlugDirection.Left) {
+            }else if(direction==TurnDirection.Left) {
                 positions = new Vector3[3] {
                     new Vector3(0,0,-1),
                     new Vector3(0,0,0),
                     new Vector3(0,0,1)
                 };
-            }else if (plugDirection == PlugDirection.Right) {
+            }else if (direction==TurnDirection.Right) {
                 positions = new Vector3[3] {
                     new Vector3(0,0,-1),
                     new Vector3(0,0,0),
                     new Vector3(0,0,1),
                 };
+            } else {
+                Debug.LogError("<b>Direction 不能为Back</b>");
             }
         }
 
@@ -117,21 +106,23 @@ namespace RunRun {
         }
 
 
-        /// <summary>
-        /// 返回改变的旋转值,左转,右转分别改变90°
-        /// </summary>
-        /// <returns></returns>
-        public Quaternion localYaw {
-            get {
-                if (plugDirection == PlugDirection.Left) {
-                    return Quaternion.Euler(0, -90, 0);
-                } else if (plugDirection == PlugDirection.Right) {
-                    return Quaternion.Euler(0, 90, 0);
-                } else {
-                    return Quaternion.identity;
-                }
-            }
-        }
+        ///// <summary>
+        ///// 返回改变的旋转值,左转,右转分别改变90°
+        ///// </summary>
+        ///// <returns></returns>
+        //public Quaternion yaw {
+        //    get {
+        //        if (direction == TurnDirection.Left) {
+        //            return Quaternion.Euler(0, -90, 0);
+        //        } else if (direction == TurnDirection.Right) {
+        //            return Quaternion.Euler(0, 90, 0);
+        //        } else {
+        //            return Quaternion.identity;
+        //        }
+        //    }
+        //}
+
+       
 
 
     

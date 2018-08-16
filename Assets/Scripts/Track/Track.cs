@@ -56,13 +56,13 @@ namespace RunRun {
         /// 当前结束点的位置
         /// </summary>
         [SerializeField]        
-        private Vector3 currentEndLocalPosition;
+        private Vector3 jointInsidePosition;
 
         /// <summary>
-        /// 当前结束点的旋转
+        /// 当前结束点的在Track内部的朝向
         /// </summary>
         [SerializeField]
-        private Quaternion currentEndLocalRotation;
+        private TurnDirection jointInsideDirection;
 
         private void Awake() {
             Init();
@@ -92,27 +92,33 @@ namespace RunRun {
                 sections.Clear();
             }
             currentLength = 0;
-            currentEndLocalPosition = Vector3.zero;
-            currentEndLocalRotation = Quaternion.identity;
+            jointInsidePosition = Vector3.zero;
+            jointInsideDirection = TurnDirection.Straight;
         }
         
-
 
         void SpawnOneSection(RoadSectionData data,float coinRate = 0,bool isEnd = false) {
             RoadSection section = Instantiate<RoadSection>(sectionPrefab) as RoadSection;
             section.transform.SetParent(transform);
-            section.SetData(data,currentEndLocalPosition,currentEndLocalRotation);
 
+            section.SetData(data,jointInsidePosition, jointInsideDirection);
+
+            // 生成Block
             section.Execute(coinRate);
 
-            Vector3 endpos = (maxLength - currentLength) * new Vector3(0, 0, 1);
+            jointInsidePosition = section.jointOutsidePosition;
 
-            if (isEnd) {
-                section.SpawnEnd(endpos.z);
-            }
+            jointInsideDirection = section.jointOutsideDirection;
 
-            currentEndLocalRotation = section.localRotation * section.localYaw;
-            currentEndLocalPosition = section.localPosition + section.offset;
+            // TODO: 生成终点碰撞器
+            //Vector3 endpos = (maxLength - currentLength) * new Vector3(0, 0, 1);
+
+            //if (isEnd) {
+            //    section.SpawnEnd(endpos.z);
+            //}
+
+            //currentEndLocalRotation = section.localRotation * section.localYaw;
+
 
             currentLength += section.GetLength();
         }

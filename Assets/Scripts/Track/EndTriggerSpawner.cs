@@ -10,25 +10,26 @@ namespace RunRun {
     public class EndTriggerSpawner : MonoBehaviour {
 
         public bool isEnd;
-        public EndTrigger endTriggerPerfab;
+        public TrackEndTrigger endTriggerPerfab;
 
 
         private Vector3 position;
-        private Quaternion rotation;
+        private TurnDirection direction;
 
         public void SpawnEnd() {
-            EndTrigger endTrigger =  Instantiate<EndTrigger>(endTriggerPerfab);
+            TrackEndTrigger endTrigger =  Instantiate<TrackEndTrigger>(endTriggerPerfab);
             endTrigger.transform.SetParent(transform);
             endTrigger.transform.localPosition = position;
-            endTrigger.transform.localRotation = rotation;
+            // TODO: 同步Ender的旋转为Block的旋转
+            endTrigger.transform.localRotation = Quaternion.identity;
             
             endTrigger.gameObject.SetActive(true);
 
         }
 
-        public void SetEndPositionAndRoation(Vector3 pos,Quaternion rotation) {
+        public void SetEndPositionAndRoation(Vector3 pos,TurnDirection direction) {
             this.position = pos;
-            this.rotation = rotation;
+            this.direction = direction;
         }
 
     }

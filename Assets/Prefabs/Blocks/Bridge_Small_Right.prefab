@@ -312,7 +312,7 @@ MonoBehaviour:
   plugType: 3
   shape: 1
   hasSpawned: 0
-  plugDirection: 0
+  direction: 0
 --- !u!114 &114674067427676682
 MonoBehaviour:
   m_ObjectHideFlags: 1

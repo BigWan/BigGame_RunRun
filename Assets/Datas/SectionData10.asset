@@ -39,3 +39,8 @@ MonoBehaviour:
     - {fileID: 114574827980797188, guid: 5be5e485ea8367c4bb45bff2f75335e5, type: 2}
     start: 1
     end: 1
+  - blocks:
+    - {fileID: 114674067427676682, guid: b63a38cbef4542b4497cf3bc4770feab, type: 2}
+    - {fileID: 114574827980797188, guid: 5be5e485ea8367c4bb45bff2f75335e5, type: 2}
+    start: 1
+    end: 1

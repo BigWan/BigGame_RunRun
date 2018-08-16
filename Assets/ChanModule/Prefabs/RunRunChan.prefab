@@ -5676,12 +5676,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c0f41af334810408fe5a542bf3f67f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 0
-  _moveDistance: 0
-  currentDirection: {x: 0, y: 0, z: 1}
+  standardPosition: {x: 0, y: 0, z: 0}
+  moveDistance: 0
   coinCount: 0
   collector: {fileID: 114040069983822798}
-  startSpeedMultiple: 1.5
   _moveSpeedMultiple: 0
   _blendMovement: 0
   _running: 0

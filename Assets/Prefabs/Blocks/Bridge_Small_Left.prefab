@@ -299,7 +299,7 @@ MonoBehaviour:
   plugType: 3
   shape: 4
   hasSpawned: 0
-  plugDirection: 0
+  direction: 0
 --- !u!114 &114759072713775358
 MonoBehaviour:
   m_ObjectHideFlags: 1

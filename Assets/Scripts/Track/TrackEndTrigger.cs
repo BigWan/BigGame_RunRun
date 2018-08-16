@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RunRun {
 
-    public class EndTrigger : MonoBehaviour {
+    public class TrackEndTrigger : MonoBehaviour {
 
         private void OnTriggerEnter(Collider other) {
 

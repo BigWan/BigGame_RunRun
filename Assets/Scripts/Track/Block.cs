@@ -10,6 +10,8 @@ namespace RunRun {
     /// </summary>
     public class Block : MonoBehaviour {
 
+        // Inspector 配置
+
 		/// <summary>
 		/// 段落长度（3.75的倍数）
 		/// </summary>
@@ -29,37 +31,43 @@ namespace RunRun {
         public ExitPlug[] exitPlugs;
 
 
-
-        /// 本地点和本地旋转
-
-        public Vector3 localPosition;
-        public Quaternion localRotation;
-
-
-        /// 位置偏移
-        public Vector3 offset {
-            get {
-                return exitPlugs[0].transform.localPosition;
-            }
-        }
-        
-        /// <summary>
-        /// 偏转角
-        /// </summary>
-        public Quaternion localYaw {
-            get {
-                return exitPlugs[0].localYaw;
-            }
-        }
-
-
-
         /// <summary>
         /// 是否被用过
         /// </summary>
         public bool hasUsed;
 
+        /// <summary>
+        /// 块的连接点的位置,在Block内部,不计算Block本身的位置和旋转
+        /// </summary>
+        private Vector3 jointInsidePosition {
+            get {
+                return exitPlugs[0].transform.localPosition;
+            }
+        }
 
+        
+        /// <summary>
+        /// 块的外部坐标,计算了块的当前旋转和坐标得到(坐标系为Section内部)
+        /// </summary>
+        public Vector3 jointOutsidePosition {
+            get { return transform.localRotation * jointInsidePosition + transform.localPosition; } 
+        }
+
+        /// <summary>
+        /// Block的拐弯方向
+        /// TODO: 有两个拐弯方向的Block如何处理
+        /// </summary>
+        public TurnDirection direction {
+            get {
+                return exitPlugs[0].direction;
+            }
+        }
+
+        
+
+        /// <summary>
+        /// 在内部生产金币
+        /// </summary>
         public void SpawnCoin() {
             CoinSpawner spawner = Instantiate(coinSpawnerPrefab) as CoinSpawner;
             spawner.transform.SetParent(transform);
@@ -88,6 +96,10 @@ namespace RunRun {
             spawner.SpawnCoin();
         }
         
+
+        /// <summary>
+        /// 自销毁
+        /// </summary>
         public void SelfDestroy() {
             if (hasUsed) {
                 StartCoroutine(DestroyCoroutine());
@@ -99,6 +111,13 @@ namespace RunRun {
             yield return new WaitForSeconds(3);
             Destroy(gameObject);
         }
+
+
+        private void OnTriggerExit(Collider other) {
+            Debug.Log(other.name);
+
+        }
+
 
     }
 

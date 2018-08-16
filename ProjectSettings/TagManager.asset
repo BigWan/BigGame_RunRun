@@ -9,6 +9,7 @@ TagManager:
   - _Fence
   - _Ground
   - _Section
+  - _Turn
   layers:
   - Default
   - TransparentFX
