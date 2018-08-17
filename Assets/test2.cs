@@ -39,7 +39,7 @@ public class test2 : MonoBehaviour {
 
     private void Update() {
 
-        endPosition =   Quaternion.Euler(rotation) * position;
+        transform.localPosition += Vector3.up;
         //c = RunRun.TurnDirectionUtil.Turn(a,b);
 
 

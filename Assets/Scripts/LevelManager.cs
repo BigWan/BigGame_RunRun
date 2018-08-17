@@ -45,7 +45,6 @@ namespace RunRun {
 
         void Init() {
             uiSystem.Init();
-
             trackSystem.PreSpawn();
             RoleComein();
         }

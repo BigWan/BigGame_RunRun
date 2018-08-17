@@ -30,6 +30,11 @@ namespace RunRun {
         /// </summary>
         public ExitPlug[] exitPlugs;
 
+        /// <summary>
+        /// 所处的段落引用
+        /// </summary>
+        public RoadSection parentSection;
+
 
         /// <summary>
         /// 是否被用过
@@ -45,6 +50,12 @@ namespace RunRun {
             }
         }
 
+        public Vector3 jointWorldPosition {
+            get {
+                return exitPlugs[0].transform.position;
+            }
+        }
+
         
         /// <summary>
         /// 块的外部坐标,计算了块的当前旋转和坐标得到(坐标系为Section内部)
@@ -53,18 +64,18 @@ namespace RunRun {
             get { return transform.localRotation * jointInsidePosition + transform.localPosition; } 
         }
 
+
         /// <summary>
         /// Block的拐弯方向
         /// TODO: 有两个拐弯方向的Block如何处理
         /// </summary>
-        public TurnDirection direction {
+        public TurnDirection turnDirection {
             get {
                 return exitPlugs[0].direction;
             }
         }
 
         
-
         /// <summary>
         /// 在内部生产金币
         /// </summary>

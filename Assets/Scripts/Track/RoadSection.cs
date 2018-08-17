@@ -189,13 +189,15 @@ namespace RunRun {
 
                     // 设置下一个生产点的信息
                     /// 下一个点的旋转
-                    jointInsideDirection = TurnDirectionUtil.Turn(jointInsideDirection, blockInstant.direction);
+                    jointInsideDirection = TurnDirectionUtil.Turn(jointInsideDirection, blockInstant.turnDirection);
 
                     jointInsidePosition = blockInstant.jointOutsidePosition;
 
 
                     if (Random.value < coinRate)
                         blockInstant.SpawnCoin();
+
+                    blockInstant.parentSection = this;
 
                     // 增加引用
                     AddBlock(blockInstant);
@@ -236,25 +238,22 @@ namespace RunRun {
                 default:
                     break;
             }
-    
+        }
 
+        void OnTriggerExit(Collider other) {
+            if(other.tag == "Player") {
+                StartCoroutine(SelfDestroy());
+                Track.Instance.SpawnNextSection();
+            }
         }
 
 
-        public void SelfDestroy() {
+        public IEnumerator SelfDestroy() {
+            yield return new WaitForSeconds(3);
             foreach (var b in blocks) {
                 b.SelfDestroy();
             }
             Destroy(gameObject);
-        }
-
-
-
-        void OnTriggerExit(Collider other) {
-            if(other.tag == "Player") {
-                SelfDestroy();
-                Track.Instance.SpawnNextSection();
-            }
         }
 
         void OnExecuteFinished() {

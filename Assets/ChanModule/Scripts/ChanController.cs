@@ -19,55 +19,66 @@ namespace RunRun {
 
 
         private bool canTurn = false;
+        private bool canJump = true;
+        private bool canChangeSide = true;
 
         private TurnDirection moveDirection = TurnDirection.Straight;
-
-        private bool canJump = true;
-
-        private bool canChangeSide = true;
 
         // 角色脚底下的block
         private Block standBlock;
 
+        // 人物当前行动的原点(最近一次拐弯的出口点)(根据moveDirection 会锁定角色xyz的某个分量为原点的对应分量)
+        public Vector3 origin;
+
+        public int coinCount = 0;
+
+        private TrackSide side;
+
         /// <summary>
-        /// 人物当前行动射线(根据moveDirection 会锁定角色xyz的某个分量)
+        /// 变道,变道只改变坐标的x或者z分量
+        /// moveDirection:
         /// straight      :锁x  左x-1    中x    右x+1
         /// right         :锁z  左z+1    中z    右z-1
         /// back          :锁x  左x+1    中x    右x-1
         /// left          :锁z  左z-1    中z    右z+1
         /// </summary>
-        public Ray moveRay;
-
-        private int hp;
-
-        [Header("移动的距离")]
-        [SerializeField]
-
-        private float moveDistance;
-
-        [Header("金币数量")]
-        public int coinCount = 0;
-
-        private TrackSide _side;
-        public TrackSide side {
-            get {
-                return _side;
-            }
-            set {
-                _side = value;
-                transform.localPosition = new Vector3((int)side * 1f, transform.localPosition.y, transform.localPosition.z);
-            }
-        }
-
-        /// <summary>
-        /// 变道,左中右
-        /// </summary>
         void ChangeSide(TrackSide side) {
             this.side = side;
+            switch (moveDirection) {
+                case TurnDirection.Straight:
+                    transform.localPosition = new Vector3(
+                        origin.x + (int)side, 
+                        transform.localPosition.y, 
+                        transform.localPosition.z
+                        );
+                    break;
+                case TurnDirection.Right:
+                    transform.localPosition = new Vector3(
+                    transform.localPosition.x,
+                    transform.localPosition.y,
+                    origin.z - (int)side
+                    );
+                    break;
+                case TurnDirection.Back:
+                    transform.localPosition = new Vector3(
+                        origin.x - (int)side,
+                        transform.localPosition.y,
+                        transform.localPosition.z
+                        );
+                    break;
+                case TurnDirection.Left:
+                    transform.localPosition = new Vector3(
+                    transform.localPosition.x,
+                    transform.localPosition.y,
+                    origin.z + (int)side
+                    );
+                    break;
+                default:
+                    break;
+            }
         }
         
-
-        private ItemCollector collector;
+                
 
 
         #region 动画状态机参数
@@ -138,27 +149,30 @@ namespace RunRun {
         // componets
         private Animator animator;
         private CapsuleCollider capsuleCollider;
-		//private FaceManager face;
-		//private SpringManager spring;
-		//private RandomWind wind;
-		//private IKLookAt lookat;
+        private ItemCollector collector;
+        //private FaceManager face;
+        //private SpringManager spring;
+        //private RandomWind wind;
+        //private IKLookAt lookat;
 
-        void Awake() {
-            // getComponent
+        void GetComponents() {
             animator = GetComponent<Animator>();
             capsuleCollider = GetComponent<CapsuleCollider>();
             collector = GetComponentInChildren<ItemCollector>();
+        }
+
+
+        void Awake() {
+            // getComponent
+            GetComponents();
 
             side = TrackSide.Center;
-            moveRay = new Ray() {
-                origin = Vector3.zero,
-                direction = Vector3.forward
-            };
-            
-            hp = 0;
+            origin = Vector3.zero;
+            SetMoveDirection(TurnDirection.Straight);
 
+            canJump = true;
+            canChangeSide = true;            
             canTurn = false;
-            moveDirection = TurnDirection.Straight;
 
             RegEvent();
         }
@@ -194,6 +208,7 @@ namespace RunRun {
         private void TriggerDamage() {
             animator.SetTrigger("trigDamaged");
         }
+
         private void TriggerGetDown(PlugShape ps) {
             animator.SetTrigger("trigGetDown");
             a_running = false;
@@ -202,6 +217,10 @@ namespace RunRun {
             StartCoroutine(Recover2Game(ps));
         }
 
+        private void SetMoveDirection(TurnDirection moveDirection) {
+            this.moveDirection = moveDirection;
+            transform.localRotation = TurnDirectionUtil.ToQuaternion(this.moveDirection);
+        }
 
         /// <summary>
         /// 倒地后回到正确位置继续跑
@@ -210,18 +229,15 @@ namespace RunRun {
 
             yield return new WaitForSeconds(2f);
 
-            if (ps == PlugShape.L)
-                side = TrackSide.Left;
-            if (ps == PlugShape.R)
-                side = TrackSide.Right;
-            if (ps == PlugShape.C)
-                side = TrackSide.Center;
+            if (ps == PlugShape.L) ChangeSide(TrackSide.Left);
+            if (ps == PlugShape.R) ChangeSide(TrackSide.Right);
+            if (ps == PlugShape.C) ChangeSide(TrackSide.Center);
 
             yield return new WaitForSeconds(2f);
             a_running = true;
             canChangeSide = true;
-            SpeedController.Instance.SpeedBack();
-            
+            SetMoveDirection(TurnDirectionUtil.Turn(standBlock.parentSection.direction, standBlock.turnDirection)); //
+            SpeedController.Instance.SpeedBack();            
         }
 
 
@@ -229,22 +245,15 @@ namespace RunRun {
             animator.SetTrigger("trigJump");
         }
 
-
-
         void WinGame() {
             canChangeSide = false;
             animator.SetBool("salute", true);
         }
 
-
-
-        
-
         // 移动
         void MoveControl() {
             float moveDelta = SpeedController.Instance.currentVelocity * Time.fixedDeltaTime;
-            transform.localPosition =
-                transform.localPosition +  (TurnDirectionUtil.ToVector3(moveDirection)* moveDelta);
+            transform.localPosition += TurnDirectionUtil.ToVector3(moveDirection)* moveDelta;
         }
 
 
@@ -256,12 +265,12 @@ namespace RunRun {
 					return;
 
 				case (TrackSide.Right):
-					side = TrackSide.Center;
+                    ChangeSide(TrackSide.Center);
 					break;
 
 				case (TrackSide.Center):
-					side = TrackSide.Left;
-					break;
+                    ChangeSide(TrackSide.Left);
+                    break;
 			}
 		}
 
@@ -271,15 +280,13 @@ namespace RunRun {
 
             switch (side) {
 				case (TrackSide.Left):
-					side = TrackSide.Center;
-					break;
-
+                    ChangeSide(TrackSide.Center);
+                    break;
 				case (TrackSide.Right):
-					return;
-
+					return;                    
 				case (TrackSide.Center):
-					side = TrackSide.Right;
-					break;
+                    ChangeSide(TrackSide.Right);
+                    break;
 			}
 		}
 
@@ -288,7 +295,6 @@ namespace RunRun {
 		void TriggerObstacle(Obstacle o){
 			Debug.Log("碰到障碍了");
 			TriggerDamage();
-			hp -= o.damage;
 		}
 
 
@@ -367,15 +373,17 @@ namespace RunRun {
 
 
         /// <summary>
-        /// 拐弯跑道,设定基准坐标(Section的localposition)和行走方向(section的direction)
+        /// 拐弯跑道,设定基准坐标(Section的localposition)和行走方向(Block的Direction)
         /// </summary>
         public void Turn(TurnDirection dir) {
-            moveDirection = TurnDirectionUtil.Turn(moveDirection, dir);
+            SetMoveDirection(TurnDirectionUtil.Turn(moveDirection, dir));
             transform.localRotation = TurnDirectionUtil.ToQuaternion(moveDirection);
 
             ChangeSide(TrackSide.Center);
-            moveRay.origin = standBlock.jointOutsidePosition;
-            moveRay.direction = TurnDirectionUtil.ToVector3(moveDirection);
+            
+
+            //moveDirection = TurnDirectionUtil.Turn(moveDirection, standBlock.turnDirection);
+
 
             // SetNew StandardPosition
             // ChangeRoleDirection
@@ -386,7 +394,6 @@ namespace RunRun {
         // ==============Event Handler============================
 
 
-
         void OnStop() {
             canChangeSide = false;
             animator.SetBool("running", false);
@@ -394,11 +401,10 @@ namespace RunRun {
         }
 
         /// <summary>
-        /// 响应速度值的改变
+        /// 速度值的改变
         /// </summary>
         /// <param name="spd">速度值</param>
         private void OnVelocityChange(float spd) {
-            Debug.Log("SpeedChange");
             if (spd > 2) {
                 a_blendMovement = 1.0f;
                 a_moveSpeedMultiple = spd / 8f + 1f;
@@ -408,12 +414,20 @@ namespace RunRun {
             }
         }
 
+        /// <summary>
+        /// 吃金币处理
+        /// </summary>
         void OnEatCoin() {
             coinCount++;
             LevelManager.Instance.uiSystem.SetCoin(coinCount);
             Debug.Log("EatCoin");
         }
 
+
+        /// <summary>
+        /// 碰撞处理
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerEnter(Collider other) {
             // 碰到栅栏
             if (other.CompareTag("_Fence")) {
@@ -424,6 +438,7 @@ namespace RunRun {
             if (other.CompareTag("_Turn")) {
                 canTurn = true;
                 standBlock = other.GetComponentInParent<Block>();// .GetComponent<Block>();
+                origin = standBlock.jointWorldPosition;
             }
         }
 
@@ -436,8 +451,6 @@ namespace RunRun {
 
 
         private void Update() {
-            // if (a_running)
-            // transform.Translate (Vector3.forward * Time.deltaTime * SpeedController.Instance.currentVelocity);
             if (Input.GetKeyDown(KeyCode.W)) {
                 StartRun();
             }
@@ -453,28 +466,29 @@ namespace RunRun {
             }
 
             if (Input.GetKeyDown(KeyCode.A)) {
-                if (canTurn) Turn(TurnDirection.Left);
-                TurnLeft();
+                if (canTurn)
+                    Turn(TurnDirection.Left);
+                else
+                    TurnLeft();
             }
             if (Input.GetKeyDown(KeyCode.D)) {
-                if (canTurn) Turn(TurnDirection.Right);
-                TurnRight();
+                if (canTurn)
+                    Turn(TurnDirection.Right);
+                else
+                    TurnRight();
             }
 
         }
         private void FixedUpdate() {
-            // if (a_running) {
-            // 	transform.Translate (Vector3.forward * Time.fixedDeltaTime * SpeedController.Instance.currentVelocity);
-            // }
-            if (a_running)
-                MoveControl();
-            //float th = animator.GetFloat("CV_Jump");
-            //sphereCollider.radius = th;
-            // transform.localPosition = new Vector3(th,transform.localPosition.y,transform.localPosition.z);
+
+            if (a_running) MoveControl();
+
         }
 
         void OnDrawGizmos() {
-            Debug.DrawRay(moveRay.origin+Vector3.up, moveRay.direction, Color.red,1000f);
+            Vector3 o = origin+ Vector3.up;
+            Vector3 e = origin+ Vector3.up + TurnDirectionUtil.ToVector3(moveDirection) * 1000f;
+            Debug.DrawLine(o, e);
         }
     }
 }

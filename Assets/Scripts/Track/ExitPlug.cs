@@ -59,8 +59,10 @@ namespace RunRun {
         private Vector3[] positions;
 
 
+        public Vector3 pos;
+
         /// <summary>
-        /// 计算插口点的坐标（Local）
+        /// 计算插口点的相对坐标
         /// </summary>
         private void CalcPositions() {            
             if (direction == TurnDirection.Straight) {

@@ -68,12 +68,13 @@ namespace RunRun {
             Init();
         }
 
-        private void Start() {
-            PreSpawn();
-        }
+        //private void Start() {
+        //    PreSpawn();
+        //}
 
 
         public void PreSpawn() {
+            Debug.Log("Pre");
             // 提前生成若干格块
             int preSpawnCount = 2;
             for (int i = 0; i < preSpawnCount; i++) {
