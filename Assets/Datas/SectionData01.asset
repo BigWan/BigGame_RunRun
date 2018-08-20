@@ -19,7 +19,6 @@ MonoBehaviour:
   - blocks:
     - {fileID: 114536193927472682, guid: c44abb20f8209d943bec1c1885e5b45e, type: 2}
     - {fileID: 114869337781607108, guid: c8ff771318515c5468b494d7ba548ee4, type: 2}
-    - {fileID: 114809002670759402, guid: 676484760ad6ddf468ce126b951a84f3, type: 2}
     start: 2
     end: 4
   - blocks:

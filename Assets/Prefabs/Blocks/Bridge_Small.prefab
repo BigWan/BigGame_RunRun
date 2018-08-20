@@ -146,7 +146,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1721679632114678}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 7.5}
+  m_LocalPosition: {x: 0, y: 0, z: 9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4428182881386144}
@@ -259,8 +259,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.1548567, y: 0.3127036, z: 7.5}
-  m_Center: {x: 0, y: -0.1563502, z: 3.75}
+  m_Size: {x: 2.5858283, y: 0.37524432, z: 9.000001}
+  m_Center: {x: 0.0000004172325, y: -0.18762022, z: 4.4999995}
 --- !u!65 &65706105111105312
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -271,8 +271,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 5, z: 7.5}
-  m_Center: {x: -0.9, y: 0, z: 3.75}
+  m_Size: {x: 0.25, y: 5, z: 9}
+  m_Center: {x: -1.1, y: 0, z: 4.5}
 --- !u!65 &65741926001150986
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -280,11 +280,11 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1559040859028536}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 5, z: 7.55}
-  m_Center: {x: 0.9, y: 0, z: 3.75}
+  m_Size: {x: 0.25, y: 5, z: 9}
+  m_Center: {x: 1.1, y: 0, z: 4.5}
 --- !u!114 &114189277168403978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,7 +299,8 @@ MonoBehaviour:
   plugType: 3
   shape: 2
   hasSpawned: 0
-  plugDirection: 0
+  direction: 0
+  pos: {x: 0, y: 0, z: 0}
 --- !u!114 &114365530688649202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -324,10 +325,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c326497c5a678c4c97dc71578743864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 7.5
+  length: 9
   coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
     type: 2}
   enterPlug: {fileID: 114365530688649202}
   exitPlugs:
   - {fileID: 114189277168403978}
+  parentSection: {fileID: 0}
   hasUsed: 0

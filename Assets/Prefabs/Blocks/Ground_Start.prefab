@@ -89,7 +89,6 @@ GameObject:
   - component: {fileID: 33648065188920024}
   - component: {fileID: 23002132983449022}
   - component: {fileID: 65576843358136922}
-  - component: {fileID: 65783356219718068}
   m_Layer: 0
   m_Name: Ground
   m_TagString: _Ground
@@ -117,7 +116,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1222875889941542}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3.75}
+  m_LocalPosition: {x: 0, y: 0, z: 4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4662156400070970}
@@ -260,20 +259,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.5807085, y: 3.7515924, z: 3.7500005}
-  m_Center: {x: -0.00000011920929, y: -1.8757962, z: 1.8749983}
---- !u!65 &65783356219718068
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1953377856345780}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.5807085, y: 3.7515924, z: 3.7500005}
-  m_Center: {x: -0.00000011920929, y: -1.8757962, z: 1.8749983}
+  m_Size: {x: 5.49685, y: 4.5019107, z: 4.5000005}
+  m_Center: {x: -0.00000011920929, y: -2.2509553, z: 2.2499979}
 --- !u!65 &65786589354409592
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -284,8 +271,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 5, z: 3.75}
-  m_Center: {x: 2, y: 0, z: 1.875}
+  m_Size: {x: 0.25, y: 5, z: 4.5}
+  m_Center: {x: 2.4, y: 0, z: 2.25}
 --- !u!65 &65847006034000416
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -293,11 +280,11 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1611296120612470}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 5, z: 3.75}
-  m_Center: {x: -2, y: 0, z: 1.875}
+  m_Size: {x: 0.25, y: 5, z: 4.5}
+  m_Center: {x: -2.4, y: 0, z: 2.25}
 --- !u!114 &114065655024246748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -322,12 +309,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c326497c5a678c4c97dc71578743864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 3.75
+  length: 4.5
   coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
     type: 2}
   enterPlug: {fileID: 114065655024246748}
   exitPlugs:
   - {fileID: 114864069585234596}
+  parentSection: {fileID: 0}
   hasUsed: 0
 --- !u!114 &114864069585234596
 MonoBehaviour:
@@ -343,4 +331,5 @@ MonoBehaviour:
   plugType: 0
   shape: 7
   hasSpawned: 1
-  plugDirection: 0
+  direction: 0
+  pos: {x: 0, y: 0, z: 0}

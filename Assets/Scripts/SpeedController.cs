@@ -26,7 +26,7 @@ namespace RunRun {
         /// </summary>
         public int startSpeed;
 
-        public float lastSpeed;
+        private float lastSpeed;
 
         public UnityEvent OnStop;
 
@@ -175,7 +175,7 @@ namespace RunRun {
 		/// 保留目标速度，把当前速度设置为0，并锁定。
 		/// </summary>
 		public void Stop () {
-            lastSpeed = currentVelocity;
+            lastSpeed = _targetVelocity;
 			SetCurrentVelocity (0, true);
 		}
 

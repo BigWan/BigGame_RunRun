@@ -38,7 +38,6 @@ GameObject:
   - component: {fileID: 33742149858728192}
   - component: {fileID: 23091002724512326}
   - component: {fileID: 65932393464889576}
-  - component: {fileID: 65715970147436588}
   m_Layer: 0
   m_Name: Ground
   m_TagString: _Ground
@@ -130,7 +129,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1827966407384236}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3.75}
+  m_LocalPosition: {x: 0, y: 0, z: 4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4718634383667490}
@@ -250,18 +249,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1174872887926894}
   m_Mesh: {fileID: 4300000, guid: 00feec2b5f6590f4aaf6ec2cccdec84e, type: 3}
---- !u!65 &65715970147436588
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1174872887926894}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.580708, y: 3.7515924, z: 3.75}
-  m_Center: {x: 0, y: -1.8757969, z: 1.8749986}
 --- !u!65 &65930934334730032
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -272,8 +259,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 5, z: 3.75}
-  m_Center: {x: -2, y: 0, z: 1.875}
+  m_Size: {x: 0.25, y: 5, z: 4.5}
+  m_Center: {x: -2.4, y: 0, z: 2.25}
 --- !u!65 &65932393464889576
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -281,11 +268,11 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1174872887926894}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.580708, y: 3.7515924, z: 3.75}
-  m_Center: {x: 0, y: -1.8757969, z: 1.8749986}
+  m_Size: {x: 5.4968495, y: 4.5019107, z: 4.5}
+  m_Center: {x: 0, y: -2.2509563, z: 2.249998}
 --- !u!65 &65971349853096958
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -296,8 +283,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 5, z: 3.75}
-  m_Center: {x: 2, y: 0, z: 1.875}
+  m_Size: {x: 0.25, y: 5, z: 4.5}
+  m_Center: {x: 2.4, y: 0, z: 2.25}
 --- !u!114 &114201881497590416
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -322,12 +309,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c326497c5a678c4c97dc71578743864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 3.75
+  length: 4.5
   coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
     type: 2}
   enterPlug: {fileID: 114201881497590416}
   exitPlugs:
   - {fileID: 114807060672691166}
+  parentSection: {fileID: 0}
   hasUsed: 0
 --- !u!114 &114807060672691166
 MonoBehaviour:
@@ -343,4 +331,5 @@ MonoBehaviour:
   plugType: 1
   shape: 7
   hasSpawned: 0
-  plugDirection: 0
+  direction: 0
+  pos: {x: 0, y: 0, z: 0}

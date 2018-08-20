@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace RunRun {
 
-	public enum TrackSide{
+	public enum RoadSide{
 		Left = -1,
 		Center = 0,
 		Right = 1
@@ -19,8 +19,10 @@ namespace RunRun {
 
 
         private bool canTurn = false;
-        private bool canJump = true;
+        private bool hasTurned = false;
         private bool canChangeSide = true;
+        private bool canJump = true;
+
 
         private TurnDirection moveDirection = TurnDirection.Straight;
 
@@ -32,17 +34,20 @@ namespace RunRun {
 
         public int coinCount = 0;
 
-        private TrackSide side;
+        private RoadSide side;
+
+        private Coroutine RecoverGameCoroutine;
+
 
         /// <summary>
-        /// 变道,变道只改变坐标的x或者z分量
+        /// 变道, 变道只改变坐标的x或者z分量
         /// moveDirection:
         /// straight      :锁x  左x-1    中x    右x+1
         /// right         :锁z  左z+1    中z    右z-1
         /// back          :锁x  左x+1    中x    右x-1
         /// left          :锁z  左z-1    中z    右z+1
         /// </summary>
-        void ChangeSide(TrackSide side) {
+        void ChangeRoad(RoadSide side) {
             this.side = side;
             switch (moveDirection) {
                 case TurnDirection.Straight:
@@ -134,15 +139,6 @@ namespace RunRun {
 			}
 		}
 
-		[SerializeField]
-		private bool _falling;
-		public bool a_falling {
-			get { return _falling; }
-			set {
-				_fail = value;
-				animator.SetBool ("falling", a_falling);
-			}
-		}
         #endregion
         
 
@@ -166,13 +162,14 @@ namespace RunRun {
             // getComponent
             GetComponents();
 
-            side = TrackSide.Center;
+            side = RoadSide.Center;
             origin = Vector3.zero;
             SetMoveDirection(TurnDirection.Straight);
 
             canJump = true;
             canChangeSide = true;            
             canTurn = false;
+            hasTurned = false;
 
             RegEvent();
         }
@@ -187,7 +184,7 @@ namespace RunRun {
 
 
 
-        #region  动画状态机Layer的get
+        #region  动画状态机Layer的属性
         private AnimatorStateInfo bodyStat {
 			get { return animator.GetCurrentAnimatorStateInfo (0); }
 		}
@@ -214,7 +211,10 @@ namespace RunRun {
             a_running = false;
             canChangeSide = false;
             SpeedController.Instance.Stop();
-            StartCoroutine(Recover2Game(ps));
+            if (RecoverGameCoroutine != null) { 
+                StopCoroutine(RecoverGameCoroutine);
+            }
+            RecoverGameCoroutine = StartCoroutine(Recover2Game(ps));
         }
 
         private void SetMoveDirection(TurnDirection moveDirection) {
@@ -227,16 +227,29 @@ namespace RunRun {
         /// </summary>
         private IEnumerator Recover2Game(PlugShape ps) {
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(4f);
 
-            if (ps == PlugShape.L) ChangeSide(TrackSide.Left);
-            if (ps == PlugShape.R) ChangeSide(TrackSide.Right);
-            if (ps == PlugShape.C) ChangeSide(TrackSide.Center);
+            TurnDirection currentDirection;
+            TurnDirection targetDirection;
+            if (standBlock == null) {
+                currentDirection = TurnDirection.Straight;
+                targetDirection = TurnDirection.Straight;
+            } else {
+                currentDirection = standBlock.parentSection.direction;
+                targetDirection = standBlock.turnDirection;
+            }
 
-            yield return new WaitForSeconds(2f);
             a_running = true;
             canChangeSide = true;
-            SetMoveDirection(TurnDirectionUtil.Turn(standBlock.parentSection.direction, standBlock.turnDirection)); //
+
+            SetMoveDirection(TurnDirectionUtil.Turn(currentDirection, targetDirection)); //
+
+
+            ChangeRoad(RoadSide.Center);
+            if (ps == PlugShape.L) ChangeRoad(RoadSide.Left);
+            if (ps == PlugShape.R) ChangeRoad(RoadSide.Right);
+            if (ps == PlugShape.C) ChangeRoad(RoadSide.Center);
+
             SpeedController.Instance.SpeedBack();            
         }
 
@@ -258,34 +271,34 @@ namespace RunRun {
 
 
 
-		private void TurnLeft(){
+		private void Change2Left(){
             if (!canChangeSide) return;
 			switch (side) {
-				case (TrackSide.Left):
+				case (RoadSide.Left):
 					return;
 
-				case (TrackSide.Right):
-                    ChangeSide(TrackSide.Center);
+				case (RoadSide.Right):
+                    ChangeRoad(RoadSide.Center);
 					break;
 
-				case (TrackSide.Center):
-                    ChangeSide(TrackSide.Left);
+				case (RoadSide.Center):
+                    ChangeRoad(RoadSide.Left);
                     break;
 			}
 		}
 
 
-		private void TurnRight(){
+		private void Change2Right(){
             if (!canChangeSide) return;
 
             switch (side) {
-				case (TrackSide.Left):
-                    ChangeSide(TrackSide.Center);
+				case (RoadSide.Left):
+                    ChangeRoad(RoadSide.Center);
                     break;
-				case (TrackSide.Right):
+				case (RoadSide.Right):
 					return;                    
-				case (TrackSide.Center):
-                    ChangeSide(TrackSide.Right);
+				case (RoadSide.Center):
+                    ChangeRoad(RoadSide.Right);
                     break;
 			}
 		}
@@ -375,13 +388,13 @@ namespace RunRun {
         /// <summary>
         /// 拐弯跑道,设定基准坐标(Section的localposition)和行走方向(Block的Direction)
         /// </summary>
-        public void Turn(TurnDirection dir) {
+        public void TurnPrecess(TurnDirection dir) {
             SetMoveDirection(TurnDirectionUtil.Turn(moveDirection, dir));
             transform.localRotation = TurnDirectionUtil.ToQuaternion(moveDirection);
 
-            ChangeSide(TrackSide.Center);
-            
+            ChangeRoad(RoadSide.Center);
 
+            hasTurned = true;
             //moveDirection = TurnDirectionUtil.Turn(moveDirection, standBlock.turnDirection);
 
 
@@ -436,7 +449,9 @@ namespace RunRun {
             }
             // 碰到转弯触发器
             if (other.CompareTag("_Turn")) {
+                hasTurned = false;
                 canTurn = true;
+                canChangeSide = false;
                 standBlock = other.GetComponentInParent<Block>();// .GetComponent<Block>();
                 origin = standBlock.jointWorldPosition;
             }
@@ -445,10 +460,9 @@ namespace RunRun {
         private void OnTriggerExit(Collider other) {
             if (other.CompareTag("_Turn")) {
                 canTurn = false;
+                canChangeSide = true;
             }
         }
-
-
 
         private void Update() {
             if (Input.GetKeyDown(KeyCode.W)) {
@@ -466,16 +480,16 @@ namespace RunRun {
             }
 
             if (Input.GetKeyDown(KeyCode.A)) {
-                if (canTurn)
-                    Turn(TurnDirection.Left);
+                if (canTurn && hasTurned == false)
+                    TurnPrecess(TurnDirection.Left);
                 else
-                    TurnLeft();
+                    Change2Left();
             }
             if (Input.GetKeyDown(KeyCode.D)) {
-                if (canTurn)
-                    Turn(TurnDirection.Right);
+                if (canTurn && hasTurned == false)
+                    TurnPrecess(TurnDirection.Right);
                 else
-                    TurnRight();
+                    Change2Right();
             }
 
         }

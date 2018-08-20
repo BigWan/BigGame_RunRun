@@ -16,12 +16,12 @@ namespace RunRun {
         /// <summary>
         /// 数量区间
         /// </summary>
-        public int start, end;
+        public int min, max;
 
-        public SpawnBlockCommand(Block[] blocks, int start,int end) {
+        public SpawnBlockCommand(Block[] blocks, int min,int max) {
             this.blocks = blocks;
-            this.start = start;
-            this.end = end;
+            this.min = min;
+            this.max = max;
         }
 
 
@@ -33,8 +33,8 @@ namespace RunRun {
         }
 
         public int GetRandomCount() {
-            if(end > start && start >= 0)
-                return Random.Range(start, end);
+            if(max > min && min >= 0)
+                return Random.Range(min, max);
             else 
                 return 0;            
         }

@@ -173,7 +173,7 @@ namespace RunRun {
 
         public void ExecuteCommand(SpawnBlockCommand cmd,float coinRate = 0) {
 
-            int count = Random.Range(cmd.start,cmd.end+1);
+            int count = Random.Range(cmd.min,cmd.max+1);
             Block rndBlock;
             for (int i = 0; i < count; i++) {
                 rndBlock = cmd.GetRandomBlock();

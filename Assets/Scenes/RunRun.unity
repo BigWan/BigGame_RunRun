@@ -1334,7 +1334,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startSpeed: 5
-  lastSpeed: 0
   OnStop:
     m_PersistentCalls:
       m_Calls: []

@@ -181,7 +181,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1761022188658028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3.8}
+  m_LocalPosition: {x: 0, y: 0, z: 4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4229791067792558}
@@ -207,7 +207,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1489424751355104}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.01, y: 0, z: 1.89}
+  m_LocalPosition: {x: -2.25, y: 0, z: 2.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4229791067792558}
@@ -220,7 +220,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1353879755191652}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.8750005, y: 0, z: 1.875}
+  m_LocalPosition: {x: 2.25, y: 0, z: 2.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4229791067792558}
@@ -362,8 +362,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.75, y: 5, z: 3.75}
-  m_Center: {x: 0, y: 2, z: 1.875}
+  m_Size: {x: 4.5, y: 5, z: 4.5}
+  m_Center: {x: 0, y: 2, z: 2.25}
 --- !u!65 &65050520006025968
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -398,7 +398,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.75, y: 5, z: 0.25}
+  m_Size: {x: 4.5, y: 5, z: 0.25}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114438417897418914
 MonoBehaviour:
@@ -424,12 +424,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c326497c5a678c4c97dc71578743864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 3.75
+  length: 4.5
   coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
     type: 2}
   enterPlug: {fileID: 114438417897418914}
   exitPlugs:
   - {fileID: 114718428254302238}
+  parentSection: {fileID: 0}
   hasUsed: 0
 --- !u!114 &114718428254302238
 MonoBehaviour:
@@ -446,3 +447,4 @@ MonoBehaviour:
   shape: 7
   hasSpawned: 0
   direction: 1
+  pos: {x: 0, y: 0, z: 0}
