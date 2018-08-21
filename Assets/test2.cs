@@ -26,23 +26,8 @@ public class test2 : MonoBehaviour {
     //    re = rq.eulerAngles;
     //    Debug.Log(-3 % 4);
     //}
+    public RunRun.SpawnBlockCommand myCommand;
 
-    public Vector3 position;
-    public Vector3 rotation;
-
-
-
-    public Vector3 endPosition;
-
-
-
-
-    private void Update() {
-
-        transform.localPosition += Vector3.up;
-        //c = RunRun.TurnDirectionUtil.Turn(a,b);
-
-
-    }
+    public RunRun.SpawnBlockCommand[] cmmds;
 
 }

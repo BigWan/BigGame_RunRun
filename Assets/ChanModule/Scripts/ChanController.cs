@@ -20,7 +20,7 @@ namespace RunRun {
 
         private bool canTurn = false;
         private bool hasTurned = false;
-        private bool canChangeSide = true;
+        private bool canChangeRoad = true;
         private bool canJump = true;
 
 
@@ -167,7 +167,7 @@ namespace RunRun {
             SetMoveDirection(TurnDirection.Straight);
 
             canJump = true;
-            canChangeSide = true;            
+            canChangeRoad = true;            
             canTurn = false;
             hasTurned = false;
 
@@ -209,7 +209,7 @@ namespace RunRun {
         private void TriggerGetDown(PlugShape ps) {
             animator.SetTrigger("trigGetDown");
             a_running = false;
-            canChangeSide = false;
+            canChangeRoad = false;
             SpeedController.Instance.Stop();
             if (RecoverGameCoroutine != null) { 
                 StopCoroutine(RecoverGameCoroutine);
@@ -240,7 +240,7 @@ namespace RunRun {
             }
 
             a_running = true;
-            canChangeSide = true;
+            canChangeRoad = true;
 
             SetMoveDirection(TurnDirectionUtil.Turn(currentDirection, targetDirection)); //
 
@@ -259,7 +259,7 @@ namespace RunRun {
         }
 
         void WinGame() {
-            canChangeSide = false;
+            canChangeRoad = false;
             animator.SetBool("salute", true);
         }
 
@@ -272,7 +272,7 @@ namespace RunRun {
 
 
 		private void Change2Left(){
-            if (!canChangeSide) return;
+            if (!canChangeRoad) return;
 			switch (side) {
 				case (RoadSide.Left):
 					return;
@@ -289,7 +289,7 @@ namespace RunRun {
 
 
 		private void Change2Right(){
-            if (!canChangeSide) return;
+            if (!canChangeRoad) return;
 
             switch (side) {
 				case (RoadSide.Left):
@@ -347,7 +347,7 @@ namespace RunRun {
         public void StartRun() {
             //if (bodyStat.IsName ("Standing@loop") || bodyStat.IsName ("DownToUp") || bodyStat.IsName("Blend_Movement")) {
             a_running = true;
-            canChangeSide = true;
+            canChangeRoad = true;
             SpeedController.Instance.StartMotion();
             // StartCoroutine(AccelerateFoward());
             //}
@@ -408,7 +408,7 @@ namespace RunRun {
 
 
         void OnStop() {
-            canChangeSide = false;
+            canChangeRoad = false;
             animator.SetBool("running", false);
             //animator.CrossFade("Standing@loop", 0.1f);
         }
@@ -451,7 +451,7 @@ namespace RunRun {
             if (other.CompareTag("_Turn")) {
                 hasTurned = false;
                 canTurn = true;
-                canChangeSide = false;
+                canChangeRoad = false;
                 standBlock = other.GetComponentInParent<Block>();// .GetComponent<Block>();
                 origin = standBlock.jointWorldPosition;
             }
@@ -460,7 +460,7 @@ namespace RunRun {
         private void OnTriggerExit(Collider other) {
             if (other.CompareTag("_Turn")) {
                 canTurn = false;
-                canChangeSide = true;
+                canChangeRoad = true;
             }
         }
 

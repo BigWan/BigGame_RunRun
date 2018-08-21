@@ -1,84 +1,115 @@
-//using UnityEditor;
-//using UnityEngine;
+using UnityEditor;
+using UnityEngine;
 
-///// <summary>
-///// 跑道段落数据配置文件
-///// </summary>
-//[CustomPropertyDrawer(typeof(RunRun.SpawnBlockCommand))]
-//public class SpawnBlockCommandPropertyDraw : PropertyDrawer {
+/// <summary>
+/// 跑道段落数据配置文件
+/// </summary>
+[CustomPropertyDrawer(typeof(RunRun.SpawnBlockCommand))]
+public class SpawnBlockCommandPropertyDraw : PropertyDrawer {
 
-//    bool foldout;
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
+        // return EditorGUIUtility.wideMode ? 16f:34f;
+        return property.FindPropertyRelative("blocks").arraySize * 18f + 60f;
+    }
 
-//    public override float GetPropertyHeight(SerializedProperty property, GUIContent label){
-//        // return EditorGUIUtility.wideMode ? 16f:34f;
-//        return property.FindPropertyRelative("blocks").arraySize*16f+80f;
-//    }
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
 
-//    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label){
+        SerializedProperty
+            blocks = property.FindPropertyRelative("blocks"),
+            min = property.FindPropertyRelative("min"),
+            max = property.FindPropertyRelative("max");
 
-//        SerializedProperty
-//            list = property.FindPropertyRelative("blocks"),
-//            start = property.FindPropertyRelative("start"),
-//            end = property.FindPropertyRelative("end");
-
-
-//        GUIStyle titleStyle = new GUIStyle("AssetLabel");
-//        titleStyle.fixedHeight = 20f;
-//        titleStyle.fontSize = 12;
-//        titleStyle.fontStyle = FontStyle.Bold;
+        GUIContent 
+            minContent = new GUIContent("min:", "数量下线"),
+            maxContent = new GUIContent("max:", "Block数量上限"),
+            blocksContent = new GUIContent("Blocks:", "随机列表");
 
 
-//        Vector2 halfSize = new Vector2(EditorGUIUtility.currentViewWidth * 0.4f, 16f);
+        //EditorGUIUtility.labelWidth = 60f;
+        //EditorGUI.PrefixLabel(position, label);
 
-//        label = EditorGUI.BeginProperty(position, GUIContent.none, property);
+        //EditorGUI.indentLevel +=1;
+        position = EditorGUI.IndentedRect(position);
+        //position.y += 18f;
 
-//        GUI.Label(position, "SpawnBlockCommand",titleStyle);
 
-
-
-//        GUIStyle bgStyle = new GUIStyle("CN Box");
-
-//        EditorGUI.indentLevel += 1;
-//        position.y += 5f;
-//        Rect bodyPosition = EditorGUI.IndentedRect(position);
-//        EditorGUI.indentLevel -= 1;
-
-//        bodyPosition = new Rect(bodyPosition.x, bodyPosition.y + 20, bodyPosition.width, bodyPosition.height - 40);
+        Rect lineRect = new Rect(position) {
+            height = 16f
+        };
 
 
 
+        //EditorGUI.indentLevel = 1;
 
-//        EditorGUIUtility.labelWidth = 50f;
-//        Rect startRect = new Rect(bodyPosition.position, halfSize);
-//        EditorGUI.PropertyField(startRect, start);
-//        Rect endRect = new Rect(bodyPosition.position + new Vector2(halfSize.x,0),halfSize);
-//        EditorGUI.PropertyField(endRect, end);
+        //if (position.height > 16f) {
+        //    position.height = 16f;
+        //    EditorGUI.indentLevel += 1;
+        //    lineRect = EditorGUI.IndentedRect(lineRect);
+        //    lineRect.y += 18f;
+        //}
 
+        EditorGUIUtility.labelWidth = 45f;
+        lineRect.width = position.width * 0.3f;
+        EditorGUI.LabelField(lineRect, $"数量区间:    {min.intValue} / {max.intValue}");
+        lineRect.x += lineRect.width;
+        lineRect.width = position.width * 0.7f;
 
-//        Rect listRect = new Rect(bodyPosition.position - Vector2.down * 18f, bodyPosition.size - Vector2.down * 36f);
+        float min2 = min.intValue, max2 = max.intValue;
 
-//        foldout = EditorGUI.Foldout(listRect, foldout, new GUIContent("数组"));
-
-//        //foldout = EditorGUI.Foldout(position,foldout,"name");
-//        EditorGUI.indentLevel+=1;
-//        position = EditorGUI.IndentedRect(position);
-//        EditorGUI.indentLevel-=1;
-
-//        if(foldout){
-//            position = new Rect(listRect.x, listRect.y, listRect.width,18f);
-//            for (int i = 0; i < list.arraySize; i++) {
-//                position.y+=18f;                
-//                EditorGUI.PropertyField(position,list.GetArrayElementAtIndex(i));
-//            }
-//        }
-//        // Debug.Log(position.height);
+        EditorGUI.BeginChangeCheck();
+        EditorGUI.MinMaxSlider(lineRect,ref min2,ref max2, 0, 5);
+        if (EditorGUI.EndChangeCheck()) {
+            min.intValue = (int)min2;
+            max.intValue = (int)max2;
+        }
 
 
-//        EditorGUI.EndProperty();
+        lineRect.y += 18f;
+        lineRect.x = position.x;
+        lineRect.width = position.width;
+        //EditorGUI.LabelField(lineRect,"Blocks:");
+        lineRect.height = 34f;
+        if (GUI.Button(lineRect, $"Blocks Add(当前{blocks.arraySize})",new GUIStyle("flow node 5"))) {
+            blocks.arraySize++;
+        }
+
+        lineRect.height = 16f;
+        lineRect.y += 22f;
+        EditorGUI.indentLevel += 1;
+        lineRect = EditorGUI.IndentedRect(lineRect);
+        for (int i = 0; i < blocks.arraySize; i++) {
+            //lineRect.x = position.x;
+            //lineRect.width = position.width*-60f;
+            lineRect.y += 18f;
+            Rect fieldRect = new Rect(lineRect) {
+                width = lineRect.width - 75f
+            };
 
 
+            EditorGUI.PropertyField(fieldRect, blocks.GetArrayElementAtIndex(i),GUIContent.none);
+            fieldRect = MoveRight(fieldRect);
+            fieldRect.width = 20f;
+            if (GUI.Button(fieldRect, "-")) {
+                int oldSize = blocks.arraySize;
+
+                blocks.DeleteArrayElementAtIndex(i);
+                if(blocks.arraySize == oldSize) {
+                    blocks.DeleteArrayElementAtIndex(i);
+                }
+            }
+
+        }
+        EditorGUI.indentLevel -= 1;
+        //EditorGUI.indentLevel -= 1;
+
+    }
 
 
-//    }
+    float sep = 2f;
+    Rect MoveRight(Rect r) {
+        return new Rect(r) {
+            x = r.x + r.width + sep,
+        };
+    }
 
-//}
+}

@@ -5,6 +5,7 @@
 -out:"D:/GitHub Projects/RunRun/Temp/Assembly-CSharp-Editor.dll"
 -nostdlib
 -unsafe
+-r:"D:/GitHub Projects/RunRun/Library/ScriptAssemblies/Assembly-CSharp.dll"
 -r:"D:\Unity Programs\2018.2.1f1\Editor\Data\Managed/UnityEngine/UnityEngine.dll"
 -r:"D:\Unity Programs\2018.2.1f1\Editor\Data\Managed/UnityEngine/UnityEngine.AIModule.dll"
 -r:"D:\Unity Programs\2018.2.1f1\Editor\Data\Managed/UnityEngine/UnityEngine.ARModule.dll"
@@ -68,7 +69,6 @@
 -r:"D:\Unity Programs\2018.2.1f1\Editor\Data\Managed/UnityEngine/UnityEngine.XRModule.dll"
 -r:"D:\Unity Programs\2018.2.1f1\Editor\Data\Managed/UnityEditor.dll"
 -r:"D:\Unity Programs\2018.2.1f1\Editor\Data\Managed/Unity.Locator.dll"
--r:"D:/GitHub Projects/RunRun/Library/ScriptAssemblies/Assembly-CSharp.dll"
 -r:"D:/GitHub Projects/RunRun/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll"
 -r:"D:/Unity Programs/2018.2.1f1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll"
 -r:"D:/Unity Programs/2018.2.1f1/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll"
@@ -305,6 +305,7 @@
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/Editor/CustomHierarchy.cs"
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/Editor/EditorStyleViewer.cs"
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/Editor/RoadSectionDataEditor.cs"
+-i:"D:/GitHub Projects/RunRun/Assets/Scripts/Editor/ShowBuildinIconContent.cs"
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/Editor/SpawnBlockCommandPropertyDrawer.cs"
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/Editor/TransformInspectorWithSize.cs"
 -v:0

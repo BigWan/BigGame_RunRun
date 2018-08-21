@@ -63,7 +63,7 @@ namespace RunRun {
         private EndTriggerSpawner endSpawner;
         private List<Block> blocks;
 
-        List<SpawnBlockCommand> commands {
+        SpawnBlockCommand[] commands {
             get {
                 return data?.commands;
             }
@@ -134,12 +134,12 @@ namespace RunRun {
 
             if (isFinished) Init();
 
-            if (commands == null || commands.Count <= 0) {
+            if (commands == null || commands.Length <= 0) {
                 Debug.LogError("命令队列为空，无法执行",transform);
                 return;
             }
 
-            for (int i = 0; i < commands.Count; i++) {
+            for (int i = 0; i < commands.Length; i++) {
                 ExecuteCommand(commands[i],coinRate);
             }
 
@@ -158,12 +158,12 @@ namespace RunRun {
 
             if (isFinished) Init();
 
-            if (commands == null || commands.Count <= 0) {
+            if (commands == null || commands.Length <= 0) {
                 Debug.LogError("命令队列为空，无法执行",transform);
                 return;
             }
 
-            if(executeStepIndex < commands.Count)
+            if(executeStepIndex < commands.Length)
                 ExecuteCommand(commands[executeStepIndex++],coinRate);
             else {
                 isFinished = true;
