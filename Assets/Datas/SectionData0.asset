@@ -20,7 +20,7 @@ MonoBehaviour:
     - {fileID: 114536193927472682, guid: c44abb20f8209d943bec1c1885e5b45e, type: 2}
     - {fileID: 114869337781607108, guid: c8ff771318515c5468b494d7ba548ee4, type: 2}
     min: 1
-    max: 5
+    max: 3
   - blocks:
     - {fileID: 114587849462714900, guid: daf2c71bfa16dd849bb03b18151b6116, type: 2}
     min: 1

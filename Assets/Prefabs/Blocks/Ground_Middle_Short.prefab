@@ -11,22 +11,6 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1947138287798942}
   m_IsPrefabAsset: 1
---- !u!1 &1053666103093768
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4904378734809358}
-  - component: {fileID: 114703590089054646}
-  m_Layer: 0
-  m_Name: ExitPlug
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1497893638939804
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,22 +26,6 @@ GameObject:
   m_Layer: 0
   m_Name: Fence
   m_TagString: _Fence
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1502186780798010
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4049388559353888}
-  - component: {fileID: 114950304318195446}
-  m_Layer: 0
-  m_Name: EnterPlug
-  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,25 +58,12 @@ GameObject:
   - component: {fileID: 4496702801249766}
   - component: {fileID: 114869337781607108}
   m_Layer: 0
-  m_Name: Ground_Middle_Short_A
+  m_Name: Ground_Middle_Short
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4049388559353888
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1502186780798010}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4496702801249766}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4417121082140092
 Transform:
   m_ObjectHideFlags: 1
@@ -134,8 +89,6 @@ Transform:
   m_Children:
   - {fileID: 4417121082140092}
   - {fileID: 4838281958426904}
-  - {fileID: 4049388559353888}
-  - {fileID: 4904378734809358}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -151,19 +104,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4496702801249766}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4904378734809358
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1053666103093768}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 4.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4496702801249766}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23029129533806746
 MeshRenderer:
@@ -285,22 +225,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.4968104, y: 4.501911, z: 4.5}
   m_Center: {x: 0, y: -2.250956, z: 2.249998}
---- !u!114 &114703590089054646
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1053666103093768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8af34d3062b685244b7b00a03037f54e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plugType: 0
-  shape: 7
-  hasSpawned: 0
-  direction: 0
-  pos: {x: 0, y: 0, z: 0}
 --- !u!114 &114869337781607108
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -315,21 +239,8 @@ MonoBehaviour:
   length: 4.5
   coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
     type: 2}
-  enterPlug: {fileID: 114950304318195446}
-  exitPlugs:
-  - {fileID: 114703590089054646}
+  roadType: 7
+  turnDirection: 0
+  exitPosition: {x: 0, y: 0, z: 4.5}
+  toward: 0
   parentSection: {fileID: 0}
-  hasUsed: 0
---- !u!114 &114950304318195446
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1502186780798010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaefee2e4fe33c64c9cdf76cecf776f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plugType: 0
-  shape: 7

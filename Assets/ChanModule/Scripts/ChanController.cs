@@ -24,7 +24,7 @@ namespace RunRun {
         private bool canJump = true;
 
 
-        private TurnDirection moveDirection = TurnDirection.Straight;
+        public Orientation moveToward = Orientation.North;
 
         // 角色脚底下的block
         private Block standBlock;
@@ -49,29 +49,29 @@ namespace RunRun {
         /// </summary>
         void ChangeRoad(RoadSide side) {
             this.side = side;
-            switch (moveDirection) {
-                case TurnDirection.Straight:
+            switch (moveToward) {
+                case Orientation.North:
                     transform.localPosition = new Vector3(
                         origin.x + (int)side, 
                         transform.localPosition.y, 
                         transform.localPosition.z
                         );
                     break;
-                case TurnDirection.Right:
+                case Orientation.East:
                     transform.localPosition = new Vector3(
                     transform.localPosition.x,
                     transform.localPosition.y,
                     origin.z - (int)side
                     );
                     break;
-                case TurnDirection.Back:
+                case Orientation.South:
                     transform.localPosition = new Vector3(
                         origin.x - (int)side,
                         transform.localPosition.y,
                         transform.localPosition.z
                         );
                     break;
-                case TurnDirection.Left:
+                case Orientation.West:
                     transform.localPosition = new Vector3(
                     transform.localPosition.x,
                     transform.localPosition.y,
@@ -164,7 +164,7 @@ namespace RunRun {
 
             side = RoadSide.Center;
             origin = Vector3.zero;
-            SetMoveDirection(TurnDirection.Straight);
+            SetMoveDirection(Orientation.North);
 
             canJump = true;
             canChangeRoad = true;            
@@ -175,7 +175,7 @@ namespace RunRun {
         }
 
         void RegEvent() {
-            SpeedController.Instance.VelocityChange += OnVelocityChange;
+            SpeedController.Instance.SpeedChange += OnVelocityChange;
             SpeedController.Instance.OnStop.AddListener(OnStop);
             LevelManager.Instance.OnWinGame.AddListener(WinGame);
 
@@ -206,7 +206,7 @@ namespace RunRun {
             animator.SetTrigger("trigDamaged");
         }
 
-        private void TriggerGetDown(PlugShape ps) {
+        private void TriggerGetDown(RoadType ps) {
             animator.SetTrigger("trigGetDown");
             a_running = false;
             canChangeRoad = false;
@@ -217,38 +217,28 @@ namespace RunRun {
             RecoverGameCoroutine = StartCoroutine(Recover2Game(ps));
         }
 
-        private void SetMoveDirection(TurnDirection moveDirection) {
-            this.moveDirection = moveDirection;
-            transform.localRotation = TurnDirectionUtil.ToQuaternion(this.moveDirection);
+        private void SetMoveDirection(Orientation moveDirection) {
+            this.moveToward = moveDirection;
+            transform.localRotation = DirectionUtil.TowardToQuaternion(this.moveToward);
         }
 
         /// <summary>
         /// 倒地后回到正确位置继续跑
         /// </summary>
-        private IEnumerator Recover2Game(PlugShape ps) {
+        private IEnumerator Recover2Game(RoadType ps) {
 
             yield return new WaitForSeconds(4f);
-
-            TurnDirection currentDirection;
-            TurnDirection targetDirection;
-            if (standBlock == null) {
-                currentDirection = TurnDirection.Straight;
-                targetDirection = TurnDirection.Straight;
-            } else {
-                currentDirection = standBlock.parentSection.direction;
-                targetDirection = standBlock.turnDirection;
-            }
 
             a_running = true;
             canChangeRoad = true;
 
-            SetMoveDirection(TurnDirectionUtil.Turn(currentDirection, targetDirection)); //
+            SetMoveDirection(standBlock.getTurnToward());
 
 
             ChangeRoad(RoadSide.Center);
-            if (ps == PlugShape.L) ChangeRoad(RoadSide.Left);
-            if (ps == PlugShape.R) ChangeRoad(RoadSide.Right);
-            if (ps == PlugShape.C) ChangeRoad(RoadSide.Center);
+            if (ps == RoadType.L) ChangeRoad(RoadSide.Left);
+            if (ps == RoadType.R) ChangeRoad(RoadSide.Right);
+            if (ps == RoadType.C) ChangeRoad(RoadSide.Center);
 
             SpeedController.Instance.SpeedBack();            
         }
@@ -266,7 +256,7 @@ namespace RunRun {
         // 移动
         void MoveControl() {
             float moveDelta = SpeedController.Instance.currentVelocity * Time.fixedDeltaTime;
-            transform.localPosition += TurnDirectionUtil.ToVector3(moveDirection)* moveDelta;
+            transform.localPosition += DirectionUtil.TowardToVector3(moveToward)* moveDelta;
         }
 
 
@@ -389,17 +379,12 @@ namespace RunRun {
         /// 拐弯跑道,设定基准坐标(Section的localposition)和行走方向(Block的Direction)
         /// </summary>
         public void TurnPrecess(TurnDirection dir) {
-            SetMoveDirection(TurnDirectionUtil.Turn(moveDirection, dir));
-            transform.localRotation = TurnDirectionUtil.ToQuaternion(moveDirection);
+            SetMoveDirection(DirectionUtil.Turn(moveToward, dir));
+            transform.localRotation = DirectionUtil.TowardToQuaternion(moveToward);
 
             ChangeRoad(RoadSide.Center);
 
             hasTurned = true;
-            //moveDirection = TurnDirectionUtil.Turn(moveDirection, standBlock.turnDirection);
-
-
-            // SetNew StandardPosition
-            // ChangeRoleDirection
 
         }
 
@@ -420,7 +405,7 @@ namespace RunRun {
         private void OnVelocityChange(float spd) {
             if (spd > 2) {
                 a_blendMovement = 1.0f;
-                a_moveSpeedMultiple = spd / 8f + 1f;
+                a_moveSpeedMultiple = spd / 12f + 1f;
             } else {
                 a_blendMovement = Mathf.Lerp(0, 1f, spd / 2f);
                 a_moveSpeedMultiple = 1.5f;
@@ -437,23 +422,34 @@ namespace RunRun {
         }
 
 
+
+
+
         /// <summary>
-        /// 碰撞处理
+        /// 触发器处理
         /// </summary>
         /// <param name="other"></param>
         private void OnTriggerEnter(Collider other) {
             // 碰到栅栏
             if (other.CompareTag("_Fence")) {
-                PlugShape ps = other.GetComponentInParent<Block>().enterPlug.shape;
-                TriggerGetDown(ps);
+                RoadType roadType = other.GetComponentInParent<Block>().roadType;
+                TriggerGetDown(roadType);
             }
             // 碰到转弯触发器
             if (other.CompareTag("_Turn")) {
                 hasTurned = false;
                 canTurn = true;
                 canChangeRoad = false;
+                //standBlock = other.GetComponentInParent<Block>();// .GetComponent<Block>();
+                //origin = standBlock.jointWorldPosition;
+
+            }
+
+            // 碰到地面
+            if (other.CompareTag("_Ground")) {
                 standBlock = other.GetComponentInParent<Block>();// .GetComponent<Block>();
-                origin = standBlock.jointWorldPosition;
+                origin = standBlock.exitWorldPosition;
+                Debug.Log(other.GetComponentInParent<Block>().name, other.GetComponentInParent<Block>().transform);
             }
         }
 
@@ -501,7 +497,7 @@ namespace RunRun {
 
         void OnDrawGizmos() {
             Vector3 o = origin+ Vector3.up;
-            Vector3 e = origin+ Vector3.up + TurnDirectionUtil.ToVector3(moveDirection) * 1000f;
+            Vector3 e = origin+ Vector3.up + DirectionUtil.TowardToVector3(moveToward) * 1000f;
             Debug.DrawLine(o, e);
         }
     }

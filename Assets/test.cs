@@ -10,8 +10,6 @@ public class test : MonoBehaviour {
 
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.A)) {
-            a.SpawnNextSection();
-        }
+        //transform.localPosition.x += 3;
     }
 }

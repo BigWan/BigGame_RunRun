@@ -304,8 +304,6 @@
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/SpeedController.cs"
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/Track/Block.cs"
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/Track/EndTriggerSpawner.cs"
--i:"D:/GitHub Projects/RunRun/Assets/Scripts/Track/EnterPlug.cs"
--i:"D:/GitHub Projects/RunRun/Assets/Scripts/Track/ExitPlug.cs"
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/Track/RoadSection.cs"
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/Track/RoadSectionData.cs"
 -i:"D:/GitHub Projects/RunRun/Assets/Scripts/Track/SpawnBlockCommand.cs"

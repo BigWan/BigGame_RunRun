@@ -4,13 +4,62 @@ using UnityEngine;
 
 namespace RunRun {
 	public class CamearFollow : MonoBehaviour {
-		public Transform follow;
-		public Vector3 followV;
-		public float smooth;
-		private void Update() {
 
-            transform.localPosition = follow.localPosition + followV;// Vector3.Lerp(transform.localPosition,follow.localPosition + followV,Time.deltaTime*smooth);
+        public float faraway = 3;
+        public float height = 6;
+		public float smooth = 2;
+
+        public float lookDownAngle = 40f;
+
+        private Orientation toward;
+
+		private ChanController follow;
+
+        private Vector3 camTargetPos;
+
+
+        void OnSpeedChange(float speed) {
+            smooth = speed / 2.5f;
+        }
+
+
+        private void Start() {
+            SpeedController.Instance.SpeedChange += OnSpeedChange;
+            follow = GameObject.FindGameObjectWithTag("Player").GetComponent<ChanController>();
+        }
+
+
+
+
+        private void Update() {
+            toward = follow.moveToward;
+            Quaternion roatx = Quaternion.Euler(lookDownAngle, 0, 0);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, DirectionUtil.TowardToQuaternion(toward)* roatx, Time.deltaTime * smooth);
+            //transform.LookAt(follow.transform, camTargetPos);
+            switch (toward) {
+                case Orientation.North:
+                    camTargetPos = follow.transform.localPosition + Vector3.up*height+Vector3.back*faraway;
+                    break;
+                case Orientation.East:
+                    camTargetPos = follow.transform.localPosition + Vector3.up * height + Vector3.left * faraway;
+                    break;
+                case Orientation.South:
+                    camTargetPos = follow.transform.localPosition + Vector3.up * height + Vector3.forward * faraway;
+                    break;
+                case Orientation.West:
+                    camTargetPos = follow.transform.localPosition + Vector3.up * height + Vector3.right * faraway;
+                    break;
+                default:
+                    break;  
+            }
+
+
+            transform.localPosition = Vector3.Lerp(transform.localPosition, camTargetPos, Time.deltaTime * smooth);
+
+           
 		}
+
+
 
 
 	}

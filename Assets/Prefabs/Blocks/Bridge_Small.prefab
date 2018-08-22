@@ -11,22 +11,6 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1993863961837134}
   m_IsPrefabAsset: 1
---- !u!1 &1554924298040916
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4251804520042290}
-  - component: {fileID: 114365530688649202}
-  m_Layer: 0
-  m_Name: EnterPlug
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1559040859028536
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,22 +48,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1721679632114678
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4890015094450732}
-  - component: {fileID: 114189277168403978}
-  m_Layer: 0
-  m_Name: ExtiPlug
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1993863961837134
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,19 +64,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4251804520042290
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1554924298040916}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4428182881386144}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4428182881386144
 Transform:
   m_ObjectHideFlags: 1
@@ -121,8 +76,6 @@ Transform:
   m_Children:
   - {fileID: 4979813211695724}
   - {fileID: 4525680834097064}
-  - {fileID: 4251804520042290}
-  - {fileID: 4890015094450732}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -138,19 +91,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4428182881386144}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4890015094450732
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1721679632114678}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4428182881386144}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4979813211695724
 Transform:
@@ -285,35 +225,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.25, y: 5, z: 9}
   m_Center: {x: 1.1, y: 0, z: 4.5}
---- !u!114 &114189277168403978
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1721679632114678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8af34d3062b685244b7b00a03037f54e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plugType: 3
-  shape: 2
-  hasSpawned: 0
-  direction: 0
-  pos: {x: 0, y: 0, z: 0}
---- !u!114 &114365530688649202
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1554924298040916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaefee2e4fe33c64c9cdf76cecf776f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plugType: 3
-  shape: 2
 --- !u!114 &114778822930646790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -328,8 +239,9 @@ MonoBehaviour:
   length: 9
   coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
     type: 2}
-  enterPlug: {fileID: 114365530688649202}
-  exitPlugs:
-  - {fileID: 114189277168403978}
+  roadType: 2
+  turnDirection: 0
+  toward: 0
+  exitPosition: {x: 0, y: 0, z: 9}
   parentSection: {fileID: 0}
   hasUsed: 0

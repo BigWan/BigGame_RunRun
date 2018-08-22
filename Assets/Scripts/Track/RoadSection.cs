@@ -23,30 +23,34 @@ namespace RunRun {
         /// <summary>
         /// 段落的连接点的坐标(在段落内部,起点是0,0,0)
         /// </summary>
-        private Vector3 jointInsidePosition;
+        private Vector3 lastSectionExitPos;
 
         /// <summary>
         /// 段落的连接点坐标,计算过段落的旋转和段落自身的坐标
         /// </summary>
-        public Vector3 jointOutsidePosition {
+        public Vector3 lastSectionTruePosition {
             get {
-                return transform.localRotation * jointInsidePosition + transform.localPosition;
+                return transform.localRotation * lastSectionExitPos + transform.localPosition;
             }
         }
 
 
         /// <summary>
-        /// Section本身的朝向
+        /// Section本身的真实朝向
         /// </summary>
-        public TurnDirection direction;
+        public Orientation orientation;
 
         /// <summary>
         /// 终点的朝向,不管Section内部如何弯弯绕,只管终点的相对朝向.
         /// </summary>
-        private TurnDirection jointInsideDirection;
+        private TurnDirection totalTurned;
         
-        public TurnDirection jointOutsideDirection {
-            get { return TurnDirectionUtil.Turn(direction,jointInsideDirection); }
+
+        /// <summary>
+        /// 出口的真实朝向
+        /// </summary>
+        public Orientation exitToward {
+            get { return DirectionUtil.Turn(orientation,totalTurned); }
         }
 
 
@@ -76,11 +80,14 @@ namespace RunRun {
             Init();
         }
         
-        public void SetData(RoadSectionData data,Vector3 position, TurnDirection direction) {
+        /// <summary>
+        /// 设定起始点和真实朝向
+        /// </summary>
+        public void SetData(RoadSectionData data,Vector3 position, Orientation toward) {
             this.data = data;
             transform.localPosition = position;
-            this.direction = direction;
-            transform.eulerAngles = TurnDirectionUtil.ToEuler(direction);
+            this.orientation = toward;
+            transform.eulerAngles = DirectionUtil.TowardToEuler(toward);
         }
 
 
@@ -90,7 +97,7 @@ namespace RunRun {
         /// </summary>
         /// <param name="z"></param>
         public void SpawnEnd(float z) {
-            endSpawner.SetEndPositionAndRoation(jointInsidePosition,jointInsideDirection);
+            endSpawner.SetEndPositionAndRoation(lastSectionExitPos,totalTurned);
             endSpawner.SpawnEnd();
         }
 
@@ -107,8 +114,9 @@ namespace RunRun {
                 blocks.Clear();
             }
 
-            jointInsidePosition = Vector3.zero;
-            jointInsideDirection = TurnDirection.Straight;
+            lastSectionExitPos = Vector3.zero;
+            totalTurned = TurnDirection.Straight;
+            
 
             if (blocks==null)
                 blocks = new List<Block>();
@@ -118,7 +126,7 @@ namespace RunRun {
             exitTrigger.center = Vector3.Scale(exitTrigger.center, new Vector3(1, 1, 0));
         }
 
-        public float GetLength() {
+        public float getLength() {
             float length = 0;
             foreach (var block in blocks) {
                 length += block.length;
@@ -184,14 +192,15 @@ namespace RunRun {
                     // 设置Block参数
                     blockInstant.transform.SetParent(transform);
 
-                    blockInstant.transform.localPosition = jointInsidePosition;
-                    blockInstant.transform.localRotation = TurnDirectionUtil.ToQuaternion(jointInsideDirection);
-
+                    blockInstant.transform.localPosition = lastSectionExitPos;
+                    blockInstant.transform.localRotation = DirectionUtil.TurnToQuaternion(totalTurned);
+                    blockInstant.orientation = DirectionUtil.Turn(orientation, totalTurned);
+                      
                     // 设置下一个生产点的信息
                     /// 下一个点的旋转
-                    jointInsideDirection = TurnDirectionUtil.Turn(jointInsideDirection, blockInstant.turnDirection);
+                    totalTurned = DirectionUtil.TurnAdd(totalTurned, blockInstant.turnDirection);
 
-                    jointInsidePosition = blockInstant.jointOutsidePosition;
+                    lastSectionExitPos = blockInstant.exitOutsidePosition;
 
 
                     if (Random.value < coinRate)
@@ -219,10 +228,10 @@ namespace RunRun {
         /// 设置section的触发器
         /// </summary>
         void SetBoxTrigger() {
-            float l = GetLength();
-            exitTrigger.center = jointInsidePosition;
+            float l = getLength();
+            exitTrigger.center = lastSectionExitPos;
 
-            switch (jointInsideDirection) {
+            switch (totalTurned) {
                 case TurnDirection.Straight:
                     exitTrigger.size = new Vector3(10, 10, 2);
                     break;
@@ -243,8 +252,15 @@ namespace RunRun {
         void OnTriggerExit(Collider other) {
             if(other.tag == "Player") {
                 StartCoroutine(SelfDestroy());
+                //StartCoroutine(DebugDestroy());
                 Track.Instance.SpawnNextSection();
             }
+        }
+
+
+        public IEnumerator DebugDestroy() {
+            yield return new WaitForSeconds(3);
+            transform.localPosition += Vector3.down*3;
         }
 
 

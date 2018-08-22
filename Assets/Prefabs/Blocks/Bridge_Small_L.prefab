@@ -48,22 +48,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1299027302778216
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4965877882677408}
-  - component: {fileID: 114687075609368702}
-  m_Layer: 0
-  m_Name: ExtiPlug
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1381831507183030
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,23 +58,7 @@ GameObject:
   - component: {fileID: 4087013989205388}
   - component: {fileID: 114760162139575262}
   m_Layer: 0
-  m_Name: Bridge_Small_Left
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1931781427260746
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4576878383329436}
-  - component: {fileID: 114759072713775358}
-  m_Layer: 0
-  m_Name: EnterPlug
+  m_Name: Bridge_Small_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,8 +76,6 @@ Transform:
   m_Children:
   - {fileID: 4349063456475414}
   - {fileID: 4615584065051450}
-  - {fileID: 4576878383329436}
-  - {fileID: 4965877882677408}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -126,19 +92,6 @@ Transform:
   m_Father: {fileID: 4087013989205388}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4576878383329436
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1931781427260746}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4087013989205388}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4615584065051450
 Transform:
   m_ObjectHideFlags: 1
@@ -151,19 +104,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4087013989205388}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4965877882677408
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1299027302778216}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4087013989205388}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23240142367568248
 MeshRenderer:
@@ -283,37 +223,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 5, z: 9}
-  m_Center: {x: 1.1, y: 0, z: 4.5}
---- !u!114 &114687075609368702
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1299027302778216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8af34d3062b685244b7b00a03037f54e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plugType: 3
-  shape: 4
-  hasSpawned: 0
-  direction: 0
-  pos: {x: 0, y: 0, z: 0}
---- !u!114 &114759072713775358
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1931781427260746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaefee2e4fe33c64c9cdf76cecf776f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plugType: 3
-  shape: 4
+  m_Size: {x: 2.1, y: 5, z: 9}
+  m_Center: {x: 2, y: 0, z: 4.5}
 --- !u!114 &114760162139575262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -328,8 +239,8 @@ MonoBehaviour:
   length: 9
   coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
     type: 2}
-  enterPlug: {fileID: 114759072713775358}
-  exitPlugs:
-  - {fileID: 114687075609368702}
+  roadType: 4
+  turnDirection: 0
+  exitPosition: {x: 0, y: 0, z: 9}
+  toward: 0
   parentSection: {fileID: 0}
-  hasUsed: 0

@@ -11,22 +11,6 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1614878382336438}
   m_IsPrefabAsset: 1
---- !u!1 &1068873822708538
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4181445372782360}
-  - component: {fileID: 114210715170937428}
-  m_Layer: 0
-  m_Name: ExtiPlug
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1147624009674328
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,22 +26,6 @@ GameObject:
   m_Layer: 0
   m_Name: Fence
   m_TagString: _Fence
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1308237043196422
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4727231546093904}
-  - component: {fileID: 114181968097706808}
-  m_Layer: 0
-  m_Name: EnterPlug
-  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,25 +58,12 @@ GameObject:
   - component: {fileID: 4448645241777946}
   - component: {fileID: 114674067427676682}
   m_Layer: 0
-  m_Name: Bridge_Small_Right
+  m_Name: Bridge_Small_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4181445372782360
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1068873822708538}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4448645241777946}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4448645241777946
 Transform:
   m_ObjectHideFlags: 1
@@ -121,8 +76,6 @@ Transform:
   m_Children:
   - {fileID: 4938863280961922}
   - {fileID: 4531881165786218}
-  - {fileID: 4727231546093904}
-  - {fileID: 4181445372782360}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -138,19 +91,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4448645241777946}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4727231546093904
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1308237043196422}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4448645241777946}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4938863280961922
 Transform:
@@ -283,37 +223,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 5, z: 9}
-  m_Center: {x: -1.1, y: 0, z: 4.5}
---- !u!114 &114181968097706808
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1308237043196422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaefee2e4fe33c64c9cdf76cecf776f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plugType: 3
-  shape: 1
---- !u!114 &114210715170937428
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1068873822708538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8af34d3062b685244b7b00a03037f54e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plugType: 3
-  shape: 1
-  hasSpawned: 0
-  direction: 0
-  pos: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.1, y: 5, z: 9}
+  m_Center: {x: -2, y: 0, z: 4.5}
 --- !u!114 &114674067427676682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -328,8 +239,8 @@ MonoBehaviour:
   length: 9
   coinSpawnerPrefab: {fileID: 114364413172932700, guid: 3c74bd4d01ff79f4eaed406788d08721,
     type: 2}
-  enterPlug: {fileID: 114181968097706808}
-  exitPlugs:
-  - {fileID: 114210715170937428}
+  roadType: 1
+  turnDirection: 0
+  exitPosition: {x: 0, y: 0, z: 9}
+  toward: 0
   parentSection: {fileID: 0}
-  hasUsed: 0

@@ -12,7 +12,7 @@ namespace RunRun {
         Moveing = 3,
     }
 
-    public delegate void VelocityChangeHandler (float spd);
+    public delegate void SpeedChangeHandler (float spd);
 
 
 
@@ -34,7 +34,7 @@ namespace RunRun {
 		/// 速度改变的委托
 		/// </summary>
 		/// <param name="spd">速度值</param>
-		public VelocityChangeHandler VelocityChange;
+		public SpeedChangeHandler SpeedChange;
 
 
 
@@ -47,21 +47,21 @@ namespace RunRun {
 		/// 目标速度
 		/// </summary>
 		[SerializeField]
-		private float _targetVelocity;
+		private float targetSpeed;
 
 
 		[SerializeField]
-		private float _currentVelocity;
+		private float currentSpeed;
 		/// <summary>
 		/// 当前速度值
 		/// </summary>
 		/// <value></value>
 		public float currentVelocity {
-			get { return _currentVelocity; }
+			get { return currentSpeed; }
 			set {
-                if (_currentVelocity != value) {
-                    _currentVelocity = value;
-                    VelocityChange?.Invoke(value);
+                if (currentSpeed != value) {
+                    currentSpeed = value;
+                    SpeedChange?.Invoke(value);
                 }
 			}
 		}
@@ -109,10 +109,10 @@ namespace RunRun {
                 }
             } else {
             
-                float deltaSpeed = _targetVelocity - currentVelocity;
+                float deltaSpeed = targetSpeed - currentVelocity;
 
                 if (Mathf.Abs(deltaSpeed) <= velocityError) {
-                    SetCurrentVelocity(_targetVelocity, true);
+                    SetCurrentVelocity(targetSpeed, true);
                     _currentAcceleration = 0;
                     motionStat = MotionStat.Moveing;
                 } else {
@@ -149,7 +149,7 @@ namespace RunRun {
 		/// <param name="delta">提高值</param>
 		public void SpeedUp (float delta) {
 			// SetCurrentVelocity (_targetVelocity + delta, false);
-			_targetVelocity +=delta;
+			targetSpeed +=delta;
 			_lockVelocity = false;
 		}
 
@@ -164,7 +164,7 @@ namespace RunRun {
 		/// <param name="target">目标速度</param>
 		public void SpeedTo(float target){
 			_lockVelocity = false;
-			_targetVelocity = target;
+			targetSpeed = target;
 		}
 
         public void SpeedBack() {
@@ -175,7 +175,7 @@ namespace RunRun {
 		/// 保留目标速度，把当前速度设置为0，并锁定。
 		/// </summary>
 		public void Stop () {
-            lastSpeed = _targetVelocity;
+            lastSpeed = targetSpeed;
 			SetCurrentVelocity (0, true);
 		}
 
