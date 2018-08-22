@@ -45,7 +45,7 @@ namespace RunRun {
         /// <summary>
         /// 出口坐标
         /// </summary>
-        public Vector3 exitPosition;
+        public Vector3 exitPositions;
 
 
 
@@ -65,10 +65,30 @@ namespace RunRun {
         public RoadSection parentSection;
 
 
-        public Vector3 exitWorldPosition {
-            get {
-                return transform.TransformPoint(exitPosition);
+        public Vector3 GetExitWorldPosition() {
+            return transform.TransformPoint(exitPositions);
+        }
+
+        /// <summary>
+        /// 012分别对应左中右
+        /// </summary>
+        /// <returns></returns>
+        public List<Vector3> GetExitWP() {
+            List<Vector3> result = new List<Vector3>();
+            if (getTurnToward() == Orientation.East) {
+                result.Add(transform.TransformPoint(exitPositions) + Vector3.forward*1.5f);
+                result.Add(transform.TransformPoint(exitPositions));
+                result.Add(transform.TransformPoint(exitPositions) + Vector3.back*1.5f);
+            }else if(getTurnToward() == Orientation.West) {
+                result.Add(transform.TransformPoint(exitPositions) - Vector3.forward*1.5f);
+                result.Add(transform.TransformPoint(exitPositions));
+                result.Add(transform.TransformPoint(exitPositions) - Vector3.back);
+            } else{
+                result.Add(transform.TransformPoint(Vector3.left*1.5f) + Vector3.forward * length);
+                result.Add(transform.TransformPoint(Vector3.zero) + Vector3.forward * length);
+                result.Add(transform.TransformPoint(Vector3.right*1.5f) + Vector3.forward * length);
             }
+            return result;
         }
 
 
@@ -82,7 +102,7 @@ namespace RunRun {
         /// 块的外部坐标,计算了块的当前旋转和坐标得到(坐标系为Section内部)
         /// </summary>
         public Vector3 exitOutsidePosition {
-            get { return transform.localRotation * exitPosition + transform.localPosition; } 
+            get { return transform.localRotation * exitPositions + transform.localPosition; } 
         }
 
         
@@ -144,9 +164,9 @@ namespace RunRun {
             // 出口
             Gizmos.color = Color.red;
             if (getTurnToward() == Orientation.East|| getTurnToward() == Orientation.West) {
-                Gizmos.DrawWireSphere(transform.TransformPoint(exitPosition)+Vector3.forward, 0.3f);
-                Gizmos.DrawWireSphere(transform.TransformPoint(exitPosition), 0.3f);
-                Gizmos.DrawWireSphere(transform.TransformPoint(exitPosition)+Vector3.back, 0.3f);
+                Gizmos.DrawWireSphere(transform.TransformPoint(exitPositions)+Vector3.forward, 0.3f);
+                Gizmos.DrawWireSphere(transform.TransformPoint(exitPositions), 0.3f);
+                Gizmos.DrawWireSphere(transform.TransformPoint(exitPositions)+Vector3.back, 0.3f);
             } else {
                 Gizmos.DrawWireSphere(transform.TransformPoint(Vector3.left)+Vector3.forward*length, 0.3f);
                 Gizmos.DrawWireSphere(transform.TransformPoint(Vector3.right) + Vector3.forward * length, 0.3f);

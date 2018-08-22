@@ -241,6 +241,6 @@ MonoBehaviour:
     type: 2}
   roadType: 7
   turnDirection: 0
-  exitPosition: {x: 0, y: 0, z: 4.5}
-  toward: 0
+  exitPositions: {x: 0, y: 0, z: 4.5}
+  orientation: 0
   parentSection: {fileID: 0}

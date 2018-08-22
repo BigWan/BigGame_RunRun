@@ -29,22 +29,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1194435386041914
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4724384871117386}
-  - component: {fileID: 65430204465055102}
-  m_Layer: 0
-  m_Name: TurnTrigger
-  m_TagString: _Turn
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1354167768809302
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,19 +120,6 @@ Transform:
   m_Father: {fileID: 4935547265774726}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4724384871117386
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1194435386041914}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4935547265774726}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4935547265774726
 Transform:
   m_ObjectHideFlags: 1
@@ -162,7 +133,6 @@ Transform:
   - {fileID: 4157627296514736}
   - {fileID: 4631852334520448}
   - {fileID: 4489311819203356}
-  - {fileID: 4724384871117386}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -328,18 +298,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.9984074, y: 4.501911, z: 4.9984045}
   m_Center: {x: 0.24920392, y: -2.250955, z: 2.4992027}
---- !u!65 &65430204465055102
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1194435386041914}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 5, z: 4}
-  m_Center: {x: 0, y: 2, z: 2.25}
 --- !u!114 &114670194375657754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -356,7 +314,6 @@ MonoBehaviour:
     type: 2}
   roadType: 7
   turnDirection: 3
-  toward: 0
-  exitPosition: {x: -2.25, y: 0, z: 2.25}
+  exitPositions: {x: -2.25, y: 0, z: 2.25}
+  orientation: 0
   parentSection: {fileID: 0}
-  hasUsed: 0

@@ -807,10 +807,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   datas:
-  - {fileID: 11400000, guid: 0621945a292d7434f80445c2a6a449cd, type: 2}
-  - {fileID: 11400000, guid: 336bf7e2d2d88c24091f1ffc7b67e800, type: 2}
-  - {fileID: 11400000, guid: 3b3b64d5b3e06824c94dd0a818368843, type: 2}
-  - {fileID: 11400000, guid: 84f94100049978d44bf326c668b86217, type: 2}
+  - {fileID: 11400000, guid: 9e584511cff38164287d24a62a235256, type: 2}
   startData: {fileID: 11400000, guid: cf75674bed062984687bb9686b48e687, type: 2}
   endData: {fileID: 11400000, guid: fe7a91121f6dbf74397d0c5beb568843, type: 2}
   sectionPrefab: {fileID: 114984229750344306, guid: 606309ee8bb15c745a9c01d23b49593a,
@@ -819,7 +816,7 @@ MonoBehaviour:
   coinRate: 0.5
   currentLength: 0
   currentEndPosition: {x: 0, y: 0, z: 0}
-  currentToward: 0
+  currentOrientation: 0
 --- !u!4 &180251863
 Transform:
   m_ObjectHideFlags: 0
@@ -1280,6 +1277,48 @@ Transform:
   m_Father: {fileID: 1235136779}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &268350953
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4935547265774726, guid: b42038a506dc0d347863075ddcf2254e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935547265774726, guid: b42038a506dc0d347863075ddcf2254e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935547265774726, guid: b42038a506dc0d347863075ddcf2254e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935547265774726, guid: b42038a506dc0d347863075ddcf2254e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935547265774726, guid: b42038a506dc0d347863075ddcf2254e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935547265774726, guid: b42038a506dc0d347863075ddcf2254e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935547265774726, guid: b42038a506dc0d347863075ddcf2254e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4935547265774726, guid: b42038a506dc0d347863075ddcf2254e, type: 2}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b42038a506dc0d347863075ddcf2254e, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &283300820
 GameObject:
   m_ObjectHideFlags: 0
@@ -4181,6 +4220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c0f41af334810408fe5a542bf3f67f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  changeRoadSpeed: 5
   moveToward: 0
   origin: {x: 0, y: 0, z: 0}
   coinCount: 0
@@ -4544,7 +4584,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.69411767}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5116,8 +5156,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  _targetVelocity: 0
-  _currentVelocity: 0
+  targetSpeed: 0
+  currentSpeed: 0
   _currentAcceleration: 0
   _minAcceleration: 1
   _maxAcceleration: 100
@@ -6744,11 +6784,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0586124bbc88f2d4faeaf50d71874170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  follow: {fileID: 1202554383}
   faraway: 3
   height: 6
   smooth: 2
-  toward: 0
+  lookDownAngle: 40
 --- !u!81 &1942787999
 AudioListener:
   m_ObjectHideFlags: 0
