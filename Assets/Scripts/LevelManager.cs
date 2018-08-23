@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace RunRun {
-    
+
     /// <summary>
     /// 管卡流程管理
     /// 关卡流程:
@@ -19,85 +19,82 @@ namespace RunRun {
         [Header("关卡ID")]
         public int levelID;
 
-        public Transform roleSpawnPosition;
-
-        
+        public float roleSpawnHeight = 5f;
 
 
+        public bool isEndLess {
+            get {
+                return levelID == -1;
+            }
+        }
 
         [Header("Systems")]
         public GameUIRoot uiSystem;
         public Track trackSystem;
         public ChanController roleSystem;
+        public SpeedController speedController;
 
 
-        [Header("Events")]
-        public UnityEvent OnPreSpawnEnd;
-        public UnityEvent AfterRoleEngting;
-        public UnityEvent OnWinGame;
+        // 预先生成跑道完成
+        public UnityAction PreSpawnEndAction;
+
+        // 角色入场
+        public UnityAction AfterRoleEntingAction;
+
+
+        private void RegEvents() {
+            roleSystem.speedController.TargetSpeedChangeAction += (speed) => uiSystem.SetSpeed(speed);
+
+            roleSystem.EatCoinAction += (coin) => uiSystem.SetCoin(coin); ;
+            roleSystem.EntingFinishAction += () => roleSystem.StartRun();
+
+            PreSpawnEndAction += () => roleSystem.StartEngting();
+        }
+
+        
+        public void Init() {
+            uiSystem = FindObjectOfType<GameUIRoot>();
+            trackSystem = FindObjectOfType<Track>();
+            roleSystem = FindObjectOfType<ChanController>();
+
+
+            speedController = FindObjectOfType<SpeedController>();
 
 
 
-        private void Start() {
+            levelID = GameManager.Instance.GetLeveleID();
+            GameManager.Instance.levelManager = this;
+
+            trackSystem.datas = GameManager.Instance.sectionDatas;
+            speedController.startSpeed = GameManager.Instance.startSpeed;
+            trackSystem.coinRate = GameManager.Instance.coinRate;
+            trackSystem.maxLength = GameManager.Instance.levelLength;
+
+            RegEvents();
+        }
+
+        private void Awake() {
             Init();
         }
 
+        private void Start() {
+            StartGame();
+        }
 
-        void Init() {
+        public void StartGame() {
             uiSystem.Init();
             trackSystem.PreSpawn();
-            RoleComein();
-        }
-        
-
-        /// <summary>
-        /// 角色入场
-        /// </summary>
-        public void RoleComein() {
-            roleSystem.transform.localPosition = roleSpawnPosition.localPosition;
-            StartCoroutine(RoleEnting());
+            roleSystem.transform.localPosition = Vector3.up * roleSpawnHeight;
+            PreSpawnEndAction?.Invoke();
         }
 
-        /// <summary>
-        /// 开始跑
-        /// </summary>
-        public void StartRun() {
-            roleSystem.StartRun();
+        public void StopPlayer() {
+            roleSystem.StopSmooth();
         }
 
 
-        /// <summary>
-        /// 角色入场
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator RoleEnting() {
-
-            //chan.transform.localPosition
-
-            roleSystem.GetComponent<Animator>().Play("TopOfJump", 0);
-
-            roleSystem.GetComponent<Animator>().SetBool("onGround", false);
-
-            while (!Mathf.Approximately(roleSystem.transform.localPosition.magnitude,0)) {
-                yield return null;
-                roleSystem.transform.localPosition = Vector3.MoveTowards(roleSystem.transform.localPosition, Vector3.zero, 0.25f);
-            }
-            yield return null;
-            roleSystem.GetComponent<Animator>().SetBool("onGround", true);
-            yield return new WaitForSeconds(0.9f);
-            AfterRoleEngting?.Invoke();
+        private void Update() {
+            uiSystem?.setDistance(roleSystem.moveDistance);
         }
-
-
-        void LoseGame() {
-            
-        }
-
-        public void WinGame() {
-            OnWinGame?.Invoke();
-        }
-
-
-
     }
 }

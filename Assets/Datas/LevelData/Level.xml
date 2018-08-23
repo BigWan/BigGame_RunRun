@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LevelDatas> 
+  <Level levelID="1" length="1000" startSpeed="5" speedLevelUp = "1" coinRate = "0.5" magnetRate = "0.25" > 
+    <section>SectionData0</section>  
+    <section>SectionData1</section>  
+    <section>SectionData2</section>  
+    <section>SectionData3</section> 
+  </Level>  
+  <Level levelID="2" length="1000" startSpeed="5" speedLevelUp = "1" coinRate = "0.5" magnetRate = "0.25" > 
+    <section>SectionData0</section>  
+    <section>SectionData1</section>  
+    <section>SectionData2</section>  
+    <section>SectionData3</section> 
+  </Level> 
+</LevelDatas>

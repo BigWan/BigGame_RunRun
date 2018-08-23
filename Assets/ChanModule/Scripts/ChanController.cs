@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityChan;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 
@@ -33,10 +34,22 @@ namespace RunRun {
         public Vector3 origin;
 
         public int coinCount = 0;
+        public float moveDistance = 0f;
 
         private RoadSide side;
 
+
+        public SpeedController speedController;
+
+
         private Coroutine RecoverGameCoroutine;
+
+
+
+
+        public UnityAction<int> EatCoinAction;
+
+        public UnityAction EntingFinishAction;
 
 
         /// <summary>
@@ -51,6 +64,14 @@ namespace RunRun {
             this.side = side;
         }
 
+        public float speed {
+            get { return speedController.currentVelocity; }
+        }
+
+        public void StopSmooth (){
+            speedController.SpeedTo(0);
+            
+        }
 
         public Vector3 GetCorrectPosition(RoadSide roadSide) {
             float x = transform.localPosition.x;
@@ -165,11 +186,9 @@ namespace RunRun {
         }
 
         void RegEvent() {
-            SpeedController.Instance.SpeedChange += OnVelocityChange;
-            SpeedController.Instance.OnStop.AddListener(OnStop);
-            LevelManager.Instance.OnWinGame.AddListener(WinGame);
-
+            speedController.SpeedChangeAction += OnVelocityChange;
             collector.EatCoin += OnEatCoin;
+            speedController.StopAction +=()=> a_running = false;
         }
 
 
@@ -196,11 +215,14 @@ namespace RunRun {
             animator.SetTrigger("trigDamaged");
         }
 
+
+
         private void TriggerGetDown(RoadType ps) {
             animator.SetTrigger("trigGetDown");
             a_running = false;
             canChangeRoad = false;
-            SpeedController.Instance.Stop();
+
+            speedController.Stop();
             if (RecoverGameCoroutine != null) {
                 StopCoroutine(RecoverGameCoroutine);
             }
@@ -211,6 +233,7 @@ namespace RunRun {
             this.moveToward = moveDirection;
             transform.localRotation = DirectionUtil.TowardToQuaternion(this.moveToward);
         }
+
 
         /// <summary>
         /// 倒地后回到正确位置继续跑
@@ -231,8 +254,8 @@ namespace RunRun {
             if (ps == RoadType.C) ChangeRoad(RoadSide.Center);
 
             origin = standBlock.GetExitWorldPosition();
-
-            SpeedController.Instance.SpeedBack();
+            yield return new WaitForSeconds(1f);
+            speedController.SpeedBack();
         }
 
 
@@ -297,13 +320,18 @@ namespace RunRun {
             canJump = true;
         }
 
-        public IEnumerator EnterGround(Vector3 target) {
+
+        public void StartEngting() {
+            StartCoroutine(EnterGround(Vector3.zero ));
+        }
+
+        private IEnumerator EnterGround(Vector3 target) {
             //chan.transform.localPosition
 
             animator.Play("TopOfJump", 0);
 
             animator.SetBool("onGround", false);
-
+             
             while (!Mathf.Approximately(transform.localPosition.magnitude, 0)) {
                 yield return null;
                 transform.localPosition = Vector3.MoveTowards(transform.localPosition, target, 0.25f);
@@ -312,7 +340,7 @@ namespace RunRun {
             animator.SetBool("onGround", true);
 
             yield return new WaitForSeconds(0.9f);
-
+            EntingFinishAction?.Invoke();
         }
 
         // API
@@ -321,12 +349,9 @@ namespace RunRun {
         /// 开始跑
         /// </summary>
         public void StartRun() {
-            //if (bodyStat.IsName ("Standing@loop") || bodyStat.IsName ("DownToUp") || bodyStat.IsName("Blend_Movement")) {
             a_running = true;
             canChangeRoad = true;
-            SpeedController.Instance.StartMotion();
-            // StartCoroutine(AccelerateFoward());
-            //}
+            speedController.StartMotion();
         }
 
 
@@ -335,7 +360,7 @@ namespace RunRun {
         /// </summary>
         public void TestSPeedup() {
             if (a_running) {
-                SpeedController.Instance.SpeedUp(5f);
+                speedController.SpeedUp(5f);
             }
         }
 
@@ -344,7 +369,6 @@ namespace RunRun {
         /// 跳
         /// </summary>
         public void Jump() {
-            // 只有移动的时候才能跳
             if (bodyStat.IsName("Blend_Movement")) {
                 if (canJump) {
                     TriggerJump();
@@ -368,26 +392,7 @@ namespace RunRun {
             SetMoveDirection(DirectionUtil.Turn(moveToward, dir));
             transform.localRotation = DirectionUtil.TowardToQuaternion(moveToward);
 
-
-            //float l = (GetCorrectPosition(RoadSide.Left) - transform.localPosition).magnitude;
-            //float r = (GetCorrectPosition(RoadSide.Right) - transform.localPosition).magnitude;
-            //float c = (GetCorrectPosition(RoadSide.Center) - transform.localPosition).magnitude;
-
-            float l = (standBlock.GetExitWP()[0]- transform.localPosition).magnitude;
-            float c = (standBlock.GetExitWP()[1]- transform.localPosition).magnitude;
-            float r = (standBlock.GetExitWP()[2]- transform.localPosition).magnitude;
-
-            float min = Mathf.Min(l, r, c);
-
-
-            if (Mathf.Approximately(min, c)) {
-                ChangeRoad(RoadSide.Center);
-            } else if (Mathf.Approximately(min, l)) {
-                ChangeRoad(RoadSide.Left);
-            } else {
-                ChangeRoad(RoadSide.Right);
-            }
-            //ChangeRoad(RoadSide.Center);
+            ChangeRoad(RoadSide.Center);
             hasTurned = true;
             canTurn = false;
             canChangeRoad = true;
@@ -398,7 +403,7 @@ namespace RunRun {
         // ==============Event Handler============================
 
 
-        void OnStop() {
+        public void OnStop() {
             canChangeRoad = false;
             animator.SetBool("running", false);
             //animator.CrossFade("Standing@loop", 0.1f);
@@ -408,10 +413,10 @@ namespace RunRun {
         /// 速度值的改变
         /// </summary>
         /// <param name="spd">速度值</param>
-        private void OnVelocityChange(float spd) {
+        public void OnVelocityChange(float spd) {
             if (spd > 2) {
                 a_blendMovement = 1.0f;
-                a_moveSpeedMultiple = spd / 12f + 1f;
+                a_moveSpeedMultiple = spd / 12f + 7/12f;
             } else {
                 a_blendMovement = Mathf.Lerp(0, 1f, spd / 2f);
                 a_moveSpeedMultiple = 1.5f;
@@ -423,8 +428,10 @@ namespace RunRun {
         /// </summary>
         void OnEatCoin() {
             coinCount++;
-            LevelManager.Instance.uiSystem.SetCoin(coinCount);
+            EatCoinAction?.Invoke(coinCount);             
         }
+
+
 
 
         /// <summary>
@@ -440,8 +447,9 @@ namespace RunRun {
 
             // 碰到地面
             if (other.CompareTag("_Ground")) {
-                standBlock = other.GetComponentInParent<Block>();// .GetComponent<Block>();
+                standBlock = other.GetComponentInParent<Block>();
 
+                // 直路直接设置origin,弯道需要转弯后才设置
                 if (standBlock.turnDirection == TurnDirection.Straight) {
                     origin = standBlock.GetExitWorldPosition();
                 } else {
@@ -452,19 +460,19 @@ namespace RunRun {
             }
         }
 
-        private void OnTriggerExit(Collider other) {
-            if (other.CompareTag("_Ground")) {
-
-            }
-        }
 
         private void Update() {
+            InputControl();
+            MoveController();
+        }
+
+        void InputControl() {
             if (Input.GetKeyDown(KeyCode.W)) {
                 StartRun();
             }
             if (Input.GetKeyDown(KeyCode.S)) {
                 a_running = false;
-                SpeedController.Instance.Stop();
+                speedController.Stop();
             }
             if (Input.GetKeyDown(KeyCode.J)) {
                 TestSPeedup();
@@ -485,13 +493,15 @@ namespace RunRun {
                 else
                     Change2Right();
             }
-
         }
-        private void FixedUpdate() {
+
+
+        private void MoveController() {
             if (a_running) {
-                float moveDelta = SpeedController.Instance.currentVelocity * Time.fixedDeltaTime;
+                float moveDelta = speedController.currentVelocity * Time.deltaTime;
+                moveDistance += moveDelta;
                 transform.localPosition += DirectionUtil.TowardToVector3(moveToward) * moveDelta;
-                transform.localPosition = Vector3.MoveTowards(transform.localPosition, GetCorrectPosition(), changeRoadSpeed * Time.fixedDeltaTime);
+                transform.localPosition = Vector3.MoveTowards(transform.localPosition, GetCorrectPosition(), changeRoadSpeed * Time.deltaTime);
             }
 
         }

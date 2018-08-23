@@ -19,12 +19,12 @@ namespace RunRun {
 
 
         void OnSpeedChange(float speed) {
-            smooth = speed / 2.5f;
+            
         }
 
 
         private void Start() {
-            SpeedController.Instance.SpeedChange += OnSpeedChange;
+            //SpeedController.Instance.SpeedChangeAction += OnSpeedChange;
             follow = GameObject.FindGameObjectWithTag("Player").GetComponent<ChanController>();
         }
 
@@ -32,6 +32,7 @@ namespace RunRun {
 
 
         private void Update() {
+            smooth = Mathf.Max( follow.speed / 2.5f,2);
             toward = follow.moveToward;
             Quaternion roatx = Quaternion.Euler(lookDownAngle, 0, 0);
             transform.localRotation = Quaternion.Lerp(transform.localRotation, DirectionUtil.TowardToQuaternion(toward)* roatx, Time.deltaTime * smooth);

@@ -69,27 +69,6 @@ namespace RunRun {
             return transform.TransformPoint(exitPositions);
         }
 
-        /// <summary>
-        /// 012分别对应左中右
-        /// </summary>
-        /// <returns></returns>
-        public List<Vector3> GetExitWP() {
-            List<Vector3> result = new List<Vector3>();
-            if (getTurnToward() == Orientation.East) {
-                result.Add(transform.TransformPoint(exitPositions) + Vector3.forward*1.5f);
-                result.Add(transform.TransformPoint(exitPositions));
-                result.Add(transform.TransformPoint(exitPositions) + Vector3.back*1.5f);
-            }else if(getTurnToward() == Orientation.West) {
-                result.Add(transform.TransformPoint(exitPositions) - Vector3.forward*1.5f);
-                result.Add(transform.TransformPoint(exitPositions));
-                result.Add(transform.TransformPoint(exitPositions) - Vector3.back);
-            } else{
-                result.Add(transform.TransformPoint(Vector3.left*1.5f) + Vector3.forward * length);
-                result.Add(transform.TransformPoint(Vector3.zero) + Vector3.forward * length);
-                result.Add(transform.TransformPoint(Vector3.right*1.5f) + Vector3.forward * length);
-            }
-            return result;
-        }
 
 
 
@@ -163,14 +142,14 @@ namespace RunRun {
 
             // 出口
             Gizmos.color = Color.red;
-            if (getTurnToward() == Orientation.East|| getTurnToward() == Orientation.West) {
-                Gizmos.DrawWireSphere(transform.TransformPoint(exitPositions)+Vector3.forward, 0.3f);
+            if (turnDirection == TurnDirection.Left|| turnDirection == TurnDirection.Right) {
+                Gizmos.DrawWireSphere(transform.TransformPoint(exitPositions+ Vector3.forward) , 0.3f);
                 Gizmos.DrawWireSphere(transform.TransformPoint(exitPositions), 0.3f);
-                Gizmos.DrawWireSphere(transform.TransformPoint(exitPositions)+Vector3.back, 0.3f);
+                Gizmos.DrawWireSphere(transform.TransformPoint(exitPositions+ Vector3.back), 0.3f);
             } else {
-                Gizmos.DrawWireSphere(transform.TransformPoint(Vector3.left)+Vector3.forward*length, 0.3f);
-                Gizmos.DrawWireSphere(transform.TransformPoint(Vector3.right) + Vector3.forward * length, 0.3f);
-                Gizmos.DrawWireSphere(transform.TransformPoint(Vector3.zero) + Vector3.forward * length, 0.3f);
+                Gizmos.DrawWireSphere(transform.TransformPoint(Vector3.left + Vector3.forward * length), 0.3f);
+                Gizmos.DrawWireSphere(transform.TransformPoint(Vector3.right + Vector3.forward * length) , 0.3f);
+                Gizmos.DrawWireSphere(transform.TransformPoint(Vector3.zero + Vector3.forward * length) , 0.3f);
             }
 
         }

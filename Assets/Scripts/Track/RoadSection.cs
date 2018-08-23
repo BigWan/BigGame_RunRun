@@ -97,7 +97,6 @@ namespace RunRun {
         /// </summary>
         /// <param name="z"></param>
         public void SpawnEnd(float z) {
-            endSpawner.SetEndPositionAndRoation(lastSectionExitPos,totalTurned);
             endSpawner.SpawnEnd();
         }
 

@@ -11,8 +11,8 @@ namespace RunRun {
             // 如果是玩家进入这个碰撞
             if (other.CompareTag("Player")) {
                 // 先减速
-                SpeedController.Instance.SpeedTo(0);
-                LevelManager.Instance.WinGame();
+                LevelManager.Instance.StopPlayer();
+                //LevelManager.Instance.WinGame();
             }
         }
 

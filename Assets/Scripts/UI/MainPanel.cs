@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace RunRun {
 
-    public class MainPanel : UnitySingleton<MainPanel> {
+    public class MainPanel : MonoBehaviour {
 
         public Button btn_Setting;
         public Button btn_StartGame;
@@ -27,13 +27,11 @@ namespace RunRun {
 
 
         public void StartGame() {
-            SceneManager.UnloadSceneAsync("Start");
-            SceneManager.LoadScene("RunRun");
+            GameManager.Instance.StartEndLessGame();
         }
 
         public void StartLevel(int levelID) {
-            SceneManager.UnloadSceneAsync("Start");
-            SceneManager.LoadScene("RunRun");
+            GameManager.Instance.StartLevel(levelID);
         }
 
 

@@ -18,7 +18,7 @@ namespace RunRun {
         public Text levelText;
         public Text scoreText;
         public Text coinText;
-        public Image chanFaceImage;
+        public RawImage chanFaceImage;
 
         static UIData data;
 
@@ -42,18 +42,25 @@ namespace RunRun {
         /// 更新面板数据
         /// </summary>
         void UpdateData() {
-            levelText.text = $"Speed:{data.speed}";
+            levelText.text = $"Speed:{data.speed:F0}";
             scoreText.text = $"Score:{data.score}";
-            coinText.text = $"Coin:{data.coin}";
+            coinText.text = $"Coin:{data.coin}";            
         }
 
 
         public void SetCoin(int coin) {
             data.coin = coin;
             UpdateData();
-
         }
 
+        public void SetSpeed(float speed) {
+            data.speed = speed;
+            UpdateData();
+        }
 
+        public void setDistance(float distance) {
+            data.score = (int)distance;
+            UpdateData();
+        }
     }
 }

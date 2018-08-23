@@ -19,17 +19,16 @@ namespace RunRun {
         public void SpawnEnd() {
             TrackEndTrigger endTrigger =  Instantiate<TrackEndTrigger>(endTriggerPerfab);
             endTrigger.transform.SetParent(transform);
-            endTrigger.transform.localPosition = position;
-            // TODO: 同步Ender的旋转为Block的旋转
-            endTrigger.transform.localRotation = Quaternion.identity;
+            endTrigger.transform.localPosition = Vector3.forward*20f;
+            
             
             endTrigger.gameObject.SetActive(true);
 
         }
 
-        public void SetEndPositionAndRoation(Vector3 pos,TurnDirection direction) {
+        public void SetEndPositionAndRoation(Vector3 pos,Quaternion rotation) {
             this.position = pos;
-            this.direction = direction;
+            this.transform.localRotation = rotation;
         }
 
     }

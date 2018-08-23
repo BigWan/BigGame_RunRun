@@ -107,11 +107,11 @@ namespace RunRun {
             currentOrientation = section.exitToward;
 
             // TODO: 生成终点碰撞器
-            //Vector3 endpos = (maxLength - currentLength) * new Vector3(0, 0, 1);
+            Vector3 endpos = (maxLength - currentLength) * new Vector3(0, 0, 1);
 
-            //if (isEnd) {
-            //    section.SpawnEnd(endpos.z);
-            //}
+            if (isEnd) {
+                section.SpawnEnd(endpos.z);
+            }
 
             //currentEndLocalRotation = section.localRotation * section.localYaw;
 
@@ -123,6 +123,7 @@ namespace RunRun {
 
         private bool finished;
 
+        int sectionIndex;
         /// <summary>
         /// 单步生成
         /// </summary>        
@@ -134,8 +135,8 @@ namespace RunRun {
             }
 
             if (currentLength < maxLength - 10) {
-                int rndIndex = Random.Range(0, datas.Length);
-                RoadSectionData data = datas[rndIndex];
+                sectionIndex = Random.Range(0, datas.Length);
+                RoadSectionData data = datas[sectionIndex];
                 SpawnOneSection(data, coinRate);
                 return;
             } else {
@@ -160,16 +161,6 @@ namespace RunRun {
             SpawnOneSection(endData, 0);           
         }
 
-        //#if UNITY_EDITOR
-
-        //private void OnGUI() {
-        //    if(GUI.Button(new Rect(30, 30, 100, 30), "Spawn")) {
-        //        //SpawnAllSections(coinRate);
-        //        SpawnNextSection();
-        //    }
-        //}
-
-        //#endif
 
     }
 }

@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
 
-public class test : MonoBehaviour {
-
-    public RunRun.Track a ;
-
-
+namespace RunRun {
+    public class test : MonoBehaviour {
 
 
-    private void Update() {
-        //transform.localPosition.x += 3;
+
+
+
+        private void OnGUI() {
+            if (GUI.Button(new Rect(30, 30, 100, 30), "abc")) {
+            }
+
+        }
     }
 }

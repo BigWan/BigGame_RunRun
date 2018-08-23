@@ -1133,6 +1133,85 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &653047228
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 653047230}
+  - component: {fileID: 653047229}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &653047229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 653047228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 827975dc6b1e3754ba605b69a47bfba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelID: 0
+  levelDatas:
+  - levelID: 0
+    startSpeed: 5
+    speedLevelUp: 1
+    coinRate: 0.5
+    magnetRate: 0.25
+    length: 100
+    sections:
+    - {fileID: 11400000, guid: 0621945a292d7434f80445c2a6a449cd, type: 2}
+    - {fileID: 11400000, guid: 336bf7e2d2d88c24091f1ffc7b67e800, type: 2}
+    - {fileID: 11400000, guid: 3b3b64d5b3e06824c94dd0a818368843, type: 2}
+  - levelID: 1
+    startSpeed: 6
+    speedLevelUp: 1
+    coinRate: 0.5
+    magnetRate: 0.25
+    length: 1000
+    sections:
+    - {fileID: 11400000, guid: 336bf7e2d2d88c24091f1ffc7b67e800, type: 2}
+    - {fileID: 11400000, guid: 3b3b64d5b3e06824c94dd0a818368843, type: 2}
+    - {fileID: 11400000, guid: 84f94100049978d44bf326c668b86217, type: 2}
+  - levelID: 2
+    startSpeed: 10
+    speedLevelUp: 1
+    coinRate: 1
+    magnetRate: 1
+    length: 1000
+    sections:
+    - {fileID: 11400000, guid: 0621945a292d7434f80445c2a6a449cd, type: 2}
+    - {fileID: 11400000, guid: 336bf7e2d2d88c24091f1ffc7b67e800, type: 2}
+    - {fileID: 11400000, guid: 3b3b64d5b3e06824c94dd0a818368843, type: 2}
+    - {fileID: 11400000, guid: 84f94100049978d44bf326c668b86217, type: 2}
+  endLessDatas:
+  - {fileID: 11400000, guid: 0621945a292d7434f80445c2a6a449cd, type: 2}
+  - {fileID: 11400000, guid: 336bf7e2d2d88c24091f1ffc7b67e800, type: 2}
+  - {fileID: 11400000, guid: 3b3b64d5b3e06824c94dd0a818368843, type: 2}
+  - {fileID: 11400000, guid: 84f94100049978d44bf326c668b86217, type: 2}
+  levelManager: {fileID: 0}
+--- !u!4 &653047230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 653047228}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &655160678
 GameObject:
   m_ObjectHideFlags: 0

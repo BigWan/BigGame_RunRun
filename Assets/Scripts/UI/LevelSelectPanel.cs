@@ -7,12 +7,16 @@ using UnityEngine.EventSystems;
 
 public class LevelSelectPanel : MonoBehaviour {
 
-    public int itemCount = 15;
+    public int itemCount;
 
     public LevelSelectItem prefab;
 
     private List<LevelSelectItem> items;
 
+
+    private void OnEnable() {
+        itemCount = GameManager.Instance.levelCount;
+    }
 
     private void Start() {
         if (items != null) {
@@ -31,7 +35,9 @@ public class LevelSelectPanel : MonoBehaviour {
             item.levelIndex = i;
             item.transform.SetParent(transform);
             item.text.text = item.levelName;
-            item.GetComponent<Button>().onClick.AddListener(MainPanel.Instance.StartGame); //= MainPanel.Instance.StartLevel(1);
+            item.RegEvent();
+            //item.GetComponent<Button>().onClick += mainPanel.StartGame;
+                
             items.Add(item);
         }
     }
