@@ -12,7 +12,7 @@ namespace RunRun {
             if (other.CompareTag("Player")) {
                 // 先减速
                 LevelManager.Instance.StopPlayer();
-                //LevelManager.Instance.WinGame();
+                LevelManager.Instance.WinGame();
             }
         }
 

@@ -18,7 +18,7 @@ namespace RunRun {
 
         public void SpawnEnd() {
             TrackEndTrigger endTrigger =  Instantiate<TrackEndTrigger>(endTriggerPerfab);
-            endTrigger.transform.SetParent(transform);
+            endTrigger.transform.SetParent(transform,false);
             endTrigger.transform.localPosition = Vector3.forward*20f;
             
             
@@ -26,10 +26,7 @@ namespace RunRun {
 
         }
 
-        public void SetEndPositionAndRoation(Vector3 pos,Quaternion rotation) {
-            this.position = pos;
-            this.transform.localRotation = rotation;
-        }
+
 
     }
 }

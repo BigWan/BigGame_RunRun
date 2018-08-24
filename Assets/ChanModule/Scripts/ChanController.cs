@@ -18,7 +18,6 @@ namespace RunRun {
     [RequireComponent(typeof(CapsuleCollider))]
     public class ChanController : MonoBehaviour {
 
-
         private bool canTurn = false;
         private bool hasTurned = false;
         private bool canChangeRoad = true;
@@ -41,16 +40,11 @@ namespace RunRun {
 
         public SpeedController speedController;
 
-
         private Coroutine RecoverGameCoroutine;
-
-
-
 
         public UnityAction<int> EatCoinAction;
 
         public UnityAction EntingFinishAction;
-
 
         /// <summary>
         /// 变道, 变道只改变坐标的x或者z分量
@@ -245,16 +239,21 @@ namespace RunRun {
             a_running = true;
             canChangeRoad = true;
 
-            SetMoveDirection(standBlock.getTurnToward());
 
+            origin = standBlock.GetExitWorldPosition();
 
             ChangeRoad(RoadSide.Center);
             if (ps == RoadType.L) ChangeRoad(RoadSide.Left);
             if (ps == RoadType.R) ChangeRoad(RoadSide.Right);
             if (ps == RoadType.C) ChangeRoad(RoadSide.Center);
 
-            origin = standBlock.GetExitWorldPosition();
+
+            
+
+            SetMoveDirection(standBlock.getTurnToward());
+
             yield return new WaitForSeconds(1f);
+            a_running = true;
             speedController.SpeedBack();
         }
 
@@ -266,6 +265,7 @@ namespace RunRun {
         void WinGame() {
             canChangeRoad = false;
             animator.SetBool("salute", true);
+            GameManager.Instance.WinGame();
         }
 
 
@@ -482,19 +482,28 @@ namespace RunRun {
             }
 
             if (Input.GetKeyDown(KeyCode.A)) {
-                if (canTurn && hasTurned == false)
-                    TurnPrecess(TurnDirection.Left);
-                else
-                    Change2Left();
+                MoveLeft();
             }
             if (Input.GetKeyDown(KeyCode.D)) {
-                if (canTurn && hasTurned == false)
-                    TurnPrecess(TurnDirection.Right);
-                else
-                    Change2Right();
+                MoveRight();
             }
         }
 
+
+
+        public void MoveLeft() {
+            if (canTurn && hasTurned == false)
+                TurnPrecess(TurnDirection.Left);
+            else
+                Change2Left();
+        }
+
+        public void MoveRight() {
+            if (canTurn && hasTurned == false)
+                TurnPrecess(TurnDirection.Right);
+            else
+                Change2Right();
+        }
 
         private void MoveController() {
             if (a_running) {

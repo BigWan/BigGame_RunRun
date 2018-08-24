@@ -20,6 +20,9 @@ namespace RunRun {
         public Text coinText;
         public RawImage chanFaceImage;
 
+
+        public GameObject panelScorecard;
+
         static UIData data;
 
 
@@ -61,6 +64,10 @@ namespace RunRun {
         public void setDistance(float distance) {
             data.score = (int)distance;
             UpdateData();
+        }
+
+        public void ShowPanelScorecard() {
+            panelScorecard.SetActive(true);
         }
     }
 }

@@ -98,12 +98,30 @@ namespace RunRun {
 
         }
 
+        public void WinGame() {
+            levelManager.WinGame();
+        }
+
+        public void ExitLevel() {
+            SceneManager.LoadScene("Start");
+        }
+
 
         private void OnGUI() {
             if(GUI.Button(new Rect(30, 30, 100, 30), "abc")) {
                 LoadLevelData();
             }
         }
+
+
+        public void MoveLeft() {
+            levelManager.roleSystem.MoveLeft();
+
+        }
+        public void MoveRight() {
+            levelManager.roleSystem.MoveRight();
+        }
+
 
     }
 

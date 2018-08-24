@@ -96,5 +96,18 @@ namespace RunRun {
         private void Update() {
             uiSystem?.setDistance(roleSystem.moveDistance);
         }
+
+        public void WinGame() {
+            uiSystem.ShowPanelScorecard();
+        }
+
+        public void MoveLeft() {
+            roleSystem.MoveLeft();
+        }
+
+        public void MoveRight() {
+            roleSystem.MoveRight();
+        }
+
     }
 }

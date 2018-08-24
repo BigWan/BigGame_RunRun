@@ -90,7 +90,7 @@ namespace RunRun {
         /// </summary>
         public void SpawnCoin() {
             CoinSpawner spawner = Instantiate(coinSpawnerPrefab) as CoinSpawner;
-            spawner.transform.SetParent(transform);
+            spawner.transform.SetParent(transform,false);
 
             List<Vector3> ablePoses = new List<Vector3>();
 
@@ -104,15 +104,7 @@ namespace RunRun {
                 ablePoses.Add(new Vector3(1, 0, 0.5f));
             }
             spawner.transform.localPosition = ablePoses[Random.Range(0, ablePoses.Count)];
-
-            if (length > 5) {
-                spawner.length = 4;
-                spawner.count = 4;
-            } else {
-                spawner.length = 2;
-                spawner.count = 2;
-            }
-
+            spawner.length = length - 1f;
             spawner.SpawnCoin();
         }
         
